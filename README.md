@@ -125,12 +125,12 @@ which will give the id of the row as a first paramater and the whole row as the 
 
     $table->action('foo')->href('/bar');
     
-    $table->action('edit')->href(function($id) 
+    $table->action('edit', 'row')->href(function($id) 
     {
       return route('edit', [$id]); 
     });
     
-    $table->action('view')->href(function($id, $row) 
+    $table->action('view', 'row')->href(function($id, $row) 
     {
       return route('view', [$row->slug]) 
     });
