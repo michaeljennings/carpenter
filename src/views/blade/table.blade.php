@@ -56,12 +56,3 @@
 		<?php } ?>
 	</div>
 </div>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="/packages/michaeljennings/carpenter/css/carpenter.css"/>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="/packages/michaeljennings/carpenter/js/carpenter.js"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('.table-container').carpenterJs();
-	});
-</script>
