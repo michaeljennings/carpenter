@@ -154,7 +154,7 @@ class Table {
     public function column($name)
     {
         $this->columns[$name] = new Column($name, $this->key, $this->drivers);
-        $this->columns[$name]->label = Str::title($name);
+        $this->columns[$name]->label = ucwords(str_replace('_', ' ', $name));
 
         return $this->columns[$name];
     }

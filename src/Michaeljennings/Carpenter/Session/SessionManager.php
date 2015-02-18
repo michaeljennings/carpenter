@@ -21,7 +21,7 @@ class SessionManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['michaeljennings/carpenter::session.driver'];
+        return $this->app['config']['carpenter.session.driver'];
     }
 
 } 

@@ -22,7 +22,7 @@ class DatabaseManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['michaeljennings/carpenter::database.driver'];
+        return $this->app['config']['carpenter.database.driver'];
     }
 
 }

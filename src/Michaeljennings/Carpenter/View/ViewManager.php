@@ -21,7 +21,7 @@ class ViewManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['michaeljennings/carpenter::view.driver'];
+        return $this->app['config']['carpenter.view.driver'];
     }
 
 }

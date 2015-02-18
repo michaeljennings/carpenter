@@ -4,12 +4,12 @@ use Illuminate\Support\ServiceProvider;
 
 class CarpenterServiceProvider extends ServiceProvider {
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
     /**
      * Bootstrap the application events.
@@ -18,16 +18,18 @@ class CarpenterServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->package('michaeljennings/carpenter', 'michaeljennings/carpenter');
+        $this->loadViewsFrom(__DIR__.'/../../views/', 'michaeljennings/carpenter');
+        $this->publishes([__DIR__.'/../../config/config.php' => config_path('carpenter.php')]);
+        $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'carpenter');
     }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $this->registerDrivers();
 
         $this->app->bind('michaeljennings.carpenter.driverContainer', function($app)
@@ -40,14 +42,14 @@ class CarpenterServiceProvider extends ServiceProvider {
             ]);
         });
 
-        $this->app['michaeljennings.carpenter'] = $this->app->share(function($app)
+        $this->app->singleton('michaeljennings.carpenter', function($app)
         {
             return new Carpenter(
                 $app['michaeljennings.carpenter.driverContainer'],
-                $this->app['config']['michaeljennings/carpenter::config']
+                $this->app['config']['carpenter']
             );
         });
-	}
+    }
 
     /**
      * Register the carpenter drivers.
@@ -77,14 +79,14 @@ class CarpenterServiceProvider extends ServiceProvider {
         });
     }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array();
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array();
+    }
 
 }

@@ -39,8 +39,6 @@ class Carpenter {
      */
     public function get($name)
     {
-        $this->loadTables();
-
         if ( ! array_key_exists($name, $this->collection)) {
             throw new CarpenterCollectionException("No table was found with the name '{$name}'");
         }
@@ -64,6 +62,9 @@ class Carpenter {
      * Load all of the table instances from the tables file.
      *
      * @throws TableLocationNotFound
+     *
+     * @depreciated This function is required if you are storing tables in a file, not
+     * in service providers.
      */
     public function loadTables()
     {

@@ -16,7 +16,7 @@ class PaginationManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['michaeljennings/carpenter::paginator.driver'];
+        return $this->app['config']['carpenter.paginator.driver'];
     }
 
 } 
