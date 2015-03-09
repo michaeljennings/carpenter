@@ -62,7 +62,7 @@ class EloquentDriver implements DatabaseInterface {
      */
     public function select(array $columns)
     {
-        $this->select = $select;
+        $this->select = $columns;
     }
 
     /**
