@@ -1,5 +1,9 @@
 <?php namespace Michaeljennings\Carpenter\Pagination;
 
+use Illuminate\Pagination\BootstrapThreePresenter;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+
 class IlluminateDriver implements PaginatorInterface {
 
     /**
@@ -30,7 +34,9 @@ class IlluminateDriver implements PaginatorInterface {
      */
     public function make($total, $perPage)
     {
-        $this->paginator = $this->app['paginator']->make(array(), $total, $perPage);
+        $this->paginator = new LengthAwarePaginator(array(), $total, $perPage, $this->app['request']->input('page'), [
+            'path' => $this->app['request']->url(),
+        ]);
         return $this->paginator;
     }
 
@@ -41,8 +47,6 @@ class IlluminateDriver implements PaginatorInterface {
      */
     public function links()
     {
-        return $this->paginator->links(
-            $this->app['config']['michaeljennings/carpenter::paginator.view']
-        );
+        return $this->paginator->render(new BootstrapThreePresenter($this->paginator));
     }
 } 
