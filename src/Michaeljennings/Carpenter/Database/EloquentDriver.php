@@ -33,12 +33,7 @@ class EloquentDriver implements DatabaseInterface {
      */
     public function count()
     {
-        $countModel = clone $this->model;
-        $countQuery = $countModel->getQuery();
-        $countQuery->orders = null;
-        $countModel->setQuery($countQuery);
-
-        return $countModel->count();
+        return $this->model->paginate(1, $this->select)->total();
     }
 
     /**
