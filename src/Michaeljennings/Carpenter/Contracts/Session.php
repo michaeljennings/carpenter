@@ -1,8 +1,8 @@
-<?php namespace Michaeljennings\Carpenter\Session;
+<?php namespace Michaeljennings\Carpenter\Contracts;
 
-interface SessionInterface {
+interface Session {
 
-    /**
+	/**
      * Retrieve an item from the session
      *
      * @param  string $name
@@ -43,4 +43,5 @@ interface SessionInterface {
      * @return mixed
      */
     public function forget($name);
-} 
+	
+}

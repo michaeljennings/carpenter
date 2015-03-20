@@ -1,21 +1,24 @@
 <?php namespace Michaeljennings\Carpenter\Session;
 
+use Illuminate\Session\Store;
+use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
+
 class IlluminateDriver implements SessionInterface {
 
     /**
-     * The illuminate session driver
+     * The illuminate session driver.
      *
-     * @var mixed
+     * @var Store
      */
     protected $session;
 
-    public function __construct($session)
+    public function __construct(Store $session)
     {
         $this->session = $session;
     }
 
     /**
-     * Retrieve an item from the session
+     * Retrieve an item from the session.
      *
      * @param  string $name
      * @return mixed
@@ -50,7 +53,7 @@ class IlluminateDriver implements SessionInterface {
     }
 
     /**
-     * Check if a value is set in the session
+     * Check if a value is set in the session.
      *
      * @param  string $name
      * @return mixed
@@ -61,7 +64,7 @@ class IlluminateDriver implements SessionInterface {
     }
 
     /**
-     * Remove a value from the session
+     * Remove a value from the session.
      *
      * @param  string $name
      * @return mixed

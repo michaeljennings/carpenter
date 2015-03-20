@@ -5,6 +5,16 @@ use Illuminate\Support\Manager;
 class SessionManager extends Manager {
 
     /**
+     * Return a new instance of the native php session driver.
+     * 
+     * @return Michaeljennings\Carpenter\Session\NativeDriver
+     */
+    public function createNativeDriver()
+    {
+        return new NativeDriver();
+    }
+
+    /**
      * Return a new instance of the illuminate driver.
      *
      * @return Michaeljennings\Carpenter\Session\IlluminateDriver
@@ -12,6 +22,16 @@ class SessionManager extends Manager {
     public function createIlluminateDriver()
     {
         return new IlluminateDriver($this->app['session']);
+    }
+
+    /**
+     * Return a new instance of the codeigniter driver.
+     * 
+     * @return \Michaeljennings\Carpenter\Session\CodeigniterDriver
+     */
+    public function createCodeigniterDriver()
+    {
+        return new CodeigntierDriver();
     }
 
     /**

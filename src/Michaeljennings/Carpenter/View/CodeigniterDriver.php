@@ -2,21 +2,21 @@
 
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 
-class IlluminateDriver implements ViewInterface {
+class CodeigniterDriver implements ViewInterface {
 
-    /**
-     * An instance of the illuminate view class
+	/**
+     * An instance of the codeigniter instance class;
      *
      * @var mixed
      */
-    protected $view;
+    protected $instance;
 
-    public function __construct($view)
+    public function __construct()
     {
-        $this->view = $view;
+        $this->instance =& get_instance();
     }
 
-    /**
+	/**
      * Return the required view
      *
      * @param $view
@@ -25,7 +25,7 @@ class IlluminateDriver implements ViewInterface {
      */
     public function make($view, $data = array())
     {
-        return $this->view->make($view, $data)->render();
+    	return $this->instance->view($view, $data, true);
     }
 
-} 
+}

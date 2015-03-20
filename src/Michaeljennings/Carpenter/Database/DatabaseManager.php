@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Manager;
 
-class DatabaseManager extends Manager
-{
+class DatabaseManager extends Manager {
 
     /**
      * Create the eloquent database driver

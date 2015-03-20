@@ -1,14 +1,14 @@
-<?php namespace Michaeljennings\Carpenter\View;
+<?php namespace Michaeljennings\Carpenter\Contracts;
 
-interface ViewInterface {
+interface View {
 
-    /**
+	/**
      * Return the required view
      *
      * @param $view
      * @param array $data
-     * @return mixed
+     * @return string
      */
     public function make($view, $data = array());
 
-} 
+}

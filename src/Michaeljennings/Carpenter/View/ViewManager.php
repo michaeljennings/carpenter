@@ -15,6 +15,16 @@ class ViewManager extends Manager {
     }
 
     /**
+     * Create the codeigniter view driver.
+     * 
+     * @return CodeigniterDriver
+     */
+    public function createCodeigniterDriver()
+    {
+        return new CodeigniterDriver();
+    }
+
+    /**
      * Get the default driver name.
      *
      * @return string
