@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Session;
 
-use Illuminate\Session\Store;
+use Illuminate\Session\SessionManager as Store;
 use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
 class IlluminateDriver implements SessionInterface {
