@@ -128,7 +128,7 @@ class Action extends Fluent {
             switch ($key) {
                 case "href":
                     if ($val instanceof Closure) {
-                        $action .= 'href="'.$val($this->value).'"';
+                        $action .= 'href="'.$val($this->value, $this->row).'"';
                     } else {
                         $action .= 'href="'.rtrim($val, '/').(isset($this->value) ? '/'.$this->value.'" ' : '" ');
                     }
