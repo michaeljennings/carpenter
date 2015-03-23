@@ -149,7 +149,7 @@ class Table {
      * Create a new table column
      *
      * @param  string $name
-     * @return Michaeljennings\Carpenter\Componenets\Column
+     * @return \Michaeljennings\Carpenter\Componenets\Column
      */
     public function column($name)
     {
@@ -164,7 +164,7 @@ class Table {
      *
      * @param  string $name
      * @param  string $position The position on the table, can be 'table' or 'row'
-     * @return Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Components\Action
      */
     public function action($name, $position = 'table')
     {
@@ -178,10 +178,13 @@ class Table {
      * Add a new filter to the filters array
      *
      * @param callable $filter
+     * @return $this
      */
     public function filter(Closure $filter)
     {
         $this->filters[] = $filter;
+
+        return $this;
     }
 
     /**
