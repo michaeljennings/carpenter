@@ -23,9 +23,9 @@ class Carpenter {
      * Add a table closure into the table collection
      *
      * @param string   $name
-     * @param callable $table
+     * @param callable|string $table
      */
-    public function add($name, Closure $table)
+    public function add($name, $table)
     {
         $this->collection[$name] = $table;
     }
@@ -43,7 +43,13 @@ class Carpenter {
             throw new CarpenterCollectionException("No table was found with the name '{$name}'");
         }
 
-        return new Table($name, $this->collection[$name], $this->driverContainer, $this->config);
+        $callback = $this->collection[$name];
+
+        if (is_string($callback)) {
+            $callback = $this->buildClassCallback($callback);
+        }
+
+        return $this->buildTable($name, $callback);
     }
 
     /**
@@ -55,7 +61,55 @@ class Carpenter {
      */
     public function make($name, Closure $callback)
     {
-        return new Table($name, $callback, $this->driverContainer, $this->config);
+        return $this->buildTable($name, $callback);
+    }
+
+    /**
+     * Run the callback on the a table instance and then return the table.
+     *
+     * @param string $name
+     * @param Closure $callback
+     * @return Table
+     */
+    protected function buildTable($name, Closure $callback)
+    {
+        $table = new Table($name, $this->driverContainer, $this->config);
+        $callback($table);
+
+        return $table;
+    }
+
+    /**
+     * Build a new callback from a class for the class based tables.
+     *
+     * @param string $callback
+     * @return callable
+     */
+    protected function buildClassCallback($callback)
+    {
+        list($class, $method) = $this->parseClassCallback($callback);
+
+        return function() use ($class, $method)
+        {
+            $callable = array(new $class, $method);
+
+            return call_user_func_array($callable, func_get_args());
+        };
+    }
+
+    /**
+     * Parse the class based table name to the class name and method.
+     *
+     * @param string $class
+     * @return array
+     */
+    protected function parseClassCallback($class)
+    {
+        if (str_contains($class, '@')) {
+            return explode('@', $class);
+        }
+
+        return array($class, 'build');
     }
 
     /**

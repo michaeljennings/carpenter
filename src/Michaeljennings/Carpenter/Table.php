@@ -103,7 +103,7 @@ class Table {
      */
     protected $formAction;
 
-    public function __construct($key, Closure $table, $drivers, $config)
+    public function __construct($key, $drivers, $config)
     {
         $this->key = $key;
         $this->drivers = $drivers;
@@ -117,8 +117,6 @@ class Table {
                 $this->drivers->session->forget('michaeljennings.carpenter.'.$this->key.'.dir');
             }
         }
-
-        $table($this);
     }
 
     /**
