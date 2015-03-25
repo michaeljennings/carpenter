@@ -19,7 +19,7 @@
 						<th <?php foreach ($column->getAttributes() as $attr => $val) { ?>
 							<?=$attr?>="<?=$val?>"
 							<?php } ?>>
-							<?php if ($column->getHref()) { ?>
+							<?php if ($column->isSortable() && $column->getHref()) { ?>
 								<a href="<?=$column->getHref()?>">
 									<?=$column->label?>
 									<?php if (isset($column->sort)) { ?>

@@ -19,6 +19,13 @@ class Column extends Fluent {
      */
     protected $href;
 
+    /**
+     * Set if the column is sortable or not.
+     *
+     * @var bool
+     */
+    protected $sortable = true;
+
     public function __construct($column = false, $key, $driverContainer)
     {
         if ($column) {
@@ -36,23 +43,25 @@ class Column extends Fluent {
      */
     private function createHref($column, $key, $driverContainer)
     {
-        if ($driverContainer->session->get('michaeljennings.carpenter.'.$key.'.sort') == $column) {
-            if ($driverContainer->session->has('michaeljennings.carpenter.'.$key.'.dir')) {
-                $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
-                if (count($splitUrl) < 2) {
-                    $driverContainer->session->forget('michaeljennings.carpenter.'.$key.'.sort');
-                    $driverContainer->session->forget('michaeljennings.carpenter.'.$key.'.dir');
-                    $this->href = '?sort='.$column;
+        if ($this->sortable) {
+            if ($driverContainer->session->get('michaeljennings.carpenter.' . $key . '.sort') == $column) {
+                if ($driverContainer->session->has('michaeljennings.carpenter.' . $key . '.dir')) {
+                    $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
+                    if (count($splitUrl) < 2) {
+                        $driverContainer->session->forget('michaeljennings.carpenter.' . $key . '.sort');
+                        $driverContainer->session->forget('michaeljennings.carpenter.' . $key . '.dir');
+                        $this->href = '?sort=' . $column;
+                    } else {
+                        $this->href = $splitUrl[0];
+                        $this->sort = 'up';
+                    }
                 } else {
-                    $this->href = $splitUrl[0];
-                    $this->sort = 'up';
+                    $this->href = '?sort=' . $column . '&dir=desc';
+                    $this->sort = 'down';
                 }
             } else {
-                $this->href = '?sort='.$column.'&dir=desc';
-                $this->sort = 'down';
+                $this->href = '?sort=' . $column;
             }
-        } else {
-            $this->href = '?sort='.$column;
         }
     }
 
@@ -94,6 +103,40 @@ class Column extends Fluent {
     public function getHref()
     {
         return $this->href;
+    }
+
+    /**
+     * Set this column as sortable.
+     *
+     * @return $this
+     */
+    public function sortable()
+    {
+        $this->sortable = true;
+
+        return $this;
+    }
+
+    /**
+     * Set this column as unsortable.
+     *
+     * @return $this
+     */
+    public function unsortable()
+    {
+        $this->sortable = false;
+
+        return $this;
+    }
+
+    /**
+     * Return whether the column is sortable or not.
+     *
+     * @return bool
+     */
+    public function isSortable()
+    {
+        return $this->sortable;
     }
 
     /**
