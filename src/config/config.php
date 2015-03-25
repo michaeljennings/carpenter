@@ -8,7 +8,7 @@ return array(
 
     ),
 
-    'database' => array(
+    'store' => array(
 
         'driver' => 'eloquent',
 

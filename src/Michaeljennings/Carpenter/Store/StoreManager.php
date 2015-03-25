@@ -1,8 +1,8 @@
-<?php namespace Michaeljennings\Carpenter\Database;
+<?php namespace Michaeljennings\Carpenter\Store; 
 
 use Illuminate\Support\Manager;
 
-class DatabaseManager extends Manager {
+class StoreManager extends Manager {
 
     /**
      * Create the eloquent database driver
@@ -11,7 +11,7 @@ class DatabaseManager extends Manager {
      */
     public function createEloquentDriver()
     {
-        return new EloquentDriver();
+        return new EloquentStore();
     }
 
     /**
@@ -21,7 +21,7 @@ class DatabaseManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['carpenter.database.driver'];
+        return $this->app['config']['carpenter.store.driver'];
     }
 
 }

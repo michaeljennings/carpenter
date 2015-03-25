@@ -1,6 +1,6 @@
-<?php namespace Michaeljennings\Carpenter\Database;
+<?php namespace Michaeljennings\Carpenter\Store; 
 
-class EloquentDriver implements DatabaseInterface {
+class EloquentStore {
 
     /**
      * The eloquent model to get results from.
@@ -17,13 +17,13 @@ class EloquentDriver implements DatabaseInterface {
     protected $select = array('*');
 
     /**
-     * Set the eloquent model.
+     * Set the model to be used for the table.
      *
-     * @param mixed $model
+     * @param $model
      */
-    public function setModel($model)
+    public function model($model)
     {
-        $this->model = $model;
+        $this->model = new $model;
     }
 
     /**
@@ -70,16 +70,11 @@ class EloquentDriver implements DatabaseInterface {
         return $this->model->get($this->select);
     }
 
-    /**
-     * Catch any unspecified methods and run them on the model.
-     *
-     * @param string $method
-     * @param array  $args
-     * @return mixed
-     */
     public function __call($method, $args)
     {
-        $this->model = call_user_func_array(array($this->model, $method), $args);
+        $this->model = call_user_func_array([$this->model, $method], $args);
+
         return $this->model;
     }
+
 }

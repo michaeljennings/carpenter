@@ -196,12 +196,12 @@ class Table {
             throw new ModelNotSetException("You must set a model to get results from.");
         }
 
-        $this->drivers->db->setModel(new $this->model);
+        $this->drivers->store->model(new $this->model);
 
         // Run the filters on the database driver
         if ( ! empty($this->filters)) {
             foreach ($this->filters as $filter) {
-                $filter($this->drivers->db);
+                $filter($this->drivers->store);
             }
         }
 
@@ -209,11 +209,11 @@ class Table {
 
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
-            $this->results = $this->drivers->db->results();
+            $this->results = $this->drivers->store->results();
         } else {
-            $this->drivers->paginator->make($this->drivers->db->count(), $this->paginate);
+            $this->drivers->paginator->make($this->drivers->store->count(), $this->paginate);
             $this->links = $this->drivers->paginator->links();
-            $this->results = $this->drivers->db->paginate($this->paginate);
+            $this->results = $this->drivers->store->paginate($this->paginate);
         }
     }
 
@@ -274,11 +274,11 @@ class Table {
         if (isset($this->sortBy)) {
             // Remove any orders from the query and order by the selected
             // column
-            $this->drivers->db->refreshOrderBy();
+            $this->drivers->store->refreshOrderBy();
             if (isset($this->sortDir)) {
-                $this->drivers->db->orderBy($this->sortBy, $this->sortDir);
+                $this->drivers->store->orderBy($this->sortBy, $this->sortDir);
             } else {
-                $this->drivers->db->orderBy($this->sortBy, 'asc');
+                $this->drivers->store->orderBy($this->sortBy, 'asc');
             }
         }
     }
