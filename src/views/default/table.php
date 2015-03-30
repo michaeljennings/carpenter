@@ -18,10 +18,10 @@
 
                         <?php if ($column->isSortable() && $column->getHref()): ?>
                             <a href="<?php echo $column->getHref(); ?>">
-                                <?php echo $column->label; ?>
+                                <?php echo $column->getLabel(); ?>
                             </a>
                         <?php else: ?>
-                            <?php echo $column->label; ?>
+                            <?php echo $column->getLabel(); ?>
                         <?php endif; ?>
 
                     </th>

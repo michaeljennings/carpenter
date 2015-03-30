@@ -152,7 +152,7 @@ class Table {
     public function column($name)
     {
         $this->columns[$name] = new Column($name, $this->key, $this->drivers);
-        $this->columns[$name]->label = ucwords(str_replace('_', ' ', $name));
+        $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $name)));
 
         return $this->columns[$name];
     }
@@ -479,4 +479,15 @@ class Table {
     {
         return $this->formAction;
     }
+
+    /**
+     * Render the table.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
+
 } 

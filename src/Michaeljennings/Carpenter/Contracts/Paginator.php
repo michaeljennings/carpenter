@@ -1,7 +1,6 @@
-<?php namespace Michaeljennings\Carpenter\Pagination;
+<?php namespace Michaeljennings\Carpenter\Contracts;
 
-
-interface PaginatorInterface {
+interface Paginator {
 
     /**
      * Create a new paginator.
@@ -19,4 +18,4 @@ interface PaginatorInterface {
      */
     public function links();
 
-} 
+}

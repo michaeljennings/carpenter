@@ -21,13 +21,13 @@
 							<?php } ?>>
 							<?php if ($column->isSortable() && $column->getHref()) { ?>
 								<a href="<?=$column->getHref()?>">
-									<?=$column->label?>
+									<?=$column->getLabel()?>
 									<?php if (isset($column->sort)) { ?>
 										 <span class="glyphicon glyphicon-chevron-<?= $column->sort ?>"></span>
 									<?php } ?>
 								</a>
 							<?php } else { ?>
-								<?=$column->label?>
+								<?=$column->getLabel()?>
 							<?php } ?>
 						</th>
 					<?php } ?>

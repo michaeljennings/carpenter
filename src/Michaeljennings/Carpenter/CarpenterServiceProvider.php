@@ -49,6 +49,11 @@ class CarpenterServiceProvider extends ServiceProvider {
                 $this->app['config']['carpenter']
             );
         });
+
+        $this->app->bind('Michaeljennings\Carpenter\Contracts\Carpenter', function($app)
+        {
+            return $app['michaeljennings.carpenter'];
+        });
     }
 
     /**

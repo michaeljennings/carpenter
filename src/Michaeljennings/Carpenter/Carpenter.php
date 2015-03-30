@@ -1,10 +1,11 @@
 <?php namespace Michaeljennings\Carpenter;
 
 use Closure;
-use Michaeljennings\Carpenter\Exceptions\CarpenterCollectionException;
 use Michaeljennings\Carpenter\Exceptions\TableLocationNotFound;
+use Michaeljennings\Carpenter\Exceptions\CarpenterCollectionException;
+use Michaeljennings\Carpenter\Contracts\Carpenter as CarpenterInterface;
 
-class Carpenter {
+class Carpenter implements CarpenterInterface {
 
     /**
      * A collection of table closures

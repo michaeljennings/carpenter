@@ -1,5 +1,5 @@
 # Carpenter
-An laravel 4 package for creating html tables from models quickly and easily.
+A laravel package to create html tables from models that are sortable and can be paginated.
 ##Installation
 Include the package in your `composer.json`.
 
@@ -24,35 +24,57 @@ Add the `Carpenter` facade to your aliases array.
       
     );
 
-Publish the config files using `php artisan config:publish michaeljennings/carpenter`
-
-Publish the pacakge assets using `php artisan asset:publish michaeljennings/carpenter`
-
-By default the tables are store in a app/tables.php so you may need to create this file. Alternatively if
-you want to store your tables elsewhere you can update the path in the package config.
+Publish the config files using `php artisan vendor:publish --provider="Michaeljennings\Carpenter\CarpenterServiceProvider"`
 
 ## Usage
 
 ### Creating Tables
 
-There are two ways to create tables, the first is using the `add` method. Like with the `routes.php` file we use a 
-`tables.php` to have a convinient place to store our carpenter instances, this allows us to keep our controllers 
-clean. To create a new table we can use the `add` method, the first paramater is a unique key for the table the second is 
-a closure used for creating the table.
+There are two ways to create tables with carpenter. Firstly we can use the table collection where you add a table 
+somewhere in your application to the table collection and the retrieve it later. Or we can create a one off instance of
+a table.
+
+#### Using the Table Collection
+
+To add a class to the table collection we use the `add` method. The `add` method takes two arguments. The first is a 
+unique key for the table that we shall use to retrieve the table and the second is either a closure or the name of a  
+class.
 
     Carpenter::add('foo', function($table) {});
+    Carpenter::add('bar', 'FooBar');    
+
+By default the table based classes use a build method, but if you wish to specify a method you can do so by using an @ 
+symbol then the name of the method.
+
+    Carpenter::add('bar', 'FooBar@bar');
     
-This will store the table in a collection and we can retrieve it later using the `get` method.
+To retrieve the table from the collection we use the `get` method.
 
     Carpenter::get('foo');
     
-If you don't want to use the collection you can use the `create` method to immediately create the table.
-    
-    Carpenter::create('foo', function($table) {});
-    
-To render the table to html we use the `render` method.
+#### Tables Without the Collection
+
+To create a table without using the table collection we use the `make` method. This takes the same arguments as the 
+`add` method as the unique key is used for to help keep session unique to the table.
+
+    Carpenter::make('foo', function($table) {});
+    Carpenter::make('bar', 'FooBar');
+
+#### Rendering the Table
+
+To render the table instance you can either echo out the table or use the `render` method to turn it into a string.
 
     Carpenter::get('foo')->render();
+    
+#### Using Dependency Injection
+
+If you would rather use dependency injection instead of the facade you may do so by type hinting the 
+`Michaeljennings\Carpenter\Contracts\Carpenter` contract.
+
+    public function foo(Michaeljennings\Carpenter\Contracts\Carpenter $carpenter)
+    {
+        return $carpenter->get('foo')->render();
+    }
     
 ### Table Methods
 
@@ -85,12 +107,12 @@ To create a new table column we use the `column` method.
 
     $table->column('foo');
     
-The column function returns a new column object and we can chain methods onto this, for example the label method will 
-change the label at the top of the column.
+The column function returns a new column object and we can chain methods onto this, for example the `setLabel` method 
+will change the label at the top of the column.
 
-    $table->column('foo')->label('Bar');
+    $table->column('foo')->setLabel('Bar');
     
-Also if you need to format the data displayed in a column we can use the `presenter` function. This takes a closure
+If you need to format the data displayed in a column we can use the `presenter` function. This takes a closure
 and runs it over each cell in that column, for example if we have a column which is putting out a date we could 
 format it to make it more user friendly.
 
@@ -117,10 +139,10 @@ the top and in each row. You can set the position by passing a second parameter 
 `'table'` or `'row'`, the buttons default to being along the top if no parameter is supplied.
 
     $table->action('create', 'table'); // I'll be at the top of the table
-    $table->action('edit', 'row'); // I'll be in each row
+    $table->action('edit', 'row'); // I'll be at the end of each row
 
 Like with the columns we can then chain functions on to the actions. By default the button will be a submit button, 
-but you can change it to an anchor by using the href method. The href function can be passed a url or a closure 
+but you can change it to an anchor by using the href method. The href function can be passed a string or a closure 
 which will give the id of the row as a first paramater and the whole row as the second.
 
     $table->action('foo')->href('/bar');
@@ -147,10 +169,29 @@ You can also set any html attribute by using the attribute name as the method na
 
     $table->action('foo')->id('bar');
     
-If you need to add a confirmed popup for the button you can do so by adding a confirmed method. To use the confirmed 
-function you will need to include the carpenter.js file and run the jQuery plugin.
+If you need to add a confirmed popup for the button you can do so by adding a confirmed method.
 
     $table->action('foo')->confirmed("I have to be confirmed first.");
+    
+To use the confirmed function you will need to include the carpenter.js file and run the jQuery plugin.
+    
+    <script type="text/javascript" src="/path/to/script/carpenter.js"></script>
+    <script type="text/javascript">
+        $('.table-parent').carpenterJs();
+    </script>
+    
+It may also be useful to only show an action when a condition is met, to do this we use the `when` method. This can 
+only be used for actions that are in a row. The when method takes one parameter which is a closure which has the 
+current row passed to it.
+
+    $table->action('foo')->when(function($row)
+    {
+      if ($row->status == 'bar') {
+        return true;
+      }
+      
+      return false;
+    });
     
 #### Filters
 

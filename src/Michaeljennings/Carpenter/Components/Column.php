@@ -20,6 +20,13 @@ class Column extends Fluent {
     protected $href;
 
     /**
+     * The label to appear at the top of the column.
+     *
+     * @var string
+     */
+    protected $label;
+
+    /**
      * Set if the column is sortable or not.
      *
      * @var bool
@@ -103,6 +110,29 @@ class Column extends Fluent {
     public function getHref()
     {
         return $this->href;
+    }
+
+    /**
+     * Set the label for the column.
+     *
+     * @param $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get the label for the column.
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     /**

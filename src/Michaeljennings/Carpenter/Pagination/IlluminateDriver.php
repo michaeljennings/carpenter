@@ -1,8 +1,9 @@
 <?php namespace Michaeljennings\Carpenter\Pagination;
 
-use Illuminate\Pagination\BootstrapThreePresenter;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\BootstrapThreePresenter;
+use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorInterface;
 
 class IlluminateDriver implements PaginatorInterface {
 
