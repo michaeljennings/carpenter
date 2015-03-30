@@ -37,6 +37,7 @@ class IlluminateDriver implements PaginatorInterface {
         $this->paginator = new LengthAwarePaginator(array(), $total, $perPage, $this->app['request']->input('page'), [
             'path' => $this->app['request']->url(),
         ]);
+
         return $this->paginator;
     }
 
