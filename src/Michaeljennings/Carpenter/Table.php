@@ -243,7 +243,7 @@ class Table {
                     if ($action->valid($result)) {
                         $column = $action->getColumn();
                         $action->value = $result->$column;
-                        $action->row = $result;
+                        $action->row($result);
                         $actions .= $action->render();
                     }
                 }

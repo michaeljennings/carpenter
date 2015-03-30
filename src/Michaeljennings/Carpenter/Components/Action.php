@@ -6,28 +6,36 @@ use Illuminate\Support\Fluent;
 class Action extends Fluent {
 
     /**
-     * The column used by the action
+     * The column used by the action.
      *
      * @var string
      */
     protected $column = 'id';
 
     /**
-     * The label for the action
+     * If this actions is of a row context, then this is the current row being
+     * looped through.
+     *
+     * @var mixed
+     */
+    protected $row = false;
+
+    /**
+     * The label for the action.
      *
      * @var string
      */
     protected $label;
 
     /**
-     * The presenter
+     * The column presenter
      *
-     * @var Closure
+     * @var Closure|boolean
      */
     protected $presenter = false;
 
     /**
-     * The when callback arraey
+     * The when callback array
      *
      * @var Closure
      */
@@ -41,8 +49,8 @@ class Action extends Fluent {
     /**
      * Set the column used by the action
      *
-     * @param  string $content
-     * @return object
+     * @param  string|boolean $column
+     * @return $this
      */
     public function column($column = false)
     {
@@ -53,38 +61,25 @@ class Action extends Fluent {
     }
 
     /**
-     * Return the action's column
+     * Set the row used by the action.
      *
-     * @return string
+     * @param $row
+     * @return $this
      */
-    public function getColumn()
+    public function row($row = false)
     {
-        return $this->column;
+        if ( ! $row) return false;
+        $this->row = $row;
+
+        return $this;
     }
 
     /**
-     * Return the presenter callback
+     * Add a callback to be run to validate that this action is to be used
+     * for the current row.
      *
-     * @return closure
+     * @param callable $callback
      */
-    public function getPresenter()
-    {
-        return $this->presenter;
-    }
-
-    public function valid($model)
-    {
-        if ($this->whens) {
-            foreach ($this->whens as $when) {
-                if ( ! $when($model)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     public function when(Closure $callback)
     {
         if ( ! $this->whens) {
@@ -95,14 +90,34 @@ class Action extends Fluent {
     }
 
     /**
+     * Check that the current row passes all of the when callbacks.
+     *
+     * @param $row
+     * @return bool
+     */
+    public function valid($row)
+    {
+        if ($this->whens) {
+            foreach ($this->whens as $when) {
+                if ( ! $when($row)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Set the presenter callback for the action
      *
      * @param  Closure $callback
-     * @return object
+     * @return $this
      */
     public function presenter(Closure $callback)
     {
         $this->presenter = $callback;
+
         return $this;
     }
 
@@ -149,14 +164,35 @@ class Action extends Fluent {
     }
 
     /**
+     * Return the action's column
+     *
+     * @return string
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * Return the presenter callback
+     *
+     * @return closure
+     */
+    public function getPresenter()
+    {
+        return $this->presenter;
+    }
+
+    /**
      * Set the class of the action
      *
      * @param string $class
-     * @return object
+     * @return $this
      */
     public function setClass($class)
     {
         $this->attributes['class'] = $class;
+
         return $this;
     }
 
@@ -164,20 +200,21 @@ class Action extends Fluent {
      * Set the label for an action
      *
      * @param string $label
-     * @return object
+     * @return $this
      */
     public function setLabel($label)
     {
         $this->label = $label;
+
         return $this;
     }
 
     /**
-     * Set an undefined item in to the attributes array
+     * Set an undefined item in to the attributes array.
      *
      * @param  string $name      The attribute name
      * @param  array  $arguments The attribute arguments
-     * @return object            Self
+     * @return $this
      */
     public function __call($name, $arguments)
     {
