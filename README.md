@@ -1,5 +1,5 @@
 # Carpenter
-A laravel package to create html tables from models that are sortable and can be paginated.
+A laravel package to create html tables from models that can be sorted and paginated.
 ##Installation
 Include the package in your `composer.json`.
 
