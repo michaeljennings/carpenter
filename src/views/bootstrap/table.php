@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <form action="<?php echo $table->getFormAction() ?>" method="post">
     <div class="panel panel-default">
         <div class="panel-heading">
