@@ -15,49 +15,47 @@
 
             <div class="clearfix"></div>
         </div>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?php foreach ($table->getColumns() as $column): ?>
+                        <th <?php foreach ($column->getAttributes() as $attr => $val): ?>
+                            <?php echo $attr; ?>="<?php echo $val; ?>"
+                        <?php endforeach; ?>>
 
-        <div class="panel-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <?php foreach ($table->getColumns() as $column): ?>
-                            <th <?php foreach ($column->getAttributes() as $attr => $val): ?>
-                                <?php echo $attr; ?>="<?php echo $val; ?>"
-                            <?php endforeach; ?>>
-
-                                <?php if ($column->isSortable() && $column->getHref()): ?>
-                                    <a href="<?php echo $column->getHref(); ?>">
-                                        <?php echo $column->getLabel(); ?>
-                                    </a>
-                                    <?php if (isset($column->sort)) { ?>
-                                        <span class="glyphicon glyphicon-chevron-<?= $column->sort ?>"></span>
-                                    <?php } ?>
-                                <?php else: ?>
+                            <?php if ($column->isSortable() && $column->getHref()): ?>
+                                <a href="<?php echo $column->getHref(); ?>">
                                     <?php echo $column->getLabel(); ?>
-                                <?php endif; ?>
+                                </a>
+                                <?php if (isset($column->sort)) { ?>
+                                    <span class="glyphicon glyphicon-chevron-<?= $column->sort ?>"></span>
+                                <?php } ?>
+                            <?php else: ?>
+                                <?php echo $column->getLabel(); ?>
+                            <?php endif; ?>
 
-                            </th>
-                        <?php endforeach; ?>
-                    </tr>
-                </thead>
+                        </th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
 
-                <tbody>
-                    <?php if($table->hasRows()): ?>
-                        <?php foreach ($table->getRows() as $row): ?>
-                            <tr data-id="<?php echo $row->id; ?>">
-                                <?php foreach ($row->cells as $cell): ?>
-                                    <td><?php echo $cell->value; ?></td>
-                                <?php endforeach; ?>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="<?echo count($table->getColumns()) ?>">No Results Found.</td>
+            <tbody>
+                <?php if($table->hasRows()): ?>
+                    <?php foreach ($table->getRows() as $row): ?>
+                        <tr data-id="<?php echo $row->id; ?>">
+                            <?php foreach ($row->cells as $cell): ?>
+                                <td><?php echo $cell->value; ?></td>
+                            <?php endforeach; ?>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="<?echo count($table->getColumns()) ?>">No Results Found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
         <?php if ($table->hasLinks()): ?>
             <div class="panel-footer">
