@@ -25,6 +25,16 @@ class ViewManager extends Manager {
     }
 
     /**
+     * Create the native view driver.
+     *
+     * @return Native
+     */
+    public function createNativeDriver()
+    {
+        return new Native();
+    }
+
+    /**
      * Get the default driver name.
      *
      * @return string

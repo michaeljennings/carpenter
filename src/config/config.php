@@ -53,7 +53,7 @@ return array(
         /**
          * Set the view driver.
          *
-         * Supported: illuminate, codeigniter.
+         * Supported: illuminate, codeigniter, native.
          */
         'driver' => 'illuminate',
 
