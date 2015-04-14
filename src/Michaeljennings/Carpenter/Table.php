@@ -53,6 +53,20 @@ class Table implements TableContract {
     protected $rows = [];
 
     /**
+     * A flag indicating if the rows have been set up yet.
+     *
+     * @var bool
+     */
+    protected $rowsInitialised = false;
+
+    /**
+     * The results to be displayed.
+     *
+     * @var mixed
+     */
+    protected $results;
+
+    /**
      * The amount to paginate the results by.
      *
      * @var integer|string|bool
@@ -69,9 +83,9 @@ class Table implements TableContract {
     /**
      * Set the template for to be used to render the table.
      *
-     * @var string|bool
+     * @var string|null
      */
-    protected $template = false;
+    protected $template;
 
     /**
      * Set the table title.
@@ -187,12 +201,15 @@ class Table implements TableContract {
      */
     public function render()
     {
-        // TODO: Implement render() method.
-    }
+        $this->rows();
 
-    protected function prepareRows()
-    {
-        // TODO: Prepare the table rows ready to be displayed.
+        if ( ! isset($this->template)) {
+            $this->template = $this->config['view']['views']['template'];
+        }
+
+        return $this->drivers->view->make($this->template, array(
+            'table' => $this
+        ));
     }
 
     /**
@@ -202,11 +219,99 @@ class Table implements TableContract {
      */
     public function rows()
     {
-        if (empty($this->rows)) {
+        if ( ! $this->rowsInitialised) {
             $this->prepareRows();
         }
 
         return $this->rows;
+    }
+
+    /**
+     * Loop through all of the table results and prepare them to be displayed.
+     */
+    protected function prepareRows()
+    {
+        if ( ! isset($this->results)) {
+            $this->generateResults();
+        }
+
+        foreach ($this->results as $result) {
+            $this->rows[] = $this->newRow($result);
+        }
+
+        if ( ! empty($this->actions['row']) && ! isset($this->columns['option'])) {
+            $this->columns['option'] = new Column(false, $this->key, $this->drivers);
+        }
+
+        $this->rowsInitialised = true;
+    }
+
+    /**
+     * Create a new row and all of it's cells and actions.
+     *
+     * @param $result
+     * @return Row
+     */
+    protected function newRow($result)
+    {
+        $row = new Row;
+
+        if ( ! empty($result->id)) {
+            $row->id = $result->id;
+        }
+
+        foreach ($this->columns as $key => $column) {
+            $row->cells[$key] = new Cell($result->$key, $result, $key, $column);
+        }
+
+        if ( ! empty($this->actions['row'])) {
+            $row->cells['actions'] = $this->prepareRowActions($this->actions['row'], $result);
+        }
+
+        return $row;
+    }
+
+    /**
+     * Loop through all of the row actions and add any necessary row data.
+     *
+     * @param array $rowActions
+     * @param mixed $result
+     * @return array
+     */
+    protected function prepareRowActions(array $rowActions, $result)
+    {
+        $actions = [];
+
+        foreach ($rowActions as $action) {
+            if ($action->valid($result)) {
+                $column = $action->getColumn();
+                $action->value = $result->$column;
+                $action->row($result);
+
+                $actions[] = $action;
+            }
+        }
+
+        return $actions;
+    }
+
+    protected function generateResults()
+    {
+        // Run the filters on the database driver
+        if ( ! empty($this->filters)) {
+            foreach ($this->filters as $filter) {
+                $filter($this->drivers->store);
+            }
+        }
+
+        // Check if the results need to be paginated or not
+        if ( ! $this->paginate) {
+            $this->results = $this->drivers->store->results();
+        } else {
+            $this->drivers->paginator->make($this->drivers->store->count(), $this->paginate);
+            $this->links = $this->drivers->paginator->links();
+            $this->results = $this->drivers->store->paginate($this->paginate);
+        }
     }
 
     /**
@@ -523,5 +628,8 @@ class Table implements TableContract {
         // TODO: Implement view() method.
     }
 
-
+    public function __toString()
+    {
+        return $this->render();
+    }
 }
