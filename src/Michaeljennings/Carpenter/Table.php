@@ -128,9 +128,7 @@ class Table {
     {
         $this->model = $model;
 
-        if ( ! isset($this->title)) {
-            $this->title = $model;
-        }
+        $this->drivers->store->model(new $this->model);
     }
 
     /**
@@ -187,17 +185,9 @@ class Table {
 
     /**
      * Run any stored filters and get/paginate the results from the selected model.
-     *
-     * @throws ModelNotSetException
      */
     public function results()
     {
-        if ( ! isset($this->model)) {
-            throw new ModelNotSetException("You must set a model to get results from.");
-        }
-
-        $this->drivers->store->model(new $this->model);
-
         // Run the filters on the database driver
         if ( ! empty($this->filters)) {
             foreach ($this->filters as $filter) {
