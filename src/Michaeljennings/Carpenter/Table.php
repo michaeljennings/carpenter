@@ -1,151 +1,122 @@
 <?php namespace Michaeljennings\Carpenter;
 
-use Str;
 use Closure;
 use Michaeljennings\Carpenter\Components\Row;
 use Michaeljennings\Carpenter\Components\Cell;
 use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Components\Column;
-use Michaeljennings\Carpenter\Exceptions\ModelNotSetException;
+use Michaeljennings\Carpenter\Contracts\Table as TableContract;
 
-class Table {
+class Table implements TableContract {
 
     /**
-     * A unique key for the table to allow us to keep searching and sorting
-     * separate for each table.
+     * A unique key for the table, used to help keep column orders unique
+     * to each table instance.
      *
      * @var string
      */
     protected $key;
 
     /**
-     * An object containing all required drivers to create a table.
+     * The carpenter config.
+     *
+     * @var array
+     */
+    protected $config = [];
+
+    /**
+     * The drivers used to create a table instance.
      *
      * @var DriverContainer
      */
     protected $drivers;
 
     /**
-     * The name of the model we will be getting results from.
-     *
-     * @var string
-     */
-    protected $model;
-
-    /**
-     * The title at the top of the table, if no title is set the name of the
-     * model will be used.
-     *
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * Set the amount to paginate the table by.
-     *
-     * @var bool|string
-     */
-    protected $paginate = false;
-
-    /**
      * The table columns.
      *
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
-     * The table rows
+     * The table actions.
      *
      * @var array
      */
-    protected $rows = array();
+    protected $actions = [];
 
     /**
-     * The table actions
+     * The table rows.
      *
      * @var array
      */
-    protected $actions = array();
+    protected $rows = [];
 
     /**
-     * An array of closures to be run on the model
+     * The amount to paginate the results by.
+     *
+     * @var integer|string|bool
+     */
+    protected $paginate = false;
+
+    /**
+     * An array of filters to be run on the table results.
      *
      * @var array
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
-     * The table results
+     * Set the template for to be used to render the table.
      *
-     * @var mixed
+     * @var string|bool
      */
-    protected $results;
+    protected $template = false;
 
     /**
-     * The pagination links
+     * Set the table title.
      *
-     * @var mixed
+     * @var string|null
      */
-    protected $links;
+    protected $title;
 
     /**
-     * The table view
+     * The pagination links.
      *
-     * @var string
+     * @var string|bool
      */
-    protected $template;
+    protected $links = false;
 
     /**
-     * The url the table actions will post to
+     * In the default templates each table is wrapped in a form so that post actions
+     * can be used. By default the form actions is left blank, or you can set a form
+     * action if you wish the form to go else where.
      *
-     * @var string
+     * @var string|null
      */
     protected $formAction;
 
-    public function __construct($key, $drivers, $config)
+    /**
+     * In the default templates each table is wrapped in a form so that post actions
+     * can be used. By default the form posts or you can used formMethod() to set a
+     * different method.
+     *
+     * @var string
+     */
+    protected $formMethod = 'POST';
+
+    public function __construct($key, DriverContainer $drivers, array $config)
     {
         $this->key = $key;
         $this->drivers = $drivers;
         $this->config = $config;
-
-        if (isset($_GET['sort'])) {
-            $this->drivers->session->put('michaeljennings.carpenter.'.$this->key.'.sort', $_GET['sort']);
-            if (isset($_GET['dir'])) {
-                $this->drivers->session->put('michaeljennings.carpenter.'.$this->key.'.dir', true);
-            } else {
-                $this->drivers->session->forget('michaeljennings.carpenter.'.$this->key.'.dir');
-            }
-        }
     }
 
     /**
-     * Set the name of the model we shall be getting results for.
+     * Add a new column to the table.
      *
-     * @param string $model
-     */
-    public function model($model)
-    {
-        $this->model = $model;
-
-        $this->drivers->store->model(new $this->model);
-    }
-
-    /**
-     * Set the amount to paginate the table results by.
-     *
-     * @param string|integer $amount
-     */
-    public function paginate($amount)
-    {
-        $this->paginate = $amount;
-    }
-
-    /**
-     * Create a new table column
-     *
-     * @param  string $name
-     * @return \Michaeljennings\Carpenter\Componenets\Column
+     * @param string $name
+     * @return \Michaeljennings\Carpenter\Components\Column
      */
     public function column($name)
     {
@@ -156,10 +127,10 @@ class Table {
     }
 
     /**
-     * Create a new table action
+     * Add a new action to the table.
      *
-     * @param  string $name
-     * @param  string $position The position on the table, can be 'table' or 'row'
+     * @param string $name
+     * @param string $position
      * @return \Michaeljennings\Carpenter\Components\Action
      */
     public function action($name, $position = 'table')
@@ -169,9 +140,35 @@ class Table {
         return $this->actions[$position][$name];
     }
 
+    /**
+     * Set the amount to paginate the table by.
+     *
+     * @param string|integer $amount
+     * @return $this;
+     */
+    public function paginate($amount)
+    {
+        $this->paginate = $amount;
+
+        return $this;
+    }
 
     /**
-     * Add a new filter to the filters array
+     * Set the model to be used by the table. Can be either the model name or
+     * an instance of the model.
+     *
+     * @param mixed $model
+     * @return $this
+     */
+    public function model($model)
+    {
+        $this->drivers->store->model(new $model);
+
+        return $this;
+    }
+
+    /**
+     * Add a new filter to be run on the results.
      *
      * @param callable $filter
      * @return $this
@@ -184,174 +181,46 @@ class Table {
     }
 
     /**
-     * Run any stored filters and get/paginate the results from the selected model.
-     */
-    public function results()
-    {
-        // Run the filters on the database driver
-        if ( ! empty($this->filters)) {
-            foreach ($this->filters as $filter) {
-                $filter($this->drivers->store);
-            }
-        }
-
-        $this->orderResults();
-
-        // Check if the results need to be paginated or not
-        if ( ! $this->paginate) {
-            $this->results = $this->drivers->store->results();
-        } else {
-            $this->drivers->paginator->make($this->drivers->store->count(), $this->paginate);
-            $this->links = $this->drivers->paginator->links();
-            $this->results = $this->drivers->store->paginate($this->paginate);
-        }
-    }
-
-    /**
-     * Check if any results have been set, if not get the results from the model
-     * then loop through the results to prepare them for being rendered.
-     */
-    protected function rows()
-    {
-        if ( ! isset($this->results)) {
-            $this->results();
-        }
-
-        foreach ($this->results as $result) {
-            $row = new Row;
-            if ( ! empty($result->id)) {
-                $row->id = $result->id;
-            }
-
-            foreach ($this->columns as $key => $column) {
-                $row->cells[$key] = new Cell($result->$key, $result, $key, $column);
-            }
-
-            if ( ! empty($this->actions['row'])) {
-                $actions = '';
-                foreach ($this->actions['row'] as $action) {
-                    if ($action->valid($result)) {
-                        $column = $action->getColumn();
-                        $action->value = $result->$column;
-                        $action->row($result);
-                        $actions .= $action->render();
-                    }
-                }
-                $row->cells[] = new Cell($actions);
-            }
-
-            $this->rows[] = $row;
-        }
-
-        if (!empty($this->actions['row'])) {
-            $this->columns['option'] = new Column(false, $this->key, $this->drivers);
-        }
-    }
-
-    /**
-     * Check if any of the column links have been clicked and order the results
-     * by that column if needed.
-     */
-    private function orderResults()
-    {
-        if ($this->drivers->session->has('michaeljennings.carpenter.'.$this->key.'.sort')) {
-            $this->sortBy = $this->drivers->session->get('michaeljennings.carpenter.'.$this->key.'.sort');
-            if ($this->drivers->session->has('michaeljennings.carpenter.'.$this->key.'.dir')) {
-                $this->sortDir = 'desc';
-            }
-        }
-
-        if (isset($this->sortBy)) {
-            // Remove any orders from the query and order by the selected
-            // column
-            $this->drivers->store->refreshOrderBy();
-            if (isset($this->sortDir)) {
-                $this->drivers->store->orderBy($this->sortBy, $this->sortDir);
-            } else {
-                $this->drivers->store->orderBy($this->sortBy, 'asc');
-            }
-        }
-    }
-
-    /**
-     * Generate the table rows and return the table view.
+     * Render the table to a string.
      *
      * @return string
      */
     public function render()
     {
-        $this->rows();
-        if ( ! isset($this->template)) {
-            $this->template = $this->config['view']['views']['template'];
+        // TODO: Implement render() method.
+    }
+
+    protected function prepareRows()
+    {
+        // TODO: Prepare the table rows ready to be displayed.
+    }
+
+    /**
+     * Return all of the table's rows.
+     *
+     * @return array
+     */
+    public function rows()
+    {
+        if (empty($this->rows)) {
+            $this->prepareRows();
         }
 
-        return $this->drivers->view->make($this->template, array(
-            'table' => $this
-        ));
+        return $this->rows;
     }
 
     /**
-     * Set the unique key for this table
+     * Alias of the rows method.
      *
-     * @param string $key
+     * @return array
      */
-    public function setKey($key)
+    public function getRows()
     {
-        $this->key = $key;
+        return $this->rows();
     }
 
     /**
-     * Set the template for this table instance
-     *
-     * @param string $template
-     */
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * Set the table title
-     *
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * Set the url the table actions post to
-     *
-     * @param string $action
-     */
-    public function setFormAction($action)
-    {
-        $this->formAction = $action;
-    }
-
-    /**
-     * Set the database field to search for results in
-     *
-     * @param string $key
-     */
-    public function setSearchKey($key)
-    {
-        $this->searchKey = $key;
-    }
-
-    /**
-     * Return the table title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return empty($this->title) ? Str::title($this->model) : $this->title;
-    }
-
-    /**
-     * Check if there are any rows
+     * Check if the table has any rows.
      *
      * @return boolean
      */
@@ -361,33 +230,23 @@ class Table {
     }
 
     /**
-     * Get the table row
+     * Return all of the table's columns.
      *
      * @return array
      */
-    public function getRows()
+    public function columns()
     {
-        return $this->rows;
+        return $this->columns;
     }
 
     /**
-     * Check if there are any table actions
-     *
-     * @return boolean
-     */
-    public function hasActions($postition)
-    {
-        return ! empty($this->actions[$postition]);
-    }
-
-    /**
-     * Get the table actions
+     * Alias of the columns method.
      *
      * @return array
      */
-    public function getActions($postition)
+    public function getColumns()
     {
-        return ! empty($this->actions[$postition]) ? $this->actions[$postition] : false;
+        return $this->columns();
     }
 
     /**
@@ -401,17 +260,183 @@ class Table {
     }
 
     /**
-     * Get the table columns
+     * Get the actions with a position of table.
      *
      * @return array
      */
-    public function getColumns()
+    public function actions()
     {
-        return $this->columns;
+        return isset($this->actions['table']) ? $this->actions['table'] : [];
     }
 
     /**
-     * Check if there are any table links
+     * Alias for the actions method.
+     *
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions();
+    }
+
+    /**
+     * Check if there are any table actions.
+     *
+     * @return boolean
+     */
+    public function hasActions()
+    {
+        return ! empty($this->actions['table']);
+    }
+
+    /**
+     * Set the template for this table instance.
+     *
+     * @param string $template
+     * @return $this
+     */
+    public function template($template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the template method.
+     *
+     * @param string $template
+     * @return $this;
+     */
+    public function setTemplate($template)
+    {
+        return $this->template($template);
+    }
+
+    /**
+     * Set the table title.
+     *
+     * @param string $title
+     * @return $this
+     */
+    public function title($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the title method.
+     *
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        return $this->title($title);
+    }
+
+    /**
+     * Return the table title.
+     *
+     * @return string|null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the url the table actions post to.
+     *
+     * @param string $action
+     * @return $this
+     */
+    public function formAction($action)
+    {
+        $this->formAction = $action;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the form action method.
+     *
+     * @param string $action
+     * @return $this
+     */
+    public function setFormAction($action)
+    {
+        return $this->formAction($action);
+    }
+
+    /**
+     * Return the form action.
+     *
+     * @return null|string
+     */
+    public function getFormAction()
+    {
+        return $this->formAction;
+    }
+
+    /**
+     * Set the method for the table form to use.
+     *
+     * @param $method
+     * @return $this
+     */
+    public function formMethod($method)
+    {
+        $this->formMethod = $method;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the formMethod method.
+     *
+     * @param $method
+     * @return Table
+     */
+    public function setFormMethod($method)
+    {
+        return $this->formMethod($method);
+    }
+
+    /**
+     * Return the form method.
+     *
+     * @return string
+     */
+    public function getFormMethod()
+    {
+        return $this->formMethod;
+    }
+
+    /**
+     * Get the table links
+     *
+     * @return string
+     */
+    public function links()
+    {
+        return $this->links;
+    }
+
+    /**
+     * Alias for the links method.
+     *
+     * @return string
+     */
+    public function getLinks()
+    {
+        return $this->links();
+    }
+
+    /**
+     * Check if there are any table links.
      *
      * @return boolean
      */
@@ -421,63 +446,82 @@ class Table {
     }
 
     /**
-     * Get the table links
+     * Set the results to be displayed.
      *
-     * @return array
+     * @param $data
+     * @return TableContract
      */
-    public function getLinks()
+    public function results($data)
     {
-        return $this->links;
+        // TODO: Implement results() method.
     }
 
     /**
-     * Check if any search terms have been set
+     * Alias of the results method.
      *
-     * @return boolean
+     * @param $data
+     * @return TableContract
      */
-    public function hasSearchTerms()
+    public function setResults($data)
     {
-        return ! empty($this->searchTerms);
+        // TODO: Implement setResults() method.
     }
 
     /**
-     * Retrieve the search terms
+     * Change a driver to another supported driver.
      *
-     * @return string
+     * @param $type
+     * @param $driver
+     * @return TableContract
      */
-    public function getSearchTerms()
+    public function driver($type, $driver)
     {
-        return $this->searchTerms;
+        // TODO: Implement driver() method.
     }
 
     /**
-     * Check if a form action has been set
+     * Change the store driver.
      *
-     * @return boolean
+     * @param $driver
+     * @return TableContract
      */
-    public function hasFormAction()
+    public function store($driver)
     {
-        return ! empty($this->formAction);
+        // TODO: Implement store() method.
     }
 
     /**
-     * Get the form action
+     * Change the session driver.
      *
-     * @return string
+     * @param $driver
+     * @return $this
      */
-    public function getFormAction()
+    public function session($driver)
     {
-        return $this->formAction;
+        // TODO: Implement session() method.
     }
 
     /**
-     * Render the table.
+     * Change the paginator driver.
      *
-     * @return string
+     * @param $driver
+     * @return TableContract
      */
-    public function __toString()
+    public function paginator($driver)
     {
-        return $this->render();
+        // TODO: Implement paginator() method.
     }
 
-} 
+    /**
+     * Change the view driver.
+     *
+     * @param $driver
+     * @return TableContract
+     */
+    public function view($driver)
+    {
+        // TODO: Implement view() method.
+    }
+
+
+}
