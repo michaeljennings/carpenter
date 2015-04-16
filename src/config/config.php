@@ -2,19 +2,6 @@
 
 return array(
 
-    'tables' => array(
-
-        /**
-         * The tables files allows for a convenient place to store your
-         * table closures. Set the location of your table file here.
-         *
-         * In v2 this has been depreciated in favour of service providers
-         * and class based tables.
-         */
-        'location' => app_path() . '/tables.php',
-
-    ),
-
     'store' => array(
 
         /**
@@ -70,6 +57,19 @@ return array(
             'template' => 'michaeljennings/carpenter::default.table',
 
         )
+
+    ),
+    
+    'tables' => array(
+
+        /**
+         * The tables files allows for a convenient place to store your
+         * table closures. Set the location of your table file here.
+         *
+         * In v2 this has been depreciated in favour of service providers
+         * and class based tables.
+         */
+        'location' => app_path() . '/tables.php',
 
     )
 );
