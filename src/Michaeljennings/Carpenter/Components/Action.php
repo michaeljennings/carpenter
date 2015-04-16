@@ -2,8 +2,9 @@
 
 use Closure;
 use Illuminate\Support\Fluent;
+use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
-class Action extends Fluent {
+class Action extends Fluent implements ActionContract {
 
     /**
      * The column used by the action.

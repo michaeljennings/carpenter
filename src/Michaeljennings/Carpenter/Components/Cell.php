@@ -1,6 +1,8 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
-class Cell {
+use Michaeljennings\Carpenter\Contracts\Cell as CellContract;
+
+class Cell implements CellContract {
 
     /**
      * The cell value
