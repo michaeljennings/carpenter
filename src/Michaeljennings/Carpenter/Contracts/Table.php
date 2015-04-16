@@ -75,18 +75,18 @@ interface Table {
     public function hasRows();
 
     /**
-     * Return all of the table's columns.
-     *
-     * @return array
-     */
-    public function columns();
-
-    /**
-     * Alias of the columns method.
+     * Get all of the table columns.
      *
      * @return array
      */
     public function getColumns();
+
+    /**
+     * Alias of the getColumns method.
+     *
+     * @return array
+     */
+    public function columns();
 
     /**
      * Check if there are any table columns
@@ -100,14 +100,14 @@ interface Table {
      *
      * @return array
      */
-    public function actions();
+    public function getActions();
 
     /**
      * Alias for the actions method.
      *
      * @return array
      */
-    public function getActions();
+    public function actions();
 
     /**
      * Check if there are any table actions.
@@ -122,7 +122,7 @@ interface Table {
      * @param string $template
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function template($template);
+    public function setTemplate($template);
 
     /**
      * Alias for the template method.
@@ -130,7 +130,7 @@ interface Table {
      * @param string $template
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function setTemplate($template);
+    public function template($template);
 
     /**
      * Set the table title.
@@ -138,38 +138,38 @@ interface Table {
      * @param string $title
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function title($title);
+    public function setTitle($title);
 
     /**
-     * Alias for the title method.
+     * Alias for the setTitle method.
      *
      * @param string $title
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function setTitle($title);
+    public function title($title);
 
     /**
-     * Return the table title
+     * Return the table title.
      *
      * @return string
      */
     public function getTitle();
 
     /**
-     * Set the url the table actions post to
-     *
-     * @param string $action
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function formAction($action);
-
-    /**
-     * Alias for the form action method.
+     * Set the url the table actions post to.
      *
      * @param string $action
      * @return \Michaeljennings\Carpenter\Table
      */
     public function setFormAction($action);
+
+    /**
+     * Alias for the setFormAction method.
+     *
+     * @param string $action
+     * @return \Michaeljennings\Carpenter\Table
+     */
+    public function formAction($action);
 
     /**
      * Return the form action.
@@ -182,17 +182,17 @@ interface Table {
      * Set the method for the table form to use.
      *
      * @param $method
-     * @return $this
-     */
-    public function formMethod($method);
-
-    /**
-     * Alias for the formMethod method.
-     *
-     * @param $method
      * @return Table
      */
     public function setFormMethod($method);
+
+    /**
+     * Alias for the setFormMethod method.
+     *
+     * @param $method
+     * @return $this
+     */
+    public function formMethod($method);
 
     /**
      * Return the form method.
@@ -202,18 +202,18 @@ interface Table {
     public function getFormMethod();
 
     /**
-     * Get the table links
-     *
-     * @return string
-     */
-    public function links();
-
-    /**
-     * Alias for the links method.
+     * Get the table links.
      *
      * @return string
      */
     public function getLinks();
+
+    /**
+     * Alias for the getLinks method.
+     *
+     * @return string
+     */
+    public function links();
 
     /**
      * Check if there are any table links.
@@ -223,29 +223,12 @@ interface Table {
     public function hasLinks();
 
     /**
-     * Set the results to be displayed.
+     * Set the data to be displayed.
      *
-     * @param $data
+     * @param mixed $data
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function results($data);
-
-    /**
-     * Alias of the results method.
-     *
-     * @param $data
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function setResults($data);
-
-    /**
-     * Change a driver to another supported driver.
-     *
-     * @param $type
-     * @param $driver
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function driver($type, $driver);
+    public function data($data);
 
     /**
      * Change the store driver.
@@ -254,29 +237,5 @@ interface Table {
      * @return \Michaeljennings\Carpenter\Table
      */
     public function store($driver);
-
-    /**
-     * Change the session driver.
-     *
-     * @param $driver
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function session($driver);
-
-    /**
-     * Change the paginator driver.
-     *
-     * @param $driver
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function paginator($driver);
-
-    /**
-     * Change the view driver.
-     *
-     * @param $driver
-     * @return \Michaeljennings\Carpenter\Table
-     */
-    public function view($driver);
 
 }
