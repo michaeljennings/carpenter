@@ -1,8 +1,9 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
+use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
-class Column extends ArrayableComponent {
+class Column extends ArrayableComponent implements ColumnContract {
 
     /**
      * A callback to be run on the column cells

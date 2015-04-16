@@ -261,7 +261,7 @@ class Table implements TableContract {
         }
 
         foreach ($this->columns as $key => $column) {
-            $row->cell($key, new Cell($result->$key, $result, $key, $column));
+            $row->cell($key, new Cell($result->$key, $result, $column));
         }
 
         if ( ! empty($this->actions['row'])) {
