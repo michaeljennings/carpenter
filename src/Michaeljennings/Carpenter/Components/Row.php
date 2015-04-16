@@ -118,7 +118,7 @@ class Row implements RowContract {
      */
     public function getCells()
     {
-        return $this->cells();
+        return $this->cells;
     }
 
     /**
