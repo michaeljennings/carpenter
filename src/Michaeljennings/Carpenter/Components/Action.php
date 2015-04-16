@@ -53,12 +53,34 @@ class Action extends Fluent implements ActionContract {
      * @param  string|boolean $column
      * @return $this
      */
-    public function column($column = false)
+    public function setColumn($column = false)
     {
-        if (!$column) return $this->column;
+        if ( ! $column) return $this->column;
 
         $this->column = $column;
+
         return $this;
+    }
+
+    /**
+     * Alias for the setColumn method.
+     *
+     * @param string|bool $column
+     * @return Action
+     */
+    public function column($column = false)
+    {
+        return $this->setColumn($column);
+    }
+
+    /**
+     * Return the action's column
+     *
+     * @return string
+     */
+    public function getColumn()
+    {
+        return $this->column;
     }
 
     /**
@@ -67,12 +89,24 @@ class Action extends Fluent implements ActionContract {
      * @param $row
      * @return $this
      */
-    public function row($row = false)
+    public function setRow($row = false)
     {
         if ( ! $row) return false;
+
         $this->row = $row;
 
         return $this;
+    }
+
+    /**
+     * Alias for the setRow method.
+     *
+     * @param string|bool $row
+     * @return Action
+     */
+    public function row($row = false)
+    {
+        return $this->setRow($row);
     }
 
     /**
@@ -80,6 +114,7 @@ class Action extends Fluent implements ActionContract {
      * for the current row.
      *
      * @param callable $callback
+     * @return $this
      */
     public function when(Closure $callback)
     {
@@ -88,6 +123,8 @@ class Action extends Fluent implements ActionContract {
         }
 
         $this->whens[] = $callback;
+
+        return $this;
     }
 
     /**
@@ -110,16 +147,37 @@ class Action extends Fluent implements ActionContract {
     }
 
     /**
-     * Set the presenter callback for the action
+     * Set the presenter callback for the action.
      *
      * @param  Closure $callback
      * @return $this
      */
-    public function presenter(Closure $callback)
+    public function setPresenter(Closure $callback)
     {
         $this->presenter = $callback;
 
         return $this;
+    }
+
+    /**
+     * Alias for the setPresenter method.
+     *
+     * @param callable $callback
+     * @return Action
+     */
+    public function presenter(Closure $callback)
+    {
+        return $this->setPresenter($callback);
+    }
+
+    /**
+     * Return the presenter callback
+     *
+     * @return closure
+     */
+    public function getPresenter()
+    {
+        return $this->presenter;
     }
 
     /**
@@ -162,26 +220,6 @@ class Action extends Fluent implements ActionContract {
         }
 
         return $action;
-    }
-
-    /**
-     * Return the action's column
-     *
-     * @return string
-     */
-    public function getColumn()
-    {
-        return $this->column;
-    }
-
-    /**
-     * Return the presenter callback
-     *
-     * @return closure
-     */
-    public function getPresenter()
-    {
-        return $this->presenter;
     }
 
     /**
