@@ -1,9 +1,8 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
-use Illuminate\Support\Fluent;
 
-class Column extends Fluent {
+class Column extends ArrayableComponent {
 
     /**
      * A callback to be run on the column cells
@@ -179,6 +178,7 @@ class Column extends Fluent {
     public function __call($name, $arguments)
     {
         $this->attributes[$name] = $arguments[0];
+
         return $this;
     }
 }

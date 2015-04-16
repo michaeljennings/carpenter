@@ -1,10 +1,9 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
-use Illuminate\Support\Fluent;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
-class Action extends Fluent implements ActionContract {
+class Action extends ArrayableComponent implements ActionContract {
 
     /**
      * The column used by the action.
@@ -245,23 +244,6 @@ class Action extends Fluent implements ActionContract {
     {
         $this->label = $label;
 
-        return $this;
-    }
-
-    /**
-     * Set an undefined item in to the attributes array.
-     *
-     * @param  string $name      The attribute name
-     * @param  array  $arguments The attribute arguments
-     * @return $this
-     */
-    public function __call($name, $arguments)
-    {
-        if (!empty($arguments)) {
-            $this->attributes[$name] = $arguments[0];
-        } else {
-            $this->attributes[$name] = $name;
-        }
         return $this;
     }
 }
