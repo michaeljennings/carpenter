@@ -134,7 +134,7 @@ class Table implements TableContract {
      */
     public function column($name)
     {
-        $this->columns[$name] = new Column($name, $this->key, $this->drivers);
+        $this->columns[$name] = new Column($name, $this->key, $this->drivers, $this->config);
         $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $name)));
 
         return $this->columns[$name];
@@ -240,7 +240,7 @@ class Table implements TableContract {
         }
 
         if ( ! empty($this->actions['row']) && ! isset($this->columns['option'])) {
-            $this->columns['option'] = new Column(false, $this->key, $this->drivers);
+            $this->columns['option'] = new Column(false, $this->key, $this->drivers, $this->config);
         }
 
         $this->rowsInitialised = true;

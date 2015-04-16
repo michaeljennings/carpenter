@@ -46,6 +46,11 @@ return array(
          */
         'driver' => 'illuminate',
 
+        /**
+         * Set the session key.
+         */
+        'key' => 'michaeljennings.carpenter'
+
     ),
 
     'view' => array(

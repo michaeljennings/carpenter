@@ -1,9 +1,24 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
+use Michaeljennings\Carpenter\DriverContainer;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
 class Column extends ArrayableComponent implements ColumnContract {
+
+    /**
+     * An instance of the carpenter driver container.
+     *
+     * @var DriverContainer
+     */
+    protected $driverContainer;
+
+    /**
+     * The carpenter config.
+     *
+     * @var array
+     */
+    protected $config = [];
 
     /**
      * A callback to be run on the column cells
@@ -33,30 +48,32 @@ class Column extends ArrayableComponent implements ColumnContract {
      */
     protected $sortable = true;
 
-    public function __construct($column = false, $key, $driverContainer)
+    public function __construct($column = false, $key, DriverContainer $driverContainer, array $config)
     {
+        $this->driverContainer = $driverContainer;
+        $this->config = $config;
+
         if ($column) {
-            $this->createHref($column, $key, $driverContainer);
+            $this->createHref($column, $key);
         }
     }
 
     /**
-     * Create the href for the column
+     * Create the href for the column if the column is sortable.
      *
-     * @param  string          $column
-     * @param  string          $key
-     * @param  DriverContainer $driverContainer
+     * @param  string $column
+     * @param  string $key
      * @return void
      */
-    private function createHref($column, $key, $driverContainer)
+    private function createHref($column, $key)
     {
         if ($this->sortable) {
-            if ($driverContainer->session->get('michaeljennings.carpenter.' . $key . '.sort') == $column) {
-                if ($driverContainer->session->has('michaeljennings.carpenter.' . $key . '.dir')) {
+            if ($this->driverContainer->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
+                if ($this->driverContainer->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
                     $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
                     if (count($splitUrl) < 2) {
-                        $driverContainer->session->forget('michaeljennings.carpenter.' . $key . '.sort');
-                        $driverContainer->session->forget('michaeljennings.carpenter.' . $key . '.dir');
+                        $this->driverContainer->session->forget($this->config['session']['key'] . '.' . $key . '.sort');
+                        $this->driverContainer->session->forget($this->config['session']['key'] . '.' . $key . '.dir');
                         $this->href = '?sort=' . $column;
                     } else {
                         $this->href = $splitUrl[0];
@@ -76,10 +93,24 @@ class Column extends ArrayableComponent implements ColumnContract {
      * Set the presenter callback for the column cells
      *
      * @param  Closure $callback
+     * @return $this
+     */
+    public function setPresenter(Closure $callback)
+    {
+        $this->presenter = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the setPresenter method.
+     *
+     * @param callable $callback
+     * @return Column
      */
     public function presenter(Closure $callback)
     {
-        $this->presenter = $callback;
+        return $this->setPresenter($callback);
     }
 
     /**
@@ -88,11 +119,12 @@ class Column extends ArrayableComponent implements ColumnContract {
      */
     public function hasPresenter()
     {
-        return is_null($this->presenter) ? false : true;
+        return ! empty($this->presenter);
     }
 
     /**
-     * Accessor for the presenter
+     * Return the column presenter.
+     *
      * @return Closure|boolean
      */
     public function getPresenter()
