@@ -295,9 +295,12 @@ class Table implements TableContract {
         return $actions;
     }
 
+    /**
+     * Generate the results to be displayed in the table if none have been set.
+     */
     protected function generateResults()
     {
-        // Run the filters on the database driver
+        // Run the filters on the store driver
         if ( ! empty($this->filters)) {
             foreach ($this->filters as $filter) {
                 $filter($this->drivers->store);
@@ -369,19 +372,19 @@ class Table implements TableContract {
      *
      * @return array
      */
-    public function actions()
+    public function getActions()
     {
         return isset($this->actions['table']) ? $this->actions['table'] : [];
     }
 
     /**
-     * Alias for the actions method.
+     * Alias for the getActions method.
      *
      * @return array
      */
-    public function getActions()
+    public function actions()
     {
-        return $this->actions();
+        return $this->getActions();
     }
 
     /**
@@ -400,7 +403,7 @@ class Table implements TableContract {
      * @param string $template
      * @return $this
      */
-    public function template($template)
+    public function setTemplate($template)
     {
         $this->template = $template;
 
@@ -408,14 +411,14 @@ class Table implements TableContract {
     }
 
     /**
-     * Alias for the template method.
+     * Alias for the setTemplate method.
      *
      * @param string $template
      * @return $this;
      */
-    public function setTemplate($template)
+    public function template($template)
     {
-        return $this->template($template);
+        return $this->setTemplate($template);
     }
 
     /**
@@ -424,7 +427,7 @@ class Table implements TableContract {
      * @param string $title
      * @return $this
      */
-    public function title($title)
+    public function setTitle($title)
     {
         $this->title = $title;
 
@@ -432,14 +435,14 @@ class Table implements TableContract {
     }
 
     /**
-     * Alias for the title method.
+     * Alias for the setTitle method.
      *
      * @param string $title
      * @return $this
      */
-    public function setTitle($title)
+    public function title($title)
     {
-        return $this->title($title);
+        return $this->setTitle($title);
     }
 
     /**
@@ -458,7 +461,7 @@ class Table implements TableContract {
      * @param string $action
      * @return $this
      */
-    public function formAction($action)
+    public function setFormAction($action)
     {
         $this->formAction = $action;
 
@@ -466,14 +469,14 @@ class Table implements TableContract {
     }
 
     /**
-     * Alias for the form action method.
+     * Alias for the setFormAction method.
      *
      * @param string $action
      * @return $this
      */
-    public function setFormAction($action)
+    public function formAction($action)
     {
-        return $this->formAction($action);
+        return $this->setFormAction($action);
     }
 
     /**
@@ -492,7 +495,7 @@ class Table implements TableContract {
      * @param $method
      * @return $this
      */
-    public function formMethod($method)
+    public function setFormMethod($method)
     {
         $this->formMethod = $method;
 
@@ -505,9 +508,9 @@ class Table implements TableContract {
      * @param $method
      * @return Table
      */
-    public function setFormMethod($method)
+    public function formMethod($method)
     {
-        return $this->formMethod($method);
+        return $this->setFormMethod($method);
     }
 
     /**
@@ -525,19 +528,19 @@ class Table implements TableContract {
      *
      * @return string
      */
-    public function links()
+    public function getLinks()
     {
         return $this->links;
     }
 
     /**
-     * Alias for the links method.
+     * Alias for the getLinks method.
      *
      * @return string
      */
-    public function getLinks()
+    public function links()
     {
-        return $this->links();
+        return $this->getLinks();
     }
 
     /**
@@ -551,37 +554,14 @@ class Table implements TableContract {
     }
 
     /**
-     * Set the results to be displayed.
+     * Set the data to be displayed.
      *
-     * @param $data
-     * @return TableContract
+     * @param mixed $data
+     * @return \Michaeljennings\Carpenter\Table
      */
-    public function results($data)
+    public function data($data)
     {
-        // TODO: Implement results() method.
-    }
-
-    /**
-     * Alias of the results method.
-     *
-     * @param $data
-     * @return TableContract
-     */
-    public function setResults($data)
-    {
-        // TODO: Implement setResults() method.
-    }
-
-    /**
-     * Change a driver to another supported driver.
-     *
-     * @param $type
-     * @param $driver
-     * @return TableContract
-     */
-    public function driver($type, $driver)
-    {
-        // TODO: Implement driver() method.
+        // TODO: Implement data() method.
     }
 
     /**
@@ -593,39 +573,6 @@ class Table implements TableContract {
     public function store($driver)
     {
         // TODO: Implement store() method.
-    }
-
-    /**
-     * Change the session driver.
-     *
-     * @param $driver
-     * @return $this
-     */
-    public function session($driver)
-    {
-        // TODO: Implement session() method.
-    }
-
-    /**
-     * Change the paginator driver.
-     *
-     * @param $driver
-     * @return TableContract
-     */
-    public function paginator($driver)
-    {
-        // TODO: Implement paginator() method.
-    }
-
-    /**
-     * Change the view driver.
-     *
-     * @param $driver
-     * @return TableContract
-     */
-    public function view($driver)
-    {
-        // TODO: Implement view() method.
     }
 
     public function __toString()
