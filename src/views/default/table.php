@@ -32,10 +32,17 @@
         <tbody>
             <?php if($table->hasRows()): ?>
                 <?php foreach ($table->getRows() as $row): ?>
-                    <tr data-id="<?php echo $row->id; ?>">
-                        <?php foreach ($row->cells as $cell): ?>
+                    <tr data-id="<?php echo $row->getId(); ?>">
+                        <?php foreach ($row->cells() as $cell): ?>
                             <td><?php echo $cell->value; ?></td>
                         <?php endforeach; ?>
+                        <?php if ($row->hasActions()): ?>
+                            <td>
+                                <?php foreach ($row->actions() as $action): ?>
+                                    <?= $action->render() ?>
+                                <?php endforeach; ?>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

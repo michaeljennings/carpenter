@@ -36,10 +36,17 @@
 			<tbody>
 				<?php if($table->hasRows()) { ?>
 					<?php foreach ($table->getRows() as $row) { ?>
-						<tr data-id="<?=$row->id?>">
-							<?php foreach ($row->cells as $cell) { ?>
+						<tr data-id="<?=$row->getId()?>">
+							<?php foreach ($row->cells() as $cell) { ?>
 								<td><?= $cell->value ?></td>
 							<?php } ?>
+                            <?php if ($row->hasActions()): ?>
+                                <td>
+                                    <?php foreach ($row->actions() as $action): ?>
+                                        <?= $action->render() ?>
+                                    <?php endforeach; ?>
+                                </td>
+                            <?php endif; ?>
 						</tr>
 					<?php } ?>
 				<?php } else { ?>
