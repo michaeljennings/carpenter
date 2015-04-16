@@ -261,11 +261,13 @@ class Table implements TableContract {
         }
 
         foreach ($this->columns as $key => $column) {
-            $row->cells[$key] = new Cell($result->$key, $result, $key, $column);
+            $row->cell($key, new Cell($result->$key, $result, $key, $column));
         }
 
         if ( ! empty($this->actions['row'])) {
-            $row->cells['actions'] = $this->prepareRowActions($this->actions['row'], $result);
+            foreach ($this->prepareRowActions($this->actions['row'], $result) as $action) {
+                $row->action($action);
+            }
         }
 
         return $row;

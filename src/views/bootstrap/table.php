@@ -7,7 +7,7 @@
 
             <?php if ($table->hasActions('table')): ?>
                 <div class="col-md-8 text-right">
-                    <?php foreach ($table->getActions('table') as $action): ?>
+                    <?php foreach ($table->actions() as $action): ?>
                         <?php echo $action->render() ?>
                     <?php endforeach; ?>
                 </div>
@@ -19,7 +19,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <?php foreach ($table->getColumns() as $column): ?>
+                    <?php foreach ($table->columns() as $column): ?>
                         <th <?php foreach ($column->getAttributes() as $attr => $val): ?>
                             <?php echo $attr; ?>="<?php echo $val; ?>"
                         <?php endforeach; ?>>
@@ -43,10 +43,17 @@
             <tbody>
                 <?php if($table->hasRows()): ?>
                     <?php foreach ($table->getRows() as $row): ?>
-                        <tr data-id="<?php echo $row->id; ?>">
-                            <?php foreach ($row->cells as $cell): ?>
+                        <tr data-id="<?php echo $row->getId(); ?>">
+                            <?php foreach ($row->cells() as $cell): ?>
                                 <td><?php echo $cell->value; ?></td>
                             <?php endforeach; ?>
+                            <?php if ($row->hasActions()): ?>
+                                <td>
+                                    <?php foreach ($row->actions() as $action): ?>
+                                        <?= $action->render() ?>
+                                    <?php endforeach; ?>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
