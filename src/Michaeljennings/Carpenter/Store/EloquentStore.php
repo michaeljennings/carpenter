@@ -63,11 +63,22 @@ class EloquentStore {
     /**
      * Get the results for the model.
      *
-     * @return mixed
+     * @return array
      */
     public function results()
     {
-        return $this->model->get($this->select);
+        return $this->model->get($this->select)->all();
+    }
+
+    /**
+     * Get a paginate
+     *
+     * @param $amount
+     * @return array
+     */
+    public function paginate($amount)
+    {
+        return $this->model->paginate($amount)->all();
     }
 
     public function __call($method, $args)
