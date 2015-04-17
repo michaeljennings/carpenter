@@ -18,7 +18,7 @@ return array(
         /**
          * Set the pagination driver.
          *
-         * Supported: illuminate.
+         * Supported: illuminate or native.
          */
         'driver' => 'illuminate',
 
