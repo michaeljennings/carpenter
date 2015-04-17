@@ -51,4 +51,14 @@ class IlluminateDriver implements PaginatorInterface {
     {
         return $this->paginator->render(new BootstrapThreePresenter($this->paginator));
     }
+
+    /**
+     * Get the current page.
+     *
+     * @return integer|string
+     */
+    public function currentPage()
+    {
+        return $this->paginator->currentPage();
+    }
 } 
