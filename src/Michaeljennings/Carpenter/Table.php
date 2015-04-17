@@ -124,6 +124,15 @@ class Table implements TableContract {
         $this->key = $key;
         $this->drivers = $drivers;
         $this->config = $config;
+
+        if (isset($_GET['sort'])) {
+            $this->drivers->session->put($this->config['session']['key'].'.'.$this->key.'.sort', $_GET['sort']);
+            if (isset($_GET['dir'])) {
+                $this->drivers->session->put($this->config['session']['key'].'.'.$this->key.'.dir', true);
+            } else {
+                $this->drivers->session->forget($this->config['session']['key'].'.'.$this->key.'.dir');
+            }
+        }
     }
 
     /**
@@ -310,6 +319,8 @@ class Table implements TableContract {
             }
         }
 
+        $this->orderResults();
+
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
             $this->results = $this->newContainer($this->drivers->store->results());
@@ -320,6 +331,31 @@ class Table implements TableContract {
             $this->results = $this->newContainer(
                 $this->drivers->store->paginate($this->paginate, $this->drivers->paginator->currentPage())
             );
+        }
+    }
+
+    /**
+     * Check if any of the column links have been clicked and order the results
+     * by that column if needed.
+     */
+    protected function orderResults()
+    {
+        if ($this->drivers->session->has($this->config['session']['key'] . '.'.$this->key.'.sort')) {
+            $this->sortBy = $this->drivers->session->get($this->config['session']['key'] . '.'.$this->key.'.sort');
+            if ($this->drivers->session->has($this->config['session']['key'] . '.'.$this->key.'.dir')) {
+                $this->sortDir = 'desc';
+            }
+        }
+
+        if (isset($this->sortBy)) {
+            // Remove any orders from the query and order by the selected
+            // column
+            $this->drivers->store->refreshOrderBy();
+            if (isset($this->sortDir)) {
+                $this->drivers->store->orderBy($this->sortBy, $this->sortDir);
+            } else {
+                $this->drivers->store->orderBy($this->sortBy, 'asc');
+            }
         }
     }
 
@@ -598,6 +634,11 @@ class Table implements TableContract {
         return new Container($data);
     }
 
+    /**
+     * Render the table to a string.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();

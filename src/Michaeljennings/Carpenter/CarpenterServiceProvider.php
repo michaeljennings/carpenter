@@ -85,6 +85,11 @@ class CarpenterServiceProvider extends ServiceProvider {
         });
     }
 
+    /**
+     * Get the carpenter config.
+     *
+     * @return array
+     */
     protected function getConfig()
     {
         return $this->app['config']['carpenter'];
