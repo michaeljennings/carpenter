@@ -18,4 +18,11 @@ interface Paginator {
      */
     public function links();
 
+    /**
+     * Get the current page.
+     *
+     * @return integer|string
+     */
+    public function currentPage();
+
 }

@@ -3,9 +3,9 @@
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\BootstrapThreePresenter;
-use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorInterface;
+use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
 
-class IlluminateDriver implements PaginatorInterface {
+class IlluminateDriver implements PaginatorContract {
 
     /**
      * An instance of the IOC container.
