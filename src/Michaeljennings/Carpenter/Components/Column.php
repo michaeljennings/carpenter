@@ -1,17 +1,17 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
-use Michaeljennings\Carpenter\DriverContainer;
+use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
 class Column extends MockArray implements ColumnContract {
 
     /**
-     * An instance of the carpenter driver container.
+     * An instance of the carpenter session manager.
      *
-     * @var DriverContainer
+     * @var SessionManager
      */
-    protected $driverContainer;
+    protected $session;
 
     /**
      * The carpenter config.
@@ -48,9 +48,9 @@ class Column extends MockArray implements ColumnContract {
      */
     protected $sortable = true;
 
-    public function __construct($column = false, $key, DriverContainer $driverContainer, array $config)
+    public function __construct($column = false, $key, SessionManager $session, array $config)
     {
-        $this->driverContainer = $driverContainer;
+        $this->session = $session;
         $this->config = $config;
 
         if ($column) {
@@ -68,12 +68,12 @@ class Column extends MockArray implements ColumnContract {
     private function createHref($column, $key)
     {
         if ($this->sortable) {
-            if ($this->driverContainer->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
-                if ($this->driverContainer->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
+            if ($this->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
+                if ($this->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
                     $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
                     if (count($splitUrl) < 2) {
-                        $this->driverContainer->session->forget($this->config['session']['key'] . '.' . $key . '.sort');
-                        $this->driverContainer->session->forget($this->config['session']['key'] . '.' . $key . '.dir');
+                        $this->session->forget($this->config['session']['key'] . '.' . $key . '.sort');
+                        $this->session->forget($this->config['session']['key'] . '.' . $key . '.dir');
                         $this->href = '?sort=' . $column;
                     } else {
                         $this->href = $splitUrl[0];

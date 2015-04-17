@@ -1,6 +1,10 @@
 <?php namespace Michaeljennings\Carpenter;
 
 use Closure;
+use Michaeljennings\Carpenter\View\ViewManager;
+use Michaeljennings\Carpenter\Store\StoreManager;
+use Michaeljennings\Carpenter\Session\SessionManager;
+use Michaeljennings\Carpenter\Pagination\PaginationManager;
 use Michaeljennings\Carpenter\Exceptions\TableLocationNotFound;
 use Michaeljennings\Carpenter\Exceptions\CarpenterCollectionException;
 use Michaeljennings\Carpenter\Contracts\Carpenter as CarpenterInterface;
@@ -14,9 +18,8 @@ class Carpenter implements CarpenterInterface {
      */
     protected $collection = array();
 
-    public function __construct($driverContainer, $config)
+    public function __construct($config)
     {
-        $this->driverContainer = $driverContainer;
         $this->config = $config;
     }
 
@@ -74,7 +77,9 @@ class Carpenter implements CarpenterInterface {
      */
     protected function buildTable($name, Closure $callback)
     {
-        $table = new Table($name, $this->driverContainer, $this->config);
+        list($store, $session, $view, $paginator) = $this->createDrivers();
+
+        $table = new Table($name, $store, $session, $view, $paginator, $this->config);
         $callback($table);
 
         return $table;
@@ -111,6 +116,22 @@ class Carpenter implements CarpenterInterface {
         }
 
         return array($class, 'build');
+    }
+
+    /**
+     * Create the carpenter drivers and return them as an array to be used with
+     * the php list method.
+     *
+     * @return array
+     */
+    protected function createDrivers()
+    {
+        $store = new StoreManager($this->config);
+        $session = new SessionManager($this->config);
+        $view = new ViewManager($this->config);
+        $paginator = new PaginationManager($this->config);
+
+        return [$store, $session, $view, $paginator];
     }
 
     /**

@@ -6,6 +6,10 @@ use Michaeljennings\Carpenter\Components\Cell;
 use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Components\Column;
 use Michaeljennings\Carpenter\Contracts\Table as TableContract;
+use Michaeljennings\Carpenter\Pagination\PaginationManager;
+use Michaeljennings\Carpenter\Session\SessionManager;
+use Michaeljennings\Carpenter\Store\StoreManager;
+use Michaeljennings\Carpenter\View\ViewManager;
 
 class Table implements TableContract {
 
@@ -119,18 +123,27 @@ class Table implements TableContract {
      */
     protected $formMethod = 'POST';
 
-    public function __construct($key, DriverContainer $drivers, array $config)
-    {
+    public function __construct(
+        $key,
+        StoreManager $store,
+        SessionManager $session,
+        ViewManager $view,
+        PaginationManager $paginator,
+        array $config
+    ) {
         $this->key = $key;
-        $this->drivers = $drivers;
+        $this->store = $store;
+        $this->session = $session;
+        $this->view = $view;
+        $this->paginator = $paginator;
         $this->config = $config;
 
         if (isset($_GET['sort'])) {
-            $this->drivers->session->put($this->config['session']['key'].'.'.$this->key.'.sort', $_GET['sort']);
+            $this->session->put($this->config['session']['key'].'.'.$this->key.'.sort', $_GET['sort']);
             if (isset($_GET['dir'])) {
-                $this->drivers->session->put($this->config['session']['key'].'.'.$this->key.'.dir', true);
+                $this->session->put($this->config['session']['key'].'.'.$this->key.'.dir', true);
             } else {
-                $this->drivers->session->forget($this->config['session']['key'].'.'.$this->key.'.dir');
+                $this->session->forget($this->config['session']['key'].'.'.$this->key.'.dir');
             }
         }
     }
@@ -143,7 +156,7 @@ class Table implements TableContract {
      */
     public function column($name)
     {
-        $this->columns[$name] = new Column($name, $this->key, $this->drivers, $this->config);
+        $this->columns[$name] = new Column($name, $this->key, $this->session, $this->config);
         $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $name)));
 
         return $this->columns[$name];
@@ -185,7 +198,7 @@ class Table implements TableContract {
      */
     public function model($model)
     {
-        $this->drivers->store->model(new $model);
+        $this->store->model(new $model);
 
         return $this;
     }
@@ -216,7 +229,7 @@ class Table implements TableContract {
             $this->template = $this->config['view']['views']['template'];
         }
 
-        return $this->drivers->view->make($this->template, array(
+        return $this->view->make($this->template, array(
             'table' => $this
         ));
     }
@@ -250,7 +263,7 @@ class Table implements TableContract {
         }
 
         if ( ! empty($this->actions['row']) && ! isset($this->columns['option'])) {
-            $this->columns['option'] = new Column(false, $this->key, $this->drivers, $this->config);
+            $this->columns['option'] = new Column(false, $this->key, $this->session, $this->config);
         }
 
         $this->rowsInitialised = true;
@@ -315,7 +328,7 @@ class Table implements TableContract {
         // Run the filters on the store driver
         if ( ! empty($this->filters)) {
             foreach ($this->filters as $filter) {
-                $filter($this->drivers->store);
+                $filter($this->store);
             }
         }
 
@@ -323,13 +336,13 @@ class Table implements TableContract {
 
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
-            $this->results = $this->newContainer($this->drivers->store->results());
+            $this->results = $this->newContainer($this->store->results());
         } else {
-            $this->drivers->paginator->make($this->drivers->store->count(), $this->paginate);
-            $this->links = $this->drivers->paginator->links();
+            $this->paginator->make($this->store->count(), $this->paginate);
+            $this->links = $this->paginator->links();
 
             $this->results = $this->newContainer(
-                $this->drivers->store->paginate($this->paginate, $this->drivers->paginator->currentPage())
+                $this->store->paginate($this->paginate, $this->paginator->currentPage())
             );
         }
     }
@@ -340,9 +353,9 @@ class Table implements TableContract {
      */
     protected function orderResults()
     {
-        if ($this->drivers->session->has($this->config['session']['key'] . '.'.$this->key.'.sort')) {
-            $this->sortBy = $this->drivers->session->get($this->config['session']['key'] . '.'.$this->key.'.sort');
-            if ($this->drivers->session->has($this->config['session']['key'] . '.'.$this->key.'.dir')) {
+        if ($this->session->has($this->config['session']['key'] . '.'.$this->key.'.sort')) {
+            $this->sortBy = $this->session->get($this->config['session']['key'] . '.'.$this->key.'.sort');
+            if ($this->session->has($this->config['session']['key'] . '.'.$this->key.'.dir')) {
                 $this->sortDir = 'desc';
             }
         }
@@ -350,11 +363,11 @@ class Table implements TableContract {
         if (isset($this->sortBy)) {
             // Remove any orders from the query and order by the selected
             // column
-            $this->drivers->store->refreshOrderBy();
+            $this->store->refreshOrderBy();
             if (isset($this->sortDir)) {
-                $this->drivers->store->orderBy($this->sortBy, $this->sortDir);
+                $this->store->orderBy($this->sortBy, $this->sortDir);
             } else {
-                $this->drivers->store->orderBy($this->sortBy, 'asc');
+                $this->store->orderBy($this->sortBy, 'asc');
             }
         }
     }
@@ -605,7 +618,7 @@ class Table implements TableContract {
     {
         // Ensure the array driver is selected.
         $this->store('array');
-        $this->drivers->store->data($data);
+        $this->store->data($data);
 
         return $this;
     }
@@ -618,7 +631,7 @@ class Table implements TableContract {
      */
     public function store($driver)
     {
-        $this->drivers->store->driver($driver);
+        $this->store->driver($driver);
 
         return $this;
     }
