@@ -35,10 +35,10 @@ class CarpenterServiceProvider extends ServiceProvider {
         $this->app->bind('michaeljennings.carpenter.driverContainer', function($app)
         {
             return new DriverContainer([
-                'store' => $app['michaeljennings.carpenter.store']->driver(),
-                'paginator' => $app['michaeljennings.carpenter.paginator']->driver(),
-                'session' => $app['michaeljennings.carpenter.session']->driver(),
-                'view' => $app['michaeljennings.carpenter.view']->driver(),
+                'store' => $app['michaeljennings.carpenter.store'],
+                'paginator' => $app['michaeljennings.carpenter.paginator'],
+                'session' => $app['michaeljennings.carpenter.session'],
+                'view' => $app['michaeljennings.carpenter.view'],
             ]);
         });
 

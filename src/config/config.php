@@ -59,7 +59,7 @@ return array(
         )
 
     ),
-    
+
     'tables' => array(
 
         /**
