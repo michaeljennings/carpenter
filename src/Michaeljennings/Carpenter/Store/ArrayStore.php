@@ -1,7 +1,14 @@
 <?php namespace Michaeljennings\Carpenter\Store;
 
-class ArrayStore {
+use Michaeljennings\Carpenter\Contracts\Store;
 
+class ArrayStore implements Store {
+
+    /**
+     * The store data.
+     *
+     * @var array
+     */
     protected $data = array();
 
     /**
@@ -50,6 +57,34 @@ class ArrayStore {
         $offset = $page - 1;
 
         return $chunks[$offset];
+    }
+
+    /**
+     * Order the results by the given column in the given direction.
+     *
+     * @param $key
+     * @param $direction
+     */
+    public function orderBy($key, $direction = 'asc')
+    {
+        $direction = strtolower($direction) == 'asc' ? SORT_ASC : SORT_DESC;
+        $sort_col = array();
+
+        foreach ($this->data as $col => $row) {
+            $sort_col[$col] = $row[$key];
+        }
+
+        array_multisort($sort_col, $direction, $this->data);
+    }
+
+    /**
+     * Unset any set order queries.
+     *
+     * @return $this
+     */
+    public function refreshOrderBy()
+    {
+        return $this;
     }
 
 }

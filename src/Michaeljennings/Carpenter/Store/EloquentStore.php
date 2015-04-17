@@ -1,6 +1,8 @@
 <?php namespace Michaeljennings\Carpenter\Store; 
 
-class EloquentStore {
+use Michaeljennings\Carpenter\Contracts\Store;
+
+class EloquentStore implements Store {
 
     /**
      * The eloquent model to get results from.
@@ -74,9 +76,10 @@ class EloquentStore {
      * Get a paginate
      *
      * @param $amount
+     * @param $page
      * @return array
      */
-    public function paginate($amount)
+    public function paginate($amount, $page)
     {
         return $this->model->paginate($amount)->all();
     }
