@@ -236,6 +236,7 @@ class Table implements TableContract {
         }
 
         foreach ($this->results as $result) {
+
             $this->rows[] = $this->newRow($result);
         }
 
@@ -311,11 +312,14 @@ class Table implements TableContract {
 
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
-            $this->results = $this->drivers->store->results();
+            $this->results = $this->newContainer($this->drivers->store->results());
         } else {
             $this->drivers->paginator->make($this->drivers->store->count(), $this->paginate);
             $this->links = $this->drivers->paginator->links();
-            $this->results = $this->drivers->store->paginate($this->paginate);
+
+            $this->results = $this->newContainer(
+                $this->drivers->store->paginate($this->paginate, $this->drivers->paginator->currentPage())
+            );
         }
     }
 
@@ -558,23 +562,40 @@ class Table implements TableContract {
     /**
      * Set the data to be displayed.
      *
-     * @param mixed $data
+     * @param array $data
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function data($data)
+    public function data(array $data)
     {
-        // TODO: Implement data() method.
+        // Ensure the array driver is selected.
+        $this->store('array');
+        $this->drivers->store->data($data);
+
+        return $this;
     }
 
     /**
      * Change the store driver.
      *
      * @param $driver
-     * @return TableContract
+     * @return \Michaeljennings\Carpenter\Table
      */
     public function store($driver)
     {
-        // TODO: Implement store() method.
+        $this->drivers->store->driver($driver);
+
+        return $this;
+    }
+
+    /**
+     * Create a new container instance.
+     *
+     * @param array $data
+     * @return Container
+     */
+    protected function newContainer(array $data)
+    {
+        return new Container($data);
     }
 
     public function __toString()

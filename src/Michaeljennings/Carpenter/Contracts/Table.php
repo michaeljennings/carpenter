@@ -225,10 +225,10 @@ interface Table {
     /**
      * Set the data to be displayed.
      *
-     * @param mixed $data
+     * @param array $data
      * @return \Michaeljennings\Carpenter\Table
      */
-    public function data($data);
+    public function data(array $data);
 
     /**
      * Change the store driver.

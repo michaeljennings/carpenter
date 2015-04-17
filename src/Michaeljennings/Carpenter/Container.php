@@ -1,0 +1,85 @@
+<?php namespace Michaeljennings\Carpenter;
+
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
+use Michaeljennings\Carpenter\Components\MockArray;
+
+class Container implements ArrayAccess, IteratorAggregate {
+
+    /**
+     * @var mixed
+     */
+    protected $items = [];
+
+    public function __construct(array $items)
+    {
+        foreach ($items as $key => $item) {
+            if (is_array($item)) {
+                $items[$key] = new MockArray($item);
+            }
+        }
+
+        $this->items = $items;
+    }
+
+    /**
+     * Get an iterator for the items.
+     *
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->items);
+    }
+
+    /**
+     * Determine if an item exists at an offset.
+     *
+     * @param  mixed  $key
+     * @return bool
+     */
+    public function offsetExists($key)
+    {
+        return array_key_exists($key, $this->items);
+    }
+
+    /**
+     * Get an item at a given offset.
+     *
+     * @param  mixed  $key
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        return $this->items[$key];
+    }
+
+    /**
+     * Set the item at a given offset.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function offsetSet($key, $value)
+    {
+        if (is_null($key)) {
+            $this->items[] = $value;
+        } else {
+            $this->items[$key] = $value;
+        }
+    }
+
+    /**
+     * Unset the item at a given offset.
+     *
+     * @param  string  $key
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        unset($this->items[$key]);
+    }
+
+}
