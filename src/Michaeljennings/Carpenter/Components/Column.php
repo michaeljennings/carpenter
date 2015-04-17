@@ -4,7 +4,7 @@ use Closure;
 use Michaeljennings\Carpenter\DriverContainer;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
-class Column extends ArrayableComponent implements ColumnContract {
+class Column extends MockArray implements ColumnContract {
 
     /**
      * An instance of the carpenter driver container.

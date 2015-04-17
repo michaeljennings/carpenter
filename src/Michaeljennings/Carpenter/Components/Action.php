@@ -3,7 +3,7 @@
 use Closure;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
-class Action extends ArrayableComponent implements ActionContract {
+class Action extends MockArray implements ActionContract {
 
     /**
      * The column used by the action.
