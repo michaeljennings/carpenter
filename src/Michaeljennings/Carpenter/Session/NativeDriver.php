@@ -1,110 +1,137 @@
 <?php namespace Michaeljennings\Carpenter\Session;
 
-use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
+use Michaeljennings\Carpenter\Contracts\Session as SessionContract;
 
-class NativeDriver implements SessionInterface {
+class NativeDriver implements SessionContract{
 
-	/**
-	 * Flashed session data.
-	 * 
-	 * @var array
-	 */
-	protected $flashData = [];
-
-	/**
-	 * Flag for whether this is the first time this class has been constructed.
-	 * 
-	 * @var boolean
-	 */
-	protected $firstRequest = true;
-
-	public function __construct()
-	{
-		if ($this->firstRequest) {
-			$this->flashData = $this->get('flashdata');
-			$this->forget('flashdata');
-
-			$this->firstRequest = false;
-		}
-	}
-
-	/**
-     * Retrieve an item from the session
+    /**
+     * The notifier config.
      *
-     * @param  string $name
-     * @return mixed
+     * @var array
      */
-    public function get($name)
+    protected $config = [];
+
+    /**
+     * An array of flashed data.
+     *
+     * @var array
+     */
+    protected $flash = [];
+
+    /**
+     * Flag to state if this is the first time the class has be instantiated.
+     *
+     * @var bool
+     */
+    protected $initialLoad = true;
+
+    public function __construct(array $config)
     {
-    	if (isset($_SESSION[$name])) {
-    		return $_SESSION[$name];
-    	}
+        $this->config = $config;
 
-    	if (isset($this->flashData[$name])) {
-    		return $this->flashData[$name];
-    	}
+        if ( ! isset($_SESSION)) {
+            session_start();
+        }
 
-    	return null;
+        if ($this->initialLoad) {
+            if (
+                isset($_SESSION[$this->config['session']['key']]) &&
+                isset($_SESSION[$this->config['session']['key']]['flash'])
+            ) {
+                $this->flash = $_SESSION[$this->config['session']['key']]['flash'];
+                unset($_SESSION[$this->config['session']['key']]['flash']);
+            }
+
+            $this->initialLoad = false;
+        }
     }
 
     /**
-     * Store an item in the session
+     * Check if an item exists in the session.
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return mixed
+     * @param $key
+     * @return bool
      */
-    public function put($name, $value)
+    public function has($key)
     {
-    	if ($this->has($name)) {
-    		if (is_array($this->get($name))) {
-    			$value = array_merge($value, $this->get($name));
-    		}
-    	}
+        $session = $this->getSessionData($key);
 
-    	return $_SESSION[$name] = $value;
+        return array_key_exists($key, $session);
     }
 
     /**
-     * Flash a value to the session
+     * Retrieve a property from the session by its key.
      *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return mixed
+     * @param $key
+     * @return mixed|bool
      */
-    public function flash($name, $value)
+    public function get($key)
     {
-    	return $this->put(['flashdata' => $name], $value);
+        if ($this->has($key)) {
+            $session = $this->getSessionData($key);
+
+            return $session[$key];
+        }
+
+        return false;
     }
 
     /**
-     * Check if a value is set in the session
+     * Put an item in the session.
      *
-     * @param  string $name
-     * @return mixed
+     * @param $key
+     * @param $value
+     * @return bool
      */
-    public function has($name)
+    public function put($key, $value)
     {
-    	if ( ! empty($_SESSION[$name])) {
-    		return true;
-    	}
-
-    	if ( ! empty($this->flashData[$name])) {
-    		return true;
-    	}
-
-    	return false;
+        return $_SESSION[$key] = $value;
     }
 
     /**
-     * Remove a value from the session
+     * Remove an item from the session.
      *
-     * @param  string $name
-     * @return mixed
+     * @param $key
+     * @return void
      */
-    public function forget($name)
+    public function forget($key)
     {
-    	unset($_SESSION[$name]);
+        if (isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
+
+        if (isset($this->flash[$key])) {
+            unset($this->flash[$key]);
+        }
+    }
+
+    /**
+     * Flash an item to the session.
+     *
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    public function flash($key, $value)
+    {
+        $_SESSION[$this->config['session']['key']]['flash'][$key] = $value;
+        $this->flash[$key] = $value;
+    }
+
+    /**
+     * Merge all of the notifier session data and any flashed data.
+     *
+     * @return array
+     */
+    protected function getSessionData($key)
+    {
+        $data = isset($_SESSION[$key]) ? $_SESSION[$key] : [];
+
+        if ( ! is_array($data)) {
+            $data = [$key => $data];
+        }
+
+        return array_merge($data, $this->flash);
     }
 
 }

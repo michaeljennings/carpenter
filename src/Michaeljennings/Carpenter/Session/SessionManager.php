@@ -11,7 +11,7 @@ class SessionManager extends Manager {
      */
     public function createNativeDriver()
     {
-        return new NativeDriver();
+        return new NativeDriver($this->config);
     }
 
     /**
