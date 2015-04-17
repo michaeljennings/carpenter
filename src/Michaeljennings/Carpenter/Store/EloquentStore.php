@@ -29,30 +29,6 @@ class EloquentStore implements Store {
     }
 
     /**
-     * Return the total results.
-     *
-     * @return integer
-     */
-    public function count()
-    {
-        return $this->model->paginate(1, $this->select)->total();
-    }
-
-    /**
-     * Remove any order by statements.
-     *
-     * @return $this
-     */
-    public function refreshOrderBy()
-    {
-        $query = $this->model->getQuery();
-        unset($query->orders);
-
-        $this->model->setQuery($query);
-        return $this;
-    }
-
-    /**
      * Set the columns to select from the database.
      *
      * @param array $columns
@@ -73,6 +49,16 @@ class EloquentStore implements Store {
     }
 
     /**
+     * Return the total results.
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return $this->model->paginate(1, $this->select)->total();
+    }
+
+    /**
      * Get a paginate
      *
      * @param $amount
@@ -82,6 +68,34 @@ class EloquentStore implements Store {
     public function paginate($amount, $page)
     {
         return $this->model->paginate($amount)->all();
+    }
+
+    /**
+     * Remove any order by statements.
+     *
+     * @return $this
+     */
+    public function refreshOrderBy()
+    {
+        $query = $this->model->getQuery();
+        unset($query->orders);
+
+        $this->model->setQuery($query);
+        return $this;
+    }
+
+    /**
+     * Order the results by the given column in the given direction.
+     *
+     * @param $key
+     * @param $direction
+     * @return $this
+     */
+    public function orderBy($key, $direction)
+    {
+        $this->model->orderBy($key, $direction);
+
+        return $this;
     }
 
     public function __call($method, $args)
