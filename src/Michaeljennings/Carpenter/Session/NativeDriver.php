@@ -20,11 +20,11 @@ class NativeDriver implements SessionInterface {
 
 	public function __construct()
 	{
-		if ($firstRequest) {
+		if ($this->firstRequest) {
 			$this->flashData = $this->get('flashdata');
 			$this->forget('flashdata');
 
-			$firstRequest = false;
+			$this->firstRequest = false;
 		}
 	}
 
@@ -36,7 +36,7 @@ class NativeDriver implements SessionInterface {
      */
     public function get($name)
     {
-    	if (isset($_SESSION[$name]) {
+    	if (isset($_SESSION[$name])) {
     		return $_SESSION[$name];
     	}
 
@@ -104,7 +104,7 @@ class NativeDriver implements SessionInterface {
      */
     public function forget($name)
     {
-    	return unset($_SESSION[$name]);
+    	unset($_SESSION[$name]);
     }
 
 }
