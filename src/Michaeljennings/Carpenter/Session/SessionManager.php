@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Session;
 
-use Illuminate\Support\Manager;
+use Michaeljennings\Carpenter\Manager;
 
 class SessionManager extends Manager {
 
@@ -21,7 +21,7 @@ class SessionManager extends Manager {
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver($this->app['session']);
+        return new IlluminateDriver(app()['session']);
     }
 
     /**
@@ -41,7 +41,7 @@ class SessionManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['carpenter.session.driver'];
+        return $this->config['session']['driver'];
     }
 
 } 

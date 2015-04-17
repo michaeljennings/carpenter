@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\View;
 
-use Illuminate\Support\Manager;
+use Michaeljennings\Carpenter\Manager;
 
 class ViewManager extends Manager {
 
@@ -11,7 +11,7 @@ class ViewManager extends Manager {
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver($this->app['view']);
+        return new IlluminateDriver(app()['view']);
     }
 
     /**
@@ -41,7 +41,7 @@ class ViewManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['carpenter.view.driver'];
+        return $this->config['view']['driver'];
     }
 
 }

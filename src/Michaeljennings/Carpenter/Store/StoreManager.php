@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Store; 
 
-use Illuminate\Support\Manager;
+use Michaeljennings\Carpenter\Manager;
 
 class StoreManager extends Manager {
 
@@ -21,7 +21,7 @@ class StoreManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['carpenter.store.driver'];
+        return $this->config['store']['driver'];
     }
 
 }

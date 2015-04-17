@@ -1,12 +1,17 @@
 <?php namespace Michaeljennings\Carpenter\Pagination;
 
-use Illuminate\Support\Manager;
+use Michaeljennings\Carpenter\Manager;
 
 class PaginationManager extends Manager {
 
+    /**
+     * Create the illuminate pagination driver.
+     *
+     * @return IlluminateDriver
+     */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver($this->app);
+        return new IlluminateDriver(app());
     }
 
     /**
@@ -16,7 +21,7 @@ class PaginationManager extends Manager {
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['carpenter.paginator.driver'];
+        return $this->config['paginator']['driver'];
     }
 
 } 
