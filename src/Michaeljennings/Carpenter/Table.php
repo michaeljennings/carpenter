@@ -3,13 +3,13 @@
 use Closure;
 use Michaeljennings\Carpenter\Components\Row;
 use Michaeljennings\Carpenter\Components\Cell;
+use Michaeljennings\Carpenter\View\ViewManager;
 use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Components\Column;
-use Michaeljennings\Carpenter\Contracts\Table as TableContract;
-use Michaeljennings\Carpenter\Pagination\PaginationManager;
-use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Store\StoreManager;
-use Michaeljennings\Carpenter\View\ViewManager;
+use Michaeljennings\Carpenter\Session\SessionManager;
+use Michaeljennings\Carpenter\Pagination\PaginationManager;
+use Michaeljennings\Carpenter\Contracts\Table as TableContract;
 
 class Table implements TableContract {
 
@@ -22,18 +22,39 @@ class Table implements TableContract {
     protected $key;
 
     /**
+     * An instance of the carpenter store manager.
+     *
+     * @var StoreManager
+     */
+    protected $store;
+
+    /**
+     * An instance of the carpenter session manager.
+     *
+     * @var SessionManager
+     */
+    protected $session;
+
+    /**
+     * An instance of the carpenter view manager.
+     *
+     * @var ViewManager
+     */
+    protected $view;
+
+    /**
+     * An instance of the carpenter pagination manager.
+     *
+     * @var PaginationManager
+     */
+    protected $paginator;
+
+    /**
      * The carpenter config.
      *
      * @var array
      */
     protected $config = [];
-
-    /**
-     * The drivers used to create a table instance.
-     *
-     * @var DriverContainer
-     */
-    protected $drivers;
 
     /**
      * The table columns.
