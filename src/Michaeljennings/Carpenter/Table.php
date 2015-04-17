@@ -138,14 +138,7 @@ class Table implements TableContract {
         $this->paginator = $paginator;
         $this->config = $config;
 
-        if (isset($_GET['sort'])) {
-            $this->session->put($this->config['session']['key'].'.'.$this->key.'.sort', $_GET['sort']);
-            if (isset($_GET['dir'])) {
-                $this->session->put($this->config['session']['key'].'.'.$this->key.'.dir', true);
-            } else {
-                $this->session->forget($this->config['session']['key'].'.'.$this->key.'.dir');
-            }
-        }
+        $this->setOrderValues();
     }
 
     /**
@@ -645,6 +638,22 @@ class Table implements TableContract {
     protected function newContainer(array $data)
     {
         return new Container($data);
+    }
+
+    /**
+     * Check if the user has ordered the table and which direction it is
+     * ordered.
+     */
+    protected function setOrderValues()
+    {
+        if (isset($_GET['sort'])) {
+            $this->session->put($this->config['session']['key'] . '.' . $this->key . '.sort', $_GET['sort']);
+            if (isset($_GET['dir'])) {
+                $this->session->put($this->config['session']['key'] . '.' . $this->key . '.dir', true);
+            } else {
+                $this->session->forget($this->config['session']['key'] . '.' . $this->key . '.dir');
+            }
+        }
     }
 
     /**
