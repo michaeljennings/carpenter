@@ -19,6 +19,8 @@ abstract class Manager {
      */
     protected $drivers = array();
 
+    protected $driver;
+
     /**
      * The carpenter config.
      *
@@ -46,13 +48,17 @@ abstract class Manager {
      */
     public function driver($driver = null)
     {
-        $driver = $driver ?: $this->getDefaultDriver();
+        if ( ! isset($this->driver) || ! is_null($driver)) {
+            $driver = $driver ?: $this->getDefaultDriver();
 
-        if ( ! isset($this->drivers[$driver])) {
-            $this->drivers[$driver] = $this->constructDriver($driver);
+            if (!isset($this->drivers[$driver])) {
+                $this->drivers[$driver] = $this->constructDriver($driver);
+            }
+
+            return $this->driver = $this->drivers[$driver];
         }
 
-        return $this->drivers[$driver];
+        return $this->driver;
     }
 
     /**
