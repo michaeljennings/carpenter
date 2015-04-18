@@ -1,4 +1,4 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php namespace Michaeljennings\Carpenter\Nexus;
 
 use Michaeljennings\Carpenter\Exceptions\DriverNotFoundException;
 

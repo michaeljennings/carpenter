@@ -1,4 +1,4 @@
-<?php namespace Michaeljennings\Carpenter\Components;
+<?php namespace Michaeljennings\Carpenter\Nexus;
 
 use ArrayAccess;
 

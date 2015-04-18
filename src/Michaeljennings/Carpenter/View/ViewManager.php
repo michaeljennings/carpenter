@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\View;
 
-use Michaeljennings\Carpenter\Manager;
+use Michaeljennings\Carpenter\Nexus\Manager;
 
 class ViewManager extends Manager {
 

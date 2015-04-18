@@ -1,6 +1,7 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
+use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 

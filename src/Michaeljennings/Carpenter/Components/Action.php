@@ -1,6 +1,7 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
+use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
 class Action extends MockArray implements ActionContract {

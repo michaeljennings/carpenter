@@ -3,6 +3,7 @@
 use Closure;
 use Michaeljennings\Carpenter\Components\Row;
 use Michaeljennings\Carpenter\Components\Cell;
+use Michaeljennings\Carpenter\Nexus\Container;
 use Michaeljennings\Carpenter\View\ViewManager;
 use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Components\Column;

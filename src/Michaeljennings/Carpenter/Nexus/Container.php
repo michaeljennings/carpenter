@@ -1,9 +1,8 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php namespace Michaeljennings\Carpenter\Nexus;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
-use Michaeljennings\Carpenter\Components\MockArray;
 
 class Container implements ArrayAccess, IteratorAggregate {
 

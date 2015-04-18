@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Pagination;
 
-use Michaeljennings\Carpenter\Manager;
+use Michaeljennings\Carpenter\Nexus\Manager;
 use Michaeljennings\Carpenter\View\ViewManager;
 
 class PaginationManager extends Manager {

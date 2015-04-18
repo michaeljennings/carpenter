@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Session;
 
-use Michaeljennings\Carpenter\Manager;
+use Michaeljennings\Carpenter\Nexus\Manager;
 
 class SessionManager extends Manager {
 

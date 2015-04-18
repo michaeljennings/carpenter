@@ -1,6 +1,6 @@
 <?php namespace Michaeljennings\Carpenter\Store; 
 
-use Michaeljennings\Carpenter\Manager;
+use Michaeljennings\Carpenter\Nexus\Manager;
 
 class StoreManager extends Manager {
 
