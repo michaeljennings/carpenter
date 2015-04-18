@@ -1,8 +1,16 @@
 <?php namespace Michaeljennings\Carpenter\Pagination;
 
 use Michaeljennings\Carpenter\Manager;
+use Michaeljennings\Carpenter\View\ViewManager;
 
 class PaginationManager extends Manager {
+
+    /**
+     * An instance of the carpenter view manager.
+     *
+     * @var ViewManager
+     */
+    protected $view;
 
     /**
      * Create the illuminate pagination driver.

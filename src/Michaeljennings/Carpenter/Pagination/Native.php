@@ -5,6 +5,34 @@ use Michaeljennings\Carpenter\Contracts\Paginator;
 class Native implements Paginator {
 
     /**
+     * The current page.
+     *
+     * @var int
+     */
+    protected $page = 1;
+
+    /**
+     * The amount of results per page.
+     *
+     * @var int|string
+     */
+    protected $perPage;
+
+    /**
+     * The total results.
+     *
+     * @var int|string
+     */
+    protected $total;
+
+    /**
+     * The total amount of pages.
+     *
+     * @var int|string
+     */
+    protected $totalPages;
+
+    /**
      * Create a new paginator.
      *
      * @param  string|integer $total
@@ -13,7 +41,10 @@ class Native implements Paginator {
      */
     public function make($total, $perPage)
     {
-        // TODO: Implement make() method.
+        $this->total = $total;
+        $this->perPage = $perPage;
+        $this->totalPages = $this->calculatePages($this->total, $this->perPage);
+        $this->page = $this->getCurrentPage();
     }
 
     /**
@@ -23,7 +54,17 @@ class Native implements Paginator {
      */
     public function links()
     {
-        // TODO: Implement links() method.
+        if ($this->totalPages > 1) {
+            $links = [
+                '<ul class="pagination">',
+                sprintf('%s %s %s', $this->getPrevious(), $this->getLinks(), $this->getNext()),
+                '</ul>'
+            ];
+
+            return implode('', $links);
+        }
+
+        return null;
     }
 
     /**
@@ -33,7 +74,105 @@ class Native implements Paginator {
      */
     public function currentPage()
     {
-        // TODO: Implement currentPage() method.
+        return $this->page;
+    }
+
+    /**
+     * Calculate the total amount of pages.
+     *
+     * @param $total
+     * @param $perPage
+     * @return float
+     */
+    protected function calculatePages($total, $perPage)
+    {
+        return ceil($total / $perPage);
+    }
+
+    /**
+     * Get the current page the user is viewing.
+     *
+     * @return int
+     */
+    protected function getCurrentPage()
+    {
+        if (isset($_GET['page'])) {
+            $this->page = (int) $_GET['page'];
+        }
+
+        return $this->page;
+    }
+
+    /**
+     * Create the previous page link.
+     *
+     * @return null|string
+     */
+    protected function getPrevious()
+    {
+        if ($this->page > 1) {
+            return $this->createLink($this->page - 1, 'Prev');
+        }
+
+        return null;
+    }
+
+    /**
+     * Get all of the links for the pages.
+     *
+     * @return string
+     */
+    protected function getLinks()
+    {
+        $links = [];
+
+        foreach (range(1, $this->totalPages) as $page) {
+            $links[] = $this->createLink($page);
+        }
+
+        return implode('', $links);
+    }
+
+    /**
+     * Get the next page link.
+     *
+     * @return null|string
+     */
+    protected function getNext()
+    {
+        if ($this->page < $this->totalPages) {
+            return $this->createLink($this->page + 1, 'Next');
+        }
+
+        return null;
+    }
+
+    /**
+     * Create a pagination link.
+     *
+     * @param $page
+     * @param null $label
+     * @return string
+     */
+    protected function createLink($page, $label = null)
+    {
+        $label = $label ?: $page;
+        $active = $page == $this->page ? 'class="active"' : '';
+
+        return "<li {$active}><a href=\"{$this->getPath($page)}\">{$label}</a></li>";
+    }
+
+    /**
+     * Get the path for a pagination link.
+     *
+     * @param $page
+     * @return string
+     */
+    protected function getPath($page)
+    {
+        $path = str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
+
+        return $path . '?page=' . $page;
     }
 
 }
