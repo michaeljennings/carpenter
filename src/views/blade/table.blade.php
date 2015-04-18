@@ -1,65 +1,65 @@
 <div class="table-container">
-	<form action="<?= $table->getFormAction() ?>" method="post">
+	<form action="{{ $table->getFormAction() }}" method="post">
 		<div class="table-header">
 			<div class="col-md-8">
-				<h3><?= $table->getTitle() ?></h3>
+				<h3>{{ $table->getTitle() }}</h3>
 			</div>
-			<?php if ($table->hasActions('table')) { ?>
+			@if ($table->hasActions('table'))
 				<div class="table-actions col-sm-4">
-					<?php foreach($table->getActions('table') as $action) { ?>
-						<?= $action->render() ?>
-					<?php } ?>
+					@foreach($table->getActions('table') as $action)
+						{!! $action->render() !!}
+					@endforeach
 				</div>
-			<?php } ?>
+			@endif
 		</div>
 		<table class="table">
 			<thead>
 				<tr>
-					<?php foreach ($table->getColumns() as $column) { ?>
-						<th <?php foreach ($column->getAttributes() as $attr => $val) { ?>
-							<?=$attr?>="<?=$val?>"
-							<?php } ?>>
-							<?php if ($column->isSortable() && $column->getHref()) { ?>
-								<a href="<?=$column->getHref()?>">
-									<?=$column->getLabel()?>
-									<?php if (isset($column->sort)) { ?>
-										 <span class="glyphicon glyphicon-chevron-<?= $column->sort ?>"></span>
-									<?php } ?>
+					@foreach ($table->getColumns() as $column)
+						<th @foreach ($column->getAttributes() as $attr => $val)
+							{{ $attr }}="{{ $val }}"
+							@endforeach>
+							@if ($column->isSortable() && $column->getHref())
+								<a href="{{ $column->getHref() }}">
+									{!! $column->getLabel() !!}
+									@if (isset($column->sort))
+										 <span class="glyphicon glyphicon-chevron-{{ $column->sort }}"></span>
+									@endif
 								</a>
-							<?php } else { ?>
-								<?=$column->getLabel()?>
-							<?php } ?>
+							@else
+								{{ $column->getLabel() }}
+							@endif
 						</th>
-					<?php } ?>
+					@endforeach
 				</tr>
 			</thead>
 			<tbody>
-				<?php if($table->hasRows()) { ?>
-					<?php foreach ($table->getRows() as $row) { ?>
-						<tr data-id="<?=$row->getId()?>">
-							<?php foreach ($row->cells() as $cell) { ?>
-								<td><?= $cell->value ?></td>
-							<?php } ?>
-                            <?php if ($row->hasActions()): ?>
+				@if($table->hasRows())
+					@foreach ($table->getRows() as $row)
+						<tr data-id="{{ $row->getId() }}">
+							@foreach ($row->cells() as $cell)
+								<td>{!! $cell->value !!}</td>
+							@endforeach
+                            @if ($row->hasActions())
                                 <td>
-                                    <?php foreach ($row->actions() as $action): ?>
-                                        <?= $action->render() ?>
-                                    <?php endforeach; ?>
+                                    @foreach ($row->actions() as $action)
+                                        {!! $action->render() !!}
+                                    @endforeach
                                 </td>
-                            <?php endif; ?>
+                            @endif
 						</tr>
-					<?php } ?>
-				<?php } else { ?>
+					@endforeach
+				@else
 					<tr>
-						<td colspan="<?= count($table->getColumns()) ?>">No Results Found.</td>
+						<td colspan="{{ count($table->getColumns()) }}">No Results Found.</td>
 					</tr>
-				<?php } ?>
+				@endif
 			</tbody>
 		</table>
 	</form>
 	<div class="table-footer">
-		<?php if ($table->hasLinks()) { ?>
-			<?= $table->getLinks() ?>
-		<?php } ?>
+		@if ($table->hasLinks())
+			{!! $table->getLinks() !!}
+		@endif
 	</div>
 </div>

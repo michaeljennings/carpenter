@@ -45,6 +45,8 @@ class Native implements Paginator {
         $this->perPage = $perPage;
         $this->totalPages = $this->calculatePages($this->total, $this->perPage);
         $this->page = $this->getCurrentPage();
+
+        return $this;
     }
 
     /**
