@@ -1,6 +1,8 @@
 {
     "name": "michaeljennings/carpenter",
-    "description": "",
+    "description": "A PHP package to create HTML tables from a data store that can be sorted and paginated.",
+    "keywords": ["table", "laravel"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Michael Jennings",
@@ -10,10 +12,17 @@
     "require": {
         "php": ">=5.4.0"
     },
+    "require-dev": {
+        "mockery/mockery": "0.9.*"
+    },
     "autoload": {
         "psr-4": {
             "Michaeljennings\\Carpenter\\": "src/"
         }
+    },
+    "extra": {
+        "component": "package",
+        "frameworks": ["Laravel 5"]
     },
     "minimum-stability": "stable"
 }
