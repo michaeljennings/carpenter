@@ -3,7 +3,7 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 ##Installation
 Include the package in your `composer.json`.
 
-    "michaeljennings/carpenter": "dev-master";
+    "michaeljennings/carpenter": "~0.2"
 
 Run `composer install` or `composer update` to download the dependencies.
 
