@@ -18,12 +18,12 @@ class CarpenterServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../../../views/', 'michaeljennings/carpenter');
+        $this->loadViewsFrom(__DIR__.'/../views/', 'michaeljennings/carpenter');
         $this->publishes([
-            __DIR__.'/../../../config/config.php' => config_path('carpenter.php'),
-            __DIR__.'/../../../public/' => public_path(),
+            __DIR__.'/../config/config.php' => config_path('carpenter.php'),
+            __DIR__.'/../public/' => public_path(),
         ]);
-        $this->mergeConfigFrom(__DIR__.'/../../../config/config.php', 'carpenter');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'carpenter');
     }
 
     /**
