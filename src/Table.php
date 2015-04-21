@@ -273,7 +273,6 @@ class Table implements TableContract {
         }
 
         foreach ($this->results as $result) {
-
             $this->rows[] = $this->newRow($result);
         }
 
@@ -323,8 +322,11 @@ class Table implements TableContract {
         $actions = [];
 
         foreach ($rowActions as $action) {
+            $action = clone $action;
+
             if ($action->valid($result)) {
                 $column = $action->getColumn();
+
                 $action->value = $result->$column;
                 $action->row($result);
 
