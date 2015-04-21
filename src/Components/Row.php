@@ -1,8 +1,8 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Michaeljennings\Carpenter\Contracts\Cell;
-use Michaeljennings\Carpenter\Contracts\Action;
 use Michaeljennings\Carpenter\Contracts\Row as RowContract;
+use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
 class Row implements RowContract {
 
@@ -90,10 +90,10 @@ class Row implements RowContract {
     /**
      * Add a new action to the row.
      *
-     * @param Action $action
+     * @param ActionContract $action
      * @return $this
      */
-    public function addAction(Action $action)
+    public function addAction(ActionContract $action)
     {
         $this->actions[] = $action;
 
@@ -103,10 +103,10 @@ class Row implements RowContract {
     /**
      * Alias for the addAction method.
      *
-     * @param Action $action
+     * @param ActionContract $action
      * @return Row
      */
-    public function action(Action $action)
+    public function action(ActionContract $action)
     {
         return $this->addAction($action);
     }

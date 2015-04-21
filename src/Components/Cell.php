@@ -1,7 +1,7 @@
 <?php namespace Michaeljennings\Carpenter\Components;
 
 use Michaeljennings\Carpenter\Contracts\Cell as CellContract;
-use Michaeljennings\Carpenter\Contracts\Column;
+use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
 class Cell implements CellContract {
 
@@ -33,7 +33,7 @@ class Cell implements CellContract {
      */
     protected $column;
 
-    public function __construct($value, $row, Column $column)
+    public function __construct($value, $row, ColumnContract $column)
     {
         $this->row = $row;
         $this->column = $column;
