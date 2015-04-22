@@ -69,6 +69,7 @@ class Column extends MockArray implements ColumnContract {
     private function createHref($column, $key)
     {
         if ($this->sortable) {
+
             if ($this->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
                 if ($this->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
                     $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
