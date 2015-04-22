@@ -128,6 +128,20 @@ class Table implements TableContract {
     protected $links = false;
 
     /**
+     * The column to sort the table by.
+     *
+     * @var string|null
+     */
+    protected $sortBy;
+
+    /**
+     * The direction to order results.
+     *
+     * @var string|null
+     */
+    protected $sortDir;
+
+    /**
      * In the default templates each table is wrapped in a form so that post actions
      * can be used. By default the form actions is left blank, or you can set a form
      * action if you wish the form to go else where.
@@ -403,7 +417,7 @@ class Table implements TableContract {
      */
     protected function orderResults()
     {
-        if ($this->session->has($this->config['session']['key'] . '.'.$this->key.'.sort')) {
+        if ($this->session->has($this->config['session']['key'] . '.'. $this->key.'.sort')) {
             $this->sortBy = $this->session->get($this->config['session']['key'] . '.'.$this->key.'.sort');
             if ($this->session->has($this->config['session']['key'] . '.'.$this->key.'.dir')) {
                 $this->sortDir = 'desc';
@@ -411,8 +425,7 @@ class Table implements TableContract {
         }
 
         if (isset($this->sortBy)) {
-            // Remove any orders from the query and order by the selected
-            // column
+            // Remove any orders from the query and order by the selected column
             $this->store->refreshOrderBy();
             if (isset($this->sortDir)) {
                 $this->store->orderBy($this->sortBy, $this->sortDir);

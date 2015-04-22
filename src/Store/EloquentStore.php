@@ -93,7 +93,7 @@ class EloquentStore implements Store {
      */
     public function orderBy($key, $direction)
     {
-        $this->model->orderBy($key, $direction);
+        $this->model = $this->model->orderBy($key, $direction);
 
         return $this;
     }
