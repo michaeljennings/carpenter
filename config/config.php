@@ -11,6 +11,8 @@ return array(
          */
         'driver' => 'eloquent',
 
+        'wrapper' => 'Michaeljennings\Carpenter\Wrappers\Eloquent',
+
     ),
 
     'paginator' => array(

@@ -298,7 +298,7 @@ class Table implements TableContract {
         }
 
         foreach ($this->columns as $key => $column) {
-            $row->cell($key, new Cell($result->$key, $result, $column));
+            $row->cell($key, $this->newCell($this->getCellValue($result, $key), $result, $column));
         }
 
         if ( ! empty($this->actions['row'])) {
@@ -308,6 +308,19 @@ class Table implements TableContract {
         }
 
         return $row;
+    }
+
+    /**
+     * Return a new table cell.
+     *
+     * @param mixed $value
+     * @param mixed $result
+     * @param Column $column
+     * @return Cell
+     */
+    protected function newCell($value, $result, Column $column)
+    {
+        return new Cell($value, $result, $column);
     }
 
     /**
@@ -335,6 +348,29 @@ class Table implements TableContract {
         }
 
         return $actions;
+    }
+
+    /**
+     * Get the value to be displayed in a cell.
+     *
+     * @param $result
+     * @param $key
+     * @return mixed
+     */
+    protected function getCellValue($result, $key)
+    {
+        if (str_contains($key, '.')) {
+            $keys = explode('.', $key);
+            $value = $result;
+
+            foreach ($keys as $key) {
+                $value = $value->$key;
+            }
+        } else {
+            $value = $result->$key;
+        }
+
+        return $value;
     }
 
     /**
@@ -661,7 +697,7 @@ class Table implements TableContract {
      */
     protected function newContainer(array $data)
     {
-        return new Container($data);
+        return new Container($data, $this->config);
     }
 
     /**
@@ -689,4 +725,5 @@ class Table implements TableContract {
     {
         return $this->render();
     }
+
 }

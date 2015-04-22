@@ -11,12 +11,10 @@ class Container implements ArrayAccess, IteratorAggregate {
      */
     protected $items = [];
 
-    public function __construct(array $items)
+    public function __construct(array $items, array $config)
     {
-        foreach ($items as $key => $item) {
-            if (is_array($item)) {
-                $items[$key] = new MockArray($item);
-            }
+        foreach ($items as &$item) {
+            $item = (new \ReflectionClass($config['store']['wrapper']))->newInstanceArgs([$item]);
         }
 
         $this->items = $items;
