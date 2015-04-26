@@ -2,6 +2,14 @@
 
 A PHP package to create HTML tables from a data store that can be sorted and paginated.
 
+- [Planned Features](#planned-features)
+- [Installation](#installation)
+- [Laravel Integration](#laravel-integration)
+- [Usage](#usuage)
+- [Creating Tables](#creating-tables)
+- [Table Methods](#table-methods)
+- [Filters](#filters)
+
 ## Planned Features
 - Unit Tests & CI
 - Laravel 4 Integration
