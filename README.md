@@ -3,6 +3,7 @@
 A PHP package to create HTML tables from a data store that can be sorted and paginated.
 
 ## Planned Features
+- Unit Tests & CI
 - Laravel 4 Integration
 - PDO Store Driver
 - Search Table Results
