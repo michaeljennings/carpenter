@@ -11,6 +11,9 @@ class Eloquent {
      */
     protected $item;
 
+    /**
+     * @param Model $item
+     */
     public function __construct(Model $item)
     {
         $this->item = $item;
@@ -20,7 +23,7 @@ class Eloquent {
      * Return an value from the item.
      *
      * @param $key
-     * @return $this|bool|\Carbon\Carbon|\DateTime|mixed|static
+     * @return mixed
      */
     public function __get($key)
     {
