@@ -1,9 +1,5 @@
-# Carpenter
-[![Latest Stable Version](https://poser.pugx.org/michaeljennings/carpenter/v/stable)](https://packagist.org/packages/michaeljennings/carpenter) 
-[![Latest Unstable Version](https://poser.pugx.org/michaeljennings/carpenter/v/unstable)](https://packagist.org/packages/michaeljennings/carpenter) 
-[![License](https://poser.pugx.org/michaeljennings/carpenter/license)](https://packagist.org/packages/michaeljennings/carpenter)
+# Carpenter [![Latest Stable Version](https://poser.pugx.org/michaeljennings/carpenter/v/stable)](https://packagist.org/packages/michaeljennings/carpenter) [![Latest Unstable Version](https://poser.pugx.org/michaeljennings/carpenter/v/unstable)](https://packagist.org/packages/michaeljennings/carpenter) [![License](https://poser.pugx.org/michaeljennings/carpenter/license)](https://packagist.org/packages/michaeljennings/carpenter)
 
-## Introduction
 A PHP package to create HTML tables from a data store that can be sorted and paginated.
 
 ## Installation
