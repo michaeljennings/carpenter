@@ -7,10 +7,16 @@ return array(
         /**
          * Set the store driver.
          *
-         * Supported: eloquent.
+         * Supported: eloquent, array.
          */
         'driver' => 'eloquent',
 
+        /**
+         * Set a class to wrap each row from the data store.
+         *
+         * Supported: Michaeljennings\Carpenter\Wrappers\Eloquent
+         *            Michaeljennings\Carpenter\Wrappers\ArrayWrapper
+         */
         'wrapper' => 'Michaeljennings\Carpenter\Wrappers\Eloquent',
 
     ),
@@ -20,7 +26,7 @@ return array(
         /**
          * Set the pagination driver.
          *
-         * Supported: illuminate or native.
+         * Supported: illuminate, native.
          */
         'driver' => 'illuminate',
 
@@ -56,22 +62,9 @@ return array(
             /**
              * Set the path to the table template.
              */
-            'template' => 'michaeljennings/carpenter::default.table',
+            'template' => 'michaeljennings/carpenter::bootstrap.table',
 
         )
-
-    ),
-
-    'tables' => array(
-
-        /**
-         * The tables files allows for a convenient place to store your
-         * table closures. Set the location of your table file here.
-         *
-         * In v2 this has been depreciated in favour of service providers
-         * and class based tables.
-         */
-        'location' => app_path() . '/tables.php',
 
     )
 );
