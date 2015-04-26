@@ -159,6 +159,13 @@ class Table implements TableContract {
      */
     protected $formMethod = 'POST';
 
+    /**
+     * The name of the wrapper for each table row.
+     *
+     * @var string
+     */
+    protected $wrapper;
+
     public function __construct(
         $key,
         StoreManager $store,
@@ -738,6 +745,29 @@ class Table implements TableContract {
     }
 
     /**
+     * Change the wrapper class to be used for each table row.
+     *
+     * @param $wrapper
+     * @return $this
+     */
+    public function wrapper($wrapper)
+    {
+        $this->wrapper = $wrapper;
+
+        return $this;
+    }
+
+    /**
+     * Get the name of the wrapper class for each table row.
+     *
+     * @return string
+     */
+    protected function getWrapper()
+    {
+        return isset($this->wrapper) ? $this->wrapper: $this->config['store']['wrapper'];
+    }
+
+    /**
      * Create a new container instance.
      *
      * @param array $data
@@ -745,7 +775,7 @@ class Table implements TableContract {
      */
     protected function newContainer(array $data)
     {
-        return new Container($data, $this->config);
+        return new Container($data, $this->config, $this->getWrapper());
     }
 
     /**

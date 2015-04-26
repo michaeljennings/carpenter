@@ -11,10 +11,10 @@ class Container implements ArrayAccess, IteratorAggregate {
      */
     protected $items = [];
 
-    public function __construct(array $items, array $config)
+    public function __construct(array $items, array $config, $wrapper)
     {
         foreach ($items as &$item) {
-            $item = (new \ReflectionClass($config['store']['wrapper']))->newInstanceArgs([$item]);
+            $item = (new \ReflectionClass($wrapper))->newInstanceArgs([$item]);
         }
 
         $this->items = $items;
