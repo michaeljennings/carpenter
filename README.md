@@ -6,6 +6,11 @@
 ## Introduction
 A PHP package to create HTML tables from a data store that can be sorted and paginated.
 
+## Planned Features
+- Laravel 4 Integration
+- PDO Store Driver
+- Search Table Results
+
 ## Installation
 This package requires PHP 5.4+, and includes a Laravel 5 Service Provider and Facade.
 
