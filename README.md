@@ -1,13 +1,17 @@
 # Carpenter
 A PHP package to create HTML tables from a data store that can be sorted and paginated.
-##Installation
-Include the package in your `composer.json`.
+## Installation
+This package requires PHP 5.4+, and includes a Laravel 5 Service Provider and Facade.
+
+To install through composer include the package in your `composer.json`.
 
     "michaeljennings/carpenter": "~0.2"
 
-Run `composer install` or `composer update` to download the dependencies.
+Run `composer install` or `composer update` to download the dependencies or you can run `composer require michaeljennings/carpenter`.
 
-Once the package has been downloaded add the validation service provider to the list of service providers 
+## Laravel Integration
+
+To use the package with Laravel 5 firstly add the carpenter service provider to the list of service providers 
 in `app/config/app.php`.
 
     'providers' => array(
@@ -26,6 +30,18 @@ Add the `Carpenter` facade to your aliases array.
 
 Publish the config files using `php artisan vendor:publish --provider="Michaeljennings\Carpenter\CarpenterServiceProvider"`
 
+To access carpenter you can either use the Facade or the carpenter instance is bound to the IOC container and you can 
+then dependency inject it via its contract.
+
+```php
+Carpenter::get('foo');
+
+public function __construct(Michaeljennings\Carpenter\Contracts\Table $carpenter)
+{
+    $this->carpenter = $carpenter;
+}
+```
+
 ## Usage
 
 ### Creating Tables
@@ -40,31 +56,35 @@ To add a class to the table collection we use the `add` method. The `add` method
 unique key for the table that we shall use to retrieve the table and the second is either a closure or the name of a  
 class.
 
-    Carpenter::add('foo', function($table) {});
-    Carpenter::add('bar', 'FooBar');    
+    $carpenter->add('foo', function($table) {});
+    $carpenter->add('bar', 'FooBar');    
 
 By default the table based classes use a build method, but if you wish to specify a method you can do so by using an @ 
 symbol then the name of the method.
 
-    Carpenter::add('bar', 'FooBar@bar');
+    $carpenter->add('bar', 'FooBar@bar');
     
 To retrieve the table from the collection we use the `get` method.
 
-    Carpenter::get('foo');
+    $carpenter->get('foo');
     
 #### Tables Without the Collection
 
 To create a table without using the table collection we use the `make` method. This takes the same arguments as the 
 `add` method as the unique key is used for to help keep session unique to the table.
 
-    Carpenter::make('foo', function($table) {});
-    Carpenter::make('bar', 'FooBar');
+    $carpenter->make('foo', function($table) {});
+    $carpenter->make('bar', 'FooBar');
 
 #### Rendering the Table
 
-To render the table instance you can either echo out the table or use the `render` method to turn it into a string.
+To render the table instance you can either echo out the table or use the `render` method to turn it into a string or 
+you can simply echo out the table instance.
 
-    Carpenter::get('foo')->render();
+```php
+$carpenter->get('foo')->render();
+echo $carpenter->get('foo');
+```
     
 #### Using Dependency Injection
 
@@ -80,14 +100,14 @@ If you would rather use dependency injection instead of the facade you may do so
 
 To set the model to be used for the table we use the `model` method.
 
-    Carpenter::add('foo', function($table)
+    $carpenter->add('foo', function($table)
     {
       $table->model('Bar');
     });
 
 By default the title for the table will be set to the name of the model, to overwrite this use the `setTitle` method.
 
-    Carpenter::add('foo', function($table)
+    $carpenter->add('foo', function($table)
     {
       $table->model('Bar');
       $table->setTitle('Foo Bar');
@@ -95,7 +115,7 @@ By default the title for the table will be set to the name of the model, to over
     
 To paginate the results use the paginate function.
 
-    Carpenter::add('foo', function($table)
+    $carpenter->add('foo', function($table)
     {
       $table->model('Bar');
       $table->paginate(15);
@@ -206,7 +226,7 @@ filter.
 You can use the filters until the table is rendered so if you need to use the same table in multiple places but 
 filter it slightly differently you can do so.
 
-    Carpenter::get('foo')->filter(function($q)
+    $carpenter->get('foo')->filter(function($q)
     {
       $q->where('foo', '=', 'bar');
     });
