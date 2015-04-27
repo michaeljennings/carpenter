@@ -5,7 +5,7 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 - [Planned Features](#planned-features)
 - [Installation](#installation)
 - [Laravel Integration](#laravel-integration)
-- [Usage](#usuage)
+- [Usage](#usage)
 - [Creating Tables](#creating-tables)
 - [Table Methods](#table-methods)
 - [Filters](#filters)
