@@ -9,7 +9,7 @@ return array(
          *
          * Supported: eloquent, array.
          */
-        'driver' => 'eloquent',
+        'driver' => 'array',
 
         /**
          * Set a class to wrap each row from the data store.
@@ -17,7 +17,7 @@ return array(
          * Supported: Michaeljennings\Carpenter\Wrappers\Eloquent
          *            Michaeljennings\Carpenter\Wrappers\ArrayWrapper
          */
-        'wrapper' => 'Michaeljennings\Carpenter\Wrappers\Eloquent',
+        'wrapper' => 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper',
 
     ),
 
@@ -28,7 +28,7 @@ return array(
          *
          * Supported: illuminate, native.
          */
-        'driver' => 'illuminate',
+        'driver' => 'native',
 
     ),
 
@@ -39,7 +39,7 @@ return array(
          *
          * Supported: illuminate, codeigniter, native.
          */
-        'driver' => 'illuminate',
+        'driver' => 'native',
 
         /**
          * Set the session key.
@@ -55,7 +55,7 @@ return array(
          *
          * Supported: illuminate, codeigniter, native.
          */
-        'driver' => 'illuminate',
+        'driver' => 'native',
 
         'views' => array(
 
