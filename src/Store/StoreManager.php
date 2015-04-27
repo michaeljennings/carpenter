@@ -25,6 +25,16 @@ class StoreManager extends Manager {
     }
 
     /**
+     * Create the codeigniter store.
+     * 
+     * @return CodeigniterStore
+     */
+    public function createCodeigniterDriver()
+    {
+        return new CodeigniterStore();
+    }
+
+    /**
      * Get the default driver name.
      *
      * @return string
