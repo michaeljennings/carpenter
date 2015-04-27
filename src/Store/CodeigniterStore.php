@@ -61,7 +61,7 @@ class CodeigniterStore implements Store {
      * @param $page
      * @param $perPage
      * @return array
-     */
+     */ 
     public function paginate($amount, $page, $perPage)
     {
         $offset = ($page - 1) * $perPage;
@@ -114,7 +114,11 @@ class CodeigniterStore implements Store {
     		return call_user_func_array([$this->{$this->model}, $method], $args);
     	}
 
-    	$this->query = $this->db->$method($args);
+        if ( ! isset($this->query)) {
+    	   $this->query = call_user_func_array([$this->db, $method], $args);
+        } else {
+            call_user_func_array([$this->query, $method], $args);
+        }
 
     	return $this;
     }
