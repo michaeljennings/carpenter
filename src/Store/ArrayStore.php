@@ -49,9 +49,10 @@ class ArrayStore implements Store {
      *
      * @param $amount
      * @param $page
+     * @param $perPage
      * @return array
      */
-    public function paginate($amount, $page)
+    public function paginate($amount, $page, $perPage)
     {
         if (is_null($page)) {
             $page = 1;

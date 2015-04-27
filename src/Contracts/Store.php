@@ -21,9 +21,10 @@ interface Store {
      *
      * @param $amount
      * @param $page
+     * @param $perPage
      * @return array
      */
-    public function paginate($amount, $page);
+    public function paginate($amount, $page, $perPage);
 
     /**
      * Unset any set order queries.
