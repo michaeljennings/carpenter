@@ -31,7 +31,7 @@ class SessionManager extends Manager {
      */
     public function createCodeigniterDriver()
     {
-        return new CodeigntierDriver();
+        return new CodeigniterDriver();
     }
 
     /**

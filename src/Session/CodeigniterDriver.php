@@ -4,13 +4,6 @@ use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
 class CodeigniterDriver implements SessionInterface {
 
-	public function __construct()
-	{
-		$ci =& get_instance();
-
-		$this->session = $ci->load->library('session');
-	}
-
 	/**
      * Retrieve an item from the session
      *
@@ -54,7 +47,9 @@ class CodeigniterDriver implements SessionInterface {
      */
     public function has($name)
     {
-    	return ! empty($this->get($name));
+        $value = $this->get($name);
+
+        return ! empty($value);
     }
 
     /**
@@ -66,6 +61,21 @@ class CodeigniterDriver implements SessionInterface {
     public function forget($name)
     {
     	return $this->session->unset_userdata([$name => '']);
+    }
+
+    /**
+     * __get
+     * 
+     * Enables the use of CI super-global without having to define an extra variable.
+     * 
+     * I can't remember where I first saw this, so thank you if you are the original author. -Militis
+     *
+     * @access  public
+     * @param   $var
+     * @return  mixed
+     */
+    public function __get($var) {
+        return get_instance()->$var;
     }
 
 }
