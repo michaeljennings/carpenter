@@ -413,7 +413,7 @@ class Table implements TableContract {
             $this->links = $this->paginator->links();
 
             $this->results = $this->newContainer(
-                $this->store->paginate($this->paginate, $this->paginator->currentPage())
+                $this->store->paginate($this->paginate, $this->paginator->currentPage(), $this->paginate)
             );
         }
     }

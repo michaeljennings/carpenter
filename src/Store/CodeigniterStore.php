@@ -49,7 +49,9 @@ class CodeigniterStore implements Store {
      */
     public function count()
     {
-    	return $this->query->count_all_results();
+        $query = clone $this->query;
+
+    	return $query->count_all_results();
     }
 
     /**
@@ -57,14 +59,34 @@ class CodeigniterStore implements Store {
      *
      * @param $amount
      * @param $page
+     * @param $perPage
      * @return array
      */
-    public function paginate($amount, $page)
+    public function paginate($amount, $page, $perPage)
     {
-    	$this->query = $this->db->limit($limit, $page);
+        $offset = ($page - 1) * $perPage;
+
+        if (isset($this->query)) {
+    	    $this->query->limit($amount, $offset);
+        } else {
+            $this->query = $this->db->limit($amount, $offset);
+        }
+
     	$query = $this->query->get();
 
-    	return $query->results();
+    	return $query->result();
+    }
+
+    /**
+     * Add an order by query.
+     * 
+     * @param  string $column
+     * @param  string $dir   
+     * @return $this
+     */
+    public function orderBy($column, $dir)
+    {
+        return $this->order_by($column, $dir);
     }
 
     /**

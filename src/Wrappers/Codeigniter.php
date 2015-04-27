@@ -32,7 +32,7 @@ class Codeigniter {
      */
     public function __get($key)
     {
-        return $this->item->$key;
+        return $this->item[$key];
     }
 
 }
