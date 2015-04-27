@@ -5,18 +5,6 @@ use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 class CodeigniterDriver implements ViewInterface {
 
 	/**
-     * An instance of the codeigniter instance class;
-     *
-     * @var mixed
-     */
-    protected $instance;
-
-    public function __construct()
-    {
-        $this->instance =& get_instance();
-    }
-
-	/**
      * Return the required view
      *
      * @param $view
@@ -25,7 +13,21 @@ class CodeigniterDriver implements ViewInterface {
      */
     public function make($view, $data = array())
     {
-    	return $this->instance->view($view, $data, true);
+    	return $this->load->view($view, $data, true);
+    }
+
+    /**
+     * __get
+     * 
+     * Enables the use of CI super-global without having to define an extra 
+     * variable.
+     *
+     * @access  public
+     * @param   $var
+     * @return  mixed
+     */
+    public function __get($var) {
+        return get_instance()->$var;
     }
 
 }
