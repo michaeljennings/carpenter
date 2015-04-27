@@ -111,7 +111,7 @@ class Carpenter implements CarpenterInterface {
      */
     protected function parseClassCallback($class)
     {
-        if (str_contains($class, '@')) {
+        if (strpos($class, '@') !== false) {
             return explode('@', $class);
         }
 

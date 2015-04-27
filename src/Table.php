@@ -196,7 +196,7 @@ class Table implements TableContract {
 
         // Check if the user is trying to access a nested element, if they are set the
         // label to the last element
-        if (str_contains($name, '.')) {
+        if (strpos($name, '.') !== false) {
             $parts = explode('.', $name);
             $label = array_pop($parts);
         } else {
@@ -350,7 +350,7 @@ class Table implements TableContract {
      */
     protected function getCellValue($result, $key)
     {
-        if (str_contains($key, '.')) {
+        if (strpos($key, '.') !== false) {
             $keys = explode('.', $key);
             $value = $result;
 
