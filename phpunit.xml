@@ -20,5 +20,5 @@
         <whitelist>
             <directory>./src/</directory>
         </whitelist>
-    </filter>C
+    </filter>
 </phpunit>
