@@ -7,7 +7,7 @@ return array(
         /**
          * Set the store driver.
          *
-         * Supported: eloquent, array.
+         * Supported: eloquent, laravel4, array.
          */
         'driver' => 'array',
 
@@ -26,7 +26,7 @@ return array(
         /**
          * Set the pagination driver.
          *
-         * Supported: illuminate, native.
+         * Supported: illuminate, laravel4, native.
          */
         'driver' => 'native',
 
