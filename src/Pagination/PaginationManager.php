@@ -23,6 +23,16 @@ class PaginationManager extends Manager {
     }
 
     /**
+     * Create the laravel 4 pagination driver.
+     * 
+     * @return Laravel4\IlluminateDriver
+     */
+    public function createLaravel4Driver()
+    {
+        return new Laravel4\IlluminateDriver(app());
+    }
+
+    /**
      * Create the native pagination driver.
      *
      * @return Native

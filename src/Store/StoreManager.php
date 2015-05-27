@@ -15,6 +15,16 @@ class StoreManager extends Manager {
     }
 
     /**
+     * Create the eloquent store driver.
+     *
+     * @return Laravel4\EloquentStore
+     */
+    public function createLaravel4Driver()
+    {
+        return new Laravel4\EloquentStore();
+    }
+
+    /**
      * Create the array store driver.
      *
      * @return ArrayStore
