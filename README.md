@@ -4,7 +4,8 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 
 - [Planned Features](#planned-features)
 - [Installation](#installation)
-- [Laravel Integration](#laravel-integration)
+- [Laravel 5 Integration](#laravel-5-integration)
+- [Laravel 4 Integration](#laravel-4-integration)
 - [Usage](#usage)
 - [Creating Tables](#creating-tables)
 - [Table Methods](#table-methods)
@@ -12,7 +13,6 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 
 ## Planned Features
 - Unit Tests & CI
-- Laravel 4 Integration
 - PDO Store Driver
 - Search Table Results
 
@@ -25,7 +25,7 @@ To install through composer include the package in your `composer.json`.
 
 Run `composer install` or `composer update` to download the dependencies or you can run `composer require michaeljennings/carpenter`.
 
-## Laravel Integration
+## Laravel 5 Integration
 
 To use the package with Laravel 5 firstly add the carpenter service provider to the list of service providers 
 in `app/config/app.php`.
@@ -45,6 +45,39 @@ Add the `Carpenter` facade to your aliases array.
     );
 
 Publish the config files using `php artisan vendor:publish --provider="Michaeljennings\Carpenter\CarpenterServiceProvider"`
+
+To access carpenter you can either use the Facade or the carpenter instance is bound to the IOC container and you can 
+then dependency inject it via its contract.
+
+```php
+Carpenter::get('foo');
+
+public function __construct(Michaeljennings\Carpenter\Contracts\Table $carpenter)
+{
+    $this->carpenter = $carpenter;
+}
+```
+
+## Laravel 4 Integration
+
+To use the package with Laravel 4 firstly add the carpenter service provider to the list of service providers 
+in `app/config/app.php`.
+
+    'providers' => array(
+
+      'Michaeljennings\Carpenter\CarpenterServiceProvider'
+  
+    );
+    
+Add the `Carpenter` facade to your aliases array.
+
+    'aliases' => array(
+
+      'Carpenter' => 'Michaeljennings\Carpenter\Facades\Carpenter',
+      
+    );
+
+Publish the config files using `php artisan config:publish michaeljennings/carpenter"`
 
 To access carpenter you can either use the Facade or the carpenter instance is bound to the IOC container and you can 
 then dependency inject it via its contract.
