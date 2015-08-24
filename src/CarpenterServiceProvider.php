@@ -9,7 +9,7 @@ class CarpenterServiceProvider extends ServiceProvider {
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Bootstrap the application events.
@@ -38,10 +38,7 @@ class CarpenterServiceProvider extends ServiceProvider {
             return new Carpenter($this->app['config']['carpenter']);
         });
 
-        $this->app->bind('Michaeljennings\Carpenter\Contracts\Carpenter', function($app)
-        {
-            return $app['michaeljennings.carpenter'];
-        });
+        $this->app->alias('michaeljennings.carpenter', 'Michaeljennings\Carpenter\Contracts\Carpenter');
     }
 
     /**
@@ -51,7 +48,7 @@ class CarpenterServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return ['michaeljennings.carpenter', 'Michaeljennings\Carpenter\Contracts\Carpenter'];
     }
 
 }
