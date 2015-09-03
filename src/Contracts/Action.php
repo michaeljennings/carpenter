@@ -106,4 +106,12 @@ interface Action {
      */
     public function setLabel($label);
 
+    /**
+     * Set the provided attribute for the action.
+     * 
+     * @param string $attribute
+     * @param string $value
+     */
+    public function setAttribute($attribute, $value);
+
 }

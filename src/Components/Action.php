@@ -247,4 +247,18 @@ class Action extends MockArray implements ActionContract {
 
         return $this;
     }
+
+    /**
+     * Set the provided attribute for the action.
+     * 
+     * @param string $attribute
+     * @param string $value
+     */
+    public function setAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+    
 }
