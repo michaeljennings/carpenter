@@ -166,6 +166,13 @@ class Table implements TableContract {
      */
     protected $wrapper;
 
+    /**
+     * The total results from the query.
+     *
+     * @var int
+     */
+    protected $total;
+
     public function __construct(
         $key,
         StoreManager $store,
@@ -404,12 +411,13 @@ class Table implements TableContract {
         }
 
         $this->orderResults();
+        $this->total = $this->store->count();
 
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
             $this->results = $this->newContainer($this->store->results());
         } else {
-            $this->paginator->make($this->store->count(), $this->paginate);
+            $this->paginator->make($this->total, $this->paginate);
             $this->links = $this->paginator->links();
 
             $this->results = $this->newContainer(
@@ -765,6 +773,28 @@ class Table implements TableContract {
     protected function getWrapper()
     {
         return isset($this->wrapper) ? $this->wrapper: $this->config['store']['wrapper'];
+    }
+
+    /**
+     * Get the total results being from the query.
+     * 
+     * @return int
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
+     * Get the total amount being displayed per page.
+     * 
+     * @return int|string|null
+     */
+    public function getTotalPerPage()
+    {
+        if ($this->paginate) {
+            return $this->paginate;
+        }
     }
 
     /**

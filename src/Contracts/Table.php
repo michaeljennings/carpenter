@@ -223,6 +223,20 @@ interface Table {
     public function hasLinks();
 
     /**
+     * Get the total results being from the query.
+     * 
+     * @return int
+     */
+    public function getTotal();
+
+    /**
+     * Get the total amount being displayed per page.
+     * 
+     * @return int|string|null
+     */
+    public function getTotalPerPage();
+
+    /**
      * Set the data to be displayed.
      *
      * @param array $data
