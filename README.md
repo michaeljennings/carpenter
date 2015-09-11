@@ -273,6 +273,17 @@ You can also set any html attribute by using the attribute name as the method na
 ```php
 $table->action('foo')->id('bar');
 ```
+
+Or you can use the `setAttribute` method which can be useful if the attribute to has a hypen in it.
+
+If you need access to the action value or the row then you can pass a closure as the value.
+
+```php
+$table->action('foo')->setAttribute('data-id', 1);
+$table->action('foo')->setAttribute('data-id', function($id, $row) {
+  return $id;
+});
+```
     
 If you need to add a confirmed popup for the button you can do so by adding a confirmed method.
 
