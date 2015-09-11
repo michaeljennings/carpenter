@@ -72,9 +72,9 @@ class Cell implements CellContract {
                 $callback($cell);
 
                 return $cell->render();
-            } else {
-                return $this->value;
             }
+            
+            return $this->value;
         }
     }
 }
