@@ -42,9 +42,102 @@ class Action extends MockArray implements ActionContract {
      */
     protected $whens = false;
 
+    /**
+     * Set the HTML tag to wrap the action in.
+     * 
+     * @var string
+     */
+    protected $tag = 'button';
+
     public function __construct($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * Add a callback to be run to validate that this action is to be used
+     * for the current row.
+     *
+     * @param callable $callback
+     * @return $this
+     */
+    public function when(Closure $callback)
+    {
+        if ( ! $this->whens) {
+            $this->whens = [];
+        }
+
+        $this->whens[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Check that the current row passes all of the when callbacks.
+     *
+     * @param $row
+     * @return bool
+     */
+    public function valid($row)
+    {
+        if ($this->whens) {
+            foreach ($this->whens as $when) {
+                if ( ! $when($row)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Render the html for the action
+     *
+     * @return string
+     */
+    public function render()
+    {
+        if ($this->getPresenter()) {
+            $callback = $this->getPresenter();
+            $callback($this);
+        }
+
+        return $this->renderAction($this->tag, $this->getAttributes());
+    }
+
+    /**
+     * Render the action element.
+     * 
+     * @param  string $tag
+     * @param  array  $attributes [description]
+     * @return string
+     */
+    protected function renderAction($tag, array $attributes)
+    {
+        $attributes = $this->renderAttributes($attributes);
+
+        return sprintf('<%s %s>%s</%s>', $tag, $attributes, $this->label. $tag);
+    }
+
+    /**
+     * Render the element attributes to a string.
+     * @param  array  $attributes
+     * @return string
+     */
+    protected function renderAttributes(array $attributes)
+    {
+        $renderedAttributes = [];
+
+        foreach ($attributes as $attribute => $value) {
+            if ($value typeof Closure) {
+                $renderedAttributes[] = $attribute . '="' . $value($this->value, $this->row) . '"';
+            } else {
+                $renderedAttributes[] = $attribute . '="' . $value . '"';
+            }
+        }
+
+        return implode(' ', $renderedAttributes);
     }
 
     /**
@@ -110,43 +203,6 @@ class Action extends MockArray implements ActionContract {
     }
 
     /**
-     * Add a callback to be run to validate that this action is to be used
-     * for the current row.
-     *
-     * @param callable $callback
-     * @return $this
-     */
-    public function when(Closure $callback)
-    {
-        if ( ! $this->whens) {
-            $this->whens = [];
-        }
-
-        $this->whens[] = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Check that the current row passes all of the when callbacks.
-     *
-     * @param $row
-     * @return bool
-     */
-    public function valid($row)
-    {
-        if ($this->whens) {
-            foreach ($this->whens as $when) {
-                if ( ! $when($row)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Set the presenter callback for the action.
      *
      * @param  Closure $callback
@@ -181,61 +237,6 @@ class Action extends MockArray implements ActionContract {
     }
 
     /**
-     * Render the html for the action
-     *
-     * @return string
-     */
-    public function render()
-    {
-        if ($this->getPresenter()) {
-            $callback = $this->getPresenter();
-            $callback($this);
-        }
-
-        if (isset($this->href)) {
-            $action = '<a ';
-        } else {
-            $action = '<button type="submit"';
-        }
-
-        foreach ($this->getAttributes() as $key => $val) {
-            switch ($key) {
-                case "href":
-                    if ($val instanceof Closure) {
-                        $action .= 'href="'.$val($this->value, $this->row).'"';
-                    } else {
-                        $action .= 'href="'.rtrim($val, '/').(isset($this->value) ? '/'.$this->value.'" ' : '" ');
-                    }
-                    break;
-                default:
-                    $action .= $key.'="'.$val.'" ';
-                    break;
-            }
-        }
-
-        if (isset($this->href)) {
-            $action .= '>'.$this->label.'</a>';
-        } else {
-            $action .= '>'.$this->label.'</button>';
-        }
-
-        return $action;
-    }
-
-    /**
-     * Set the class of the action
-     *
-     * @param string $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->attributes['class'] = $class;
-
-        return $this;
-    }
-
-    /**
      * Set the label for an action
      *
      * @param string $label
@@ -249,10 +250,62 @@ class Action extends MockArray implements ActionContract {
     }
 
     /**
+     * Set the HTML tag to wrap the action with.
+     * 
+     * @param string $tag
+     * @return $this
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Set the href for the anchor and set the action tag to an anchor.
+     * 
+     * @param  string|Closure $href
+     * @return $this
+     */
+    public function setHref($href)
+    {
+        $this->href = $href;
+        $this->setTag('a');
+
+        return $this;
+    }
+
+    /**
+     * Alias for setHref method.
+     * 
+     * @param  string|Closure $href
+     * @return $this
+     */
+    public function href($href)
+    {
+        return $this->setHref($href);
+    }
+
+    /**
+     * Set the class of the action
+     *
+     * @param string|Closure $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->attributes['class'] = $class;
+
+        return $this;
+    }
+
+    /**
      * Set the provided attribute for the action.
      * 
-     * @param string $attribute
-     * @param string $value
+     * @param string         $attribute
+     * @param string|Closure $value
+     * @return $this
      */
     public function setAttribute($attribute, $value)
     {

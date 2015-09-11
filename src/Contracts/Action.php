@@ -91,14 +91,6 @@ interface Action {
     public function render();
 
     /**
-     * Set the class of the action
-     *
-     * @param string $class
-     * @return \Michaeljennings\Carpenter\Components\Action
-     */
-    public function setClass($class);
-
-    /**
      * Set the label for an action
      *
      * @param string $label
@@ -107,10 +99,43 @@ interface Action {
     public function setLabel($label);
 
     /**
+     * Set the HTML tag to wrap the action with.
+     * 
+     * @param string $tag
+     * @return $this
+     */
+    public function setTag($tag);
+
+    /**
+     * Set the href for the anchor and set the action tag to an anchor.
+     * 
+     * @param  string|\Closure $href
+     * @return $this
+     */
+    public function setHref($href);
+
+    /**
+     * Alias for setHref method.
+     * 
+     * @param  string|\Closure $href
+     * @return $this
+     */
+    public function href($href);
+
+    /**
+     * Set the class of the action
+     *
+     * @param string|\Closure $class
+     * @return $this
+     */
+    public function setClass($class);
+
+    /**
      * Set the provided attribute for the action.
      * 
-     * @param string $attribute
-     * @param string $value
+     * @param string         $attribute
+     * @param string|\Closure $value
+     * @return $this
      */
     public function setAttribute($attribute, $value);
 
