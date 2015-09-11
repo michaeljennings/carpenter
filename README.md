@@ -6,10 +6,21 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 - [Installation](#installation)
 - [Laravel 5 Integration](#laravel-5-integration)
 - [Laravel 4 Integration](#laravel-4-integration)
-- [Usage](#usage)
-- [Creating Tables](#creating-tables)
-- [Table Methods](#table-methods)
-- [Filters](#filters)
+- [Creating a Table Instance](#creating-a-table-instance)
+- [Table Markup](#table-markup)
+	- [Class Based Tables](#class-based-tables)
+- [Setting Table Data](#setting-table-data)
+	- [Paginating Results](#paginating-data)
+- [Adding Columns](#adding-columns)
+	- [Sorting Columns](#sorting-columns)
+	- [Column Labels](#column-labels)
+	- [Formatting Column Data](#formatting-column-data)
+- [Adding Actions](#adding-actions)
+	- [Set the Action Link](#set-the-action-link)
+	- [Set the Action Label](#set-the-action-label)
+	- [Set the Action Attributes](#set-the-action-attributes)
+	- [Confirm an Action](#confirm-an-action)
+- [Filtering Table Data](#filtering-table-data)
 
 ## Planned Features
 - Unit Tests & CI
@@ -91,246 +102,281 @@ public function __construct(Michaeljennings\Carpenter\Contracts\Table $carpenter
 }
 ```
 
-## Usage
+## Creating a Table Instance
 
-### Creating Tables
+To get started creating tables firstly you want to make a table instance. There are two different ways to go about this.
 
-There are two ways to create tables with carpenter. Firstly we can use the table collection where you add a table 
-somewhere in your application to the table collection and the retrieve it later. Or we can create a one off instance of
-a table.
+Firstly Carpenter allows you to bind a tabke to a key and then retrieve it when you need it.
 
-#### Using the Table Collection
-
-To add a class to the table collection we use the `add` method. The `add` method takes two arguments. The first is a 
-unique key for the table that we shall use to retrieve the table and the second is either a closure or the name of a  
-class.
+To bind an instance use the `add`.
 
 ```php
 $carpenter->add('foo', function($table) {});
-$carpenter->add('bar', 'FooBar');
 ```
 
-By default the table based classes use a build method, but if you wish to specify a method you can do so by using an @ 
-symbol then the name of the method.
+You can then retrieve and instance by using the `get` method.
 
 ```php
-$carpenter->add('bar', 'FooBar@bar');
-```
-    
-To retrieve the table from the collection we use the `get` method.
-
-```php
-$carpenter->get('foo');
-```
-    
-#### Tables Without the Collection
-
-To create a table without using the table collection we use the `make` method. This takes the same arguments as the 
-`add` method as the unique key is used for to help keep session unique to the table.
-
-```php
-$carpenter->make('foo', function($table) {});
-$carpenter->make('bar', 'FooBar');
+$table = $carpenter->get('foo');
 ```
 
-#### Rendering the Table
-
-To render the table instance you can either echo out the table or use the `render` method to turn it into a string or 
-you can simply echo out the table instance.
+However if you wish to make a single table instance without binding the table then you can use the `make` method.
 
 ```php
-$carpenter->get('foo')->render();
-echo $carpenter->get('foo');
-```
-    
-### Table Methods
-
-At present there are two data store's supported; Eloquent and arrays.
-
-To use the Eloquent store you must use the model method to set which model to get results from.
-
-```php
-$carpenter->add('foo', function($table)
-{
-  $table->model('Bar');
-});
+$table = $carpenter->make('foo', function($table) {});
 ```
 
-If you are using the array store you use the `data` method to set the results. This can be run when setting up the table
-or after you have retrieved the table from the collection.
+With the `make` method the key passed as the first argument is not used to bind the table, but it is used to keep all
+session data unique to the table.
+
+## Table Markup
+
+Now that you have your table instance it's time to start defining the markup of your table. To this you may either pass
+an annonymous function to either the `add` or `make` method or pass it the name of class to use.
 
 ```php
-$carpenter(function($table) use($data) 
-{
-    $table->data($data);
+$carpenter->add('foo', function($table) {
+	// Table logic goes here.
 });
 
-$carpenter->get('foo')->data($data);
+$carpenter->add('bar', Bar::class);
 ```
 
-To add a title for the table you can use the `setTitle` method.
+### Class Based Tables
+
+By default when using a class to define your table markup you need to provide a build method. This will be passed the 
+table instance.
 
 ```php
-$carpenter->add('foo', function($table)
+use Michaeljennings\Carpenter\Contracts\Table;
+
+class Bar 
 {
-  $table->model('Bar');
-  $table->setTitle('Foo Bar');
-});
+	public function build(Table $table)
+	{
+		//
+	}
+}
 ```
-    
-To paginate the results use the paginate method.
+
+If you want to use a different method name then you just need to specify it when you create your table instance by 
+seperating the class name and method name with an @.
 
 ```php
-$carpenter->add('foo', function($table)
-{
-  $table->model('Bar');
-  $table->paginate(15);
-});
-```
-    
-#### Table Columns    
+$carpenter->add('bar', "Bar@table");
 
-To create a new table column we use the `column` method.
+class Bar
+{
+	public function table(Table $table)
+	{
+		//
+	}
+}
+```
+
+## Setting Table Data
+
+At present you can either use Eloquent or CodeIgniter models, or multidimensional arrays to populate the table.
+
+To set the model to be used use the `model` method.
+
+```php
+$table->model(FooModel::class);
+```
+
+Or to use an array pass the array to the `data` method.
+
+```php
+$table->data($data);
+```
+
+### Paginating Results
+
+To paginate the table pass the amount of results you wish to show on each page to the `paginate` method.
+
+```php
+$table->paginate(15);
+```
+
+## Adding Columns
+
+To add a new column or retrieve an existing column from the table use the `column` method.
 
 ```php
 $table->column('foo');
 ```
-    
-The column function returns a new column object and we can chain methods onto this, for example the `setLabel` method 
-will change the label at the top of the column.
+
+### Sorting Columns
+
+By default all columns are set to be sortable and this will be handled by carpenter. However if you wish to stop a 
+column from being sortable the use the `unsortable` method. Or if you wish to make the column sortable use the 
+`sortable` method.
 
 ```php
-$table->column('foo')->setLabel('Bar');
-```
-    
-If you need to format the data displayed in a column we can use the `presenter` function. This takes a closure
-and runs it over each cell in that column, for example if we have a column which is putting out a date we could 
-format it to make it more user friendly.
-
-```php
-$table->column('date')->presenter(function($date)
-{
-    $date = new DateTime($date);
-    return $date->format('d-m-Y');
-});
-```
-    
-If you need to access data from within the row not just the value of the cell you are using the presenter you can 
-do so using the second parameter in the presenter closure.
-
-```php
-$table->column('bar')->presenter(function($bar, $row)
-{
-    if ($row->foo) {
-        return $bar;
-    }
-});
-```
-    
-#### Table Actions
-
-To add buttons to the table we can use the `action` method. There are two places you can position the buttons, along 
-the top and in each row. You can set the position by passing a second parameter to the action method of either 
-`'table'` or `'row'`, the buttons default to being along the top if no parameter is supplied.
-
-```php
-$table->action('create', 'table'); // I'll be at the top of the table
-$table->action('edit', 'row'); // I'll be at the end of each row
+$table->column('foo')->sortable();
+$table->column('foo')->unsortable();
 ```
 
-Like with the columns we can then chain functions on to the actions. By default the button will be a submit button, 
-but you can change it to an anchor by using the href method. The href function can be passed a string or a closure 
-which will give the id of the row as a first paramater and the whole row as the second.
+### Column Labels
+
+By default the column will work out the label to use for the column from the column name. If the column name has an 
+underscore then it will replace it with a space and then it will capitalise all words.
+
+If you want to specify a specific label you can use the `setLabel` method.
 
 ```php
-$table->action('foo')->href('/bar');
+$table->column('foo'); // Label: Foo
+$table->column('foo_bar'); // Label: Foo Bar
+$table->column('foo_bar')->setLabel('Baz') // Label: Baz
+```
 
-$table->action('edit', 'row')->href(function($id) 
-{
-  return route('edit', [$id]); 
-});
+### Formatting Column Data
 
-$table->action('view', 'row')->href(function($id, $row) 
-{
-  return route('view', [$row->slug]) 
+Occasionally you may wish to format each value in a column. For example if you were showing the price of an item then
+you may want to format to a currency. To do this you can use a presenter.
+
+To get started use the `presenter` method. This is passed an annonymous function for you to format the value.
+
+```php
+$table->column('price')->presenter(function($value) {
+	return '&' . number_format($value, 2);
 });
 ```
 
-To set a label for the action we can use the `setLabel` method.
+You may also wish to get data from the reset of the row. For example you may only want to show the price if the item
+is set to online. To do this just pass a second parameter to the closure.
 
 ```php
-$table->action('foo')->setLabel('Bar');
-```
-    
-To add a class to the action we use the `setClass` method.
-
-```php
-$table->action('foo')->setClass('bar');
-```
-    
-You can also set any html attribute by using the attribute name as the method name.
-
-```php
-$table->action('foo')->id('bar');
-```
-
-Or you can use the `setAttribute` method which can be useful if the attribute to has a hypen in it.
-
-If you need access to the action value or the row then you can pass a closure as the value.
-
-```php
-$table->action('foo')->setAttribute('data-id', 1);
-$table->action('foo')->setAttribute('data-id', function($id, $row) {
-  return $id;
+$table->column('price')->presenter(function($value, $row) {
+	if ($row->online) {
+		return '&' . number_format($value, 2);
+	}
 });
 ```
-    
-If you need to add a confirmed popup for the button you can do so by adding a confirmed method.
+
+## Adding Actions
+
+Occasionally you may need to add buttons or links to each row, or to the top of the table. To do this we use actions.
+
+To add an action to the table use the `action` method. The first parameter is a key for the action and the second is 
+the position in the table. By default the actions go to the top of the table but to put them at the end of the row pass
+the position as the second argument.
 
 ```php
-$table->action('foo')->confirmed("I have to be confirmed first.");
+$table->action('create');
+$table->action('edit', 'row');
 ```
-    
-To use the confirmed function you will need to include the carpenter.js file and run the jQuery plugin.
-    
+
+By default actions are set as buttons, however if you set an href attribute it will become an anchor. Or you can use the
+`setTag` method to set a custom element. When you set an element don't pass any chevrons as this will be added when the 
+action is rendered.
+
+```php
+$table->action('create')->setTag('div');
+```
+
+In the default templates the table is wrapped in a form which is where the actions post to. By default the form posts to
+the current url you are on, however if you wish to post to a specific url you can use the `setFormAction` method. Also
+if you don't want the form to post you can set the method using the `setFormMethod` method.
+
+```php
+$table->setFormAction('/search');
+$table->setFormMethod('GET');
+```
+
+### Set Action Link
+
+To set a url for the action use the `setHref` method.
+
+```php
+$table->action('create')->setHref('/create');
+```
+
+If you are using a row action you may also want to access data from the row. To this pass a closure to the `setHref` 
+method.
+
+```php
+$table->action('edit', 'row')->setHref(function($id) {
+	return '/edit/' . $id;
+});
+
+$table->action('edit', 'row')->setHref(function($id, $row) {
+	return '/edit/' . $row->slug;
+});
+```
+
+### Set Action Label
+
+To set the label for an action use the `setLabel` method.
+
+```php
+$table->action('edit', 'row')->setLabel('Edit');
+```
+
+### Setting Action Attributes
+
+To add a class to the action use the `setClass` method.
+
+```php
+$table->action('edit', 'row')->setClass('btn');
+```
+
+To set other attributes you can either use the attribute name as the method name, or use the `setAttribute` method.
+
+```php
+$table->action('edit', 'row')->id('edit-item');
+$table->action('edit', 'row')->setAttribute('id', 'edit-item');
+```
+
+Again like with the `setHref` method you can pass a closure as the value to get attributes from the row.
+
+```php
+$table->action('edit', 'row')->setAttribute('data-id', function($id, $row) {
+	return $id;
+});
+```
+
+### Confirm an Action
+
+For some actions, like deletes you may want the user to confirm that they want to run the action. To this you can use 
+the `confirmed` method. Again if you want to access attributes from the row you can pass a closure as the value.
+
+```php
+$table->action('delete', 'row')->confirmed('Are you use you to delete that?');
+$table->action('delete', 'row')->confirmed(function($id, $product) {
+	return "Are you sure you want to delete {$product->name}?";
+});
+```
+
+This will then add a confirmed attribute to the action.
+
+		<button confirmed="Are you use you to delete that?"></button>
+
+Carpenter comes with a jQuery plugin to handle the confirmed functionality or you can listen for the attribute. To use
+the plugin just include the carpenter.js file and then run the `carpenterJs()` method on the parent element around the
+table.
+
     <script type="text/javascript" src="/path/to/script/carpenter.js"></script>
     <script type="text/javascript">
         $('.table-parent').carpenterJs();
     </script>
-    
-It may also be useful to only show an action when a condition is met, to do this we use the `when` method. This can 
-only be used for actions that are in a row. The when method takes one parameter which is a closure which has the 
-current row passed to it.
+
+## Filtering Table Data
+
+Occasionally you may find your self wanting to query the data in the tables. To do this you can use filters.
+
+You can add a filter either when you are creating the table markup or after you have retrieved the table instance.
+
+To use the filter pass a closure to the `filter` method and the closure will be passed an instance of the data store
+you are using. If you are using a model you can use any of the methods you have access to on that model.
+
 
 ```php
-$table->action('foo')->when(function($row)
-{
-  if ($row->status == 'bar') {
-    return true;
-  }
-  
-  return false;
+$table->filter(function($q) {
+	$q->orderBy('foo');
 });
-```
-    
-#### Filters
 
-Filters are used to filter the results show in the table. You can use any of the query builder functions in the 
-filter.
-
-```php
-$table->filter(function($q)
-{
-  $q->orderBy('foo');
-});
-```
-    
-You can use the filters until the table is rendered so if you need to use the same table in multiple places but 
-filter it slightly differently you can do so.
-
-```php
-$carpenter->get('foo')->filter(function($q)
-{
-  $q->where('foo', '=', 'bar');
+$table->get('foo')->filter(function($q) {
+	$q->where('foo', '=', 'bar');
 });
 ```
