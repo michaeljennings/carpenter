@@ -107,7 +107,7 @@ class Column extends MockArray implements ColumnContract {
         $renderedQuery = [];
 
         foreach ($queries as $query => $value) {
-            $renderedQuery[] = $query . '="' . $value . '"';
+            $renderedQuery[] = $query . '=' . $value;
         }
 
         return implode('&', $renderedQuery);

@@ -117,7 +117,7 @@ class Action extends MockArray implements ActionContract {
     {
         $attributes = $this->renderAttributes($attributes);
 
-        return sprintf('<%s %s>%s</%s>', $tag, $attributes, $this->label. $tag);
+        return sprintf('<%s %s>%s</%s>', $tag, $attributes, $this->label, $tag);
     }
 
     /**
@@ -130,7 +130,7 @@ class Action extends MockArray implements ActionContract {
         $renderedAttributes = [];
 
         foreach ($attributes as $attribute => $value) {
-            if ($value typeof Closure) {
+            if ($value instanceof Closure) {
                 $renderedAttributes[] = $attribute . '="' . $value($this->value, $this->row) . '"';
             } else {
                 $renderedAttributes[] = $attribute . '="' . $value . '"';
