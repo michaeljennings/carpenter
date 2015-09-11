@@ -55,7 +55,7 @@ class Column extends MockArray implements ColumnContract {
         $this->config = $config;
 
         if ($column) {
-            $this->createHref($column, $key);
+            $this->href = $this->createHref($column, $key);
         }
     }
 
@@ -66,29 +66,64 @@ class Column extends MockArray implements ColumnContract {
      * @param  string $key
      * @return void
      */
-    private function createHref($column, $key)
+    protected function createHref($column, $key)
     {
         if ($this->sortable) {
+            $query = ['sort' => $column];
 
+            // Check if this column is being sorted
             if ($this->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
+                // If it is check if it is being descending
                 if ($this->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
                     $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
+
+                    // Check if there is a query string present
                     if (count($splitUrl) < 2) {
-                        $this->session->forget($this->config['session']['key'] . '.' . $key . '.sort');
-                        $this->session->forget($this->config['session']['key'] . '.' . $key . '.dir');
-                        $this->href = '?sort=' . $column;
+                        // If not then clear the sort
+                        $this->clearSession($key);
                     } else {
-                        $this->href = $splitUrl[0];
                         $this->sort = 'up';
+
+                        return $splitUrl[0];
                     }
                 } else {
-                    $this->href = '?sort=' . $column . '&dir=desc';
+                    $query['dir'] = 'desc';
                     $this->sort = 'down';
                 }
-            } else {
-                $this->href = '?sort=' . $column;
             }
+
+            return '?' . $this->renderQueryString($query);
         }
+    }
+
+    /**
+     * Render the query string from the query elements.
+     * 
+     * @param  array  $queries
+     * @return string
+     */
+    protected function renderQueryString(array $queries)
+    {
+        $renderedQuery = [];
+
+        foreach ($queries as $query => $value) {
+            $renderedQuery[] = $query . '="' . $value . '"';
+        }
+
+        return implode('&', $renderedQuery);
+    }
+
+    /**
+     * Clear the sort keys from the session
+     * @param  string $key
+     * @return bool
+     */
+    protected function clearSession($key)
+    {
+        $this->session->forget($this->config['session']['key'] . '.' . $key . '.sort');
+        $this->session->forget($this->config['session']['key'] . '.' . $key . '.dir');
+
+        return true;
     }
 
     /**
