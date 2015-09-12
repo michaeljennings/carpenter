@@ -46,9 +46,9 @@ class Cell implements CellContract {
      *
      * @param  string   $value
      * @param  mixed  	$row
-     * @param  Column   $column
+     * @param  ColumnContract   $column
      */
-    protected function createCell($value, $row, $column)
+    protected function createCell($value, $row, ColumnContract $column)
     {
         if ($column->hasPresenter()) {
             $callback = $column->getPresenter();
