@@ -21,6 +21,9 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 	- [Set the Action Attributes](#setting-action-attributes)
 	- [Confirm an Action](#confirm-an-action)
 - [Filtering Table Data](#filtering-table-data)
+- [Rendering Tables](#rendering-tables)
+	- [Rendering With a Template](#rendering-with-a-template) 
+	- [Getting Data From a Table Instance](#getting-data-from-a-table-instance)
 
 ## Planned Features
 - Unit Tests & CI
@@ -423,7 +426,7 @@ use in the config file.
  
 Carpenter also comes with three default templates, but it's very simple to make your own.
 
-### Getting Data From Table Instance
+### Getting Data From a Table Instance
 
 ### Getting the Table Columns
 
