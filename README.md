@@ -25,7 +25,6 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 ## Planned Features
 - Unit Tests & CI
 - PDO Store Driver
-- Search Table Results
 
 ## Installation
 This package requires PHP 5.4+, and includes a Laravel 5 Service Provider and Facade.
@@ -360,6 +359,17 @@ table.
     <script type="text/javascript">
         $('.table-parent').carpenterJs();
     </script>
+    
+## Other Table Methods
+
+### Set a Table Title
+
+To set a title for the table use the `setTitle` method. In the default templates this will be shown to the top left of 
+the table.
+
+```php
+$table->setTitle('FooBar Table');
+```
 
 ## Filtering Table Data
 
@@ -379,4 +389,164 @@ $table->filter(function($q) {
 $table->get('foo')->filter(function($q) {
 	$q->where('foo', '=', 'bar');
 });
+```
+
+## Rendering Tables
+
+There are two ways to render tables; you can either use a template, or you can get the data from the table instance.
+
+### Rendering With a Template
+
+By default when you call the render method it will use the template set in the config file. If you want to use a 
+template for a specific table then use the `setTemplate` method.
+
+```php
+$table->setTemplate('path/to/template.php');
+```
+
+Currently Carpenter supports Laravel, CodeIgniter and a native PHP template renderer's. You can set which renderer to 
+use in the config file.
+ 
+Carpenter also comes with three default templates, but it's very simple to make your own.
+
+### Getting Data From Table Instance
+
+### Getting the Table Columns
+
+To get the table columns use the `getColumns()` method.
+
+```php
+foreach ($table->getColumns() as $column) {
+	//
+}
+```
+
+#### Column Methods
+
+Get the column HTML attributes.
+
+```php
+$table->getAttributes();
+```
+
+Get the column heading label.
+
+```php
+$table->getLabel();
+```
+
+Check if the column is sortable.
+
+```php
+$table->isSortable();
+```
+
+Get the column href.
+
+```php
+$table->getHref();
+```
+
+### Getting the Table Rows
+
+To get the rows use the `getRows` method.
+
+```php
+foreach ($table->getRows() as $row) {
+	//
+}
+```
+
+You can also check if the table has any rows with the `hasRows` method.
+
+```php
+if ($table->hasRows()) {
+	//
+}
+```
+
+#### Row Methods
+
+To get the cells in the row use the `getCells` method.
+
+```php
+foreach ($row->getCells() as $cell) {
+	echo $cell->value;
+}
+```
+
+To check if the row has any actions use the `hasActions` method.
+
+```php
+if ($row->hasActions()) {
+	//
+}
+```
+
+Then to get the actions for the row use the `getActions` method. Finally to render the action use the `render` method on
+the action.
+
+```php
+foreach ($row->getActions() as $action) {
+	echo $action->render();
+}
+```
+
+### Getting Table Actions
+
+To check if the table has any table actions use the `hasActions` method.
+
+```php
+if ($table->hasActions()) {
+	//
+}
+```
+
+To get the actions to play at the top of the table use the `getActions` method. Then to render the action use the 
+`render` method on the action.
+
+```php
+foreach ($table->getActions() as $action) {
+	echo $action->render();
+}
+```
+
+### Getting the Pagination Links
+
+To check if the table has any pagination links use the `hasLinks` method.
+
+```php
+if ($table->hasLinks()) {
+	//
+}
+```
+
+Then to get the pagination links use the `getLinks` method.
+
+```php
+echo $table->getLinks();
+```
+
+### Other Table Methods
+
+#### Getting the Table Title
+
+To get the title use the `getTitle` method.
+
+```php
+$table->getTitle();
+```
+
+#### Getting the Form Action
+
+To get the form action use the `getFormAction` method.
+
+```php
+$table->getFormAction();
+```
+
+Also to get the form method use the `getFormMethod` method.
+
+```php
+$table->getFormMethod();
 ```
