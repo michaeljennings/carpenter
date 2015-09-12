@@ -58,7 +58,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="<?echo count($table->getColumns()) ?>">No Results Found.</td>
+                        <td colspan="<?php echo count($table->getColumns()) ?>">No Results Found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
