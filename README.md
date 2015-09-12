@@ -119,6 +119,20 @@ You can then retrieve and instance by using the `get` method.
 $table = $carpenter->get('foo');
 ```
 
+Once you've retrieved a table you can run any of the table methods below to alter the table. Or if you wish you can 
+pass a closure as a second parameter and alter the table in there.
+
+```php
+$table = $carpenter->get('foo');
+
+$table->column('bar');
+
+$table = $carpenter->get('foo', function($table) {
+	$table->column('bar');
+});
+
+```
+
 However if you wish to make a single table instance without binding the table then you can use the `make` method.
 
 ```php
@@ -257,9 +271,9 @@ $table->column('price')->presenter(function($value, $row) {
 
 Occasionally you may need to add buttons or links to each row, or to the top of the table. To do this we use actions.
 
-To add an action to the table use the `action` method. The first parameter is a key for the action and the second is 
-the position in the table. By default the actions go to the top of the table but to put them at the end of the row pass
-the position as the second argument.
+To add an action to the table, or retrieve and existing action, use the `action` method. The first parameter is a key 
+for the action and the second is the position in the table. By default the actions go to the top of the table but to 
+put them at the end of the row pass the position as the second argument.
 
 ```php
 $table->action('create');
