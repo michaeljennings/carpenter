@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Pagination;
+<?php
+
+namespace Michaeljennings\Carpenter\Pagination;
 
 use Michaeljennings\Carpenter\Contracts\Paginator;
 
-class Native implements Paginator {
-
+class Native implements Paginator
+{
     /**
      * The current page.
      *
@@ -99,7 +101,7 @@ class Native implements Paginator {
     protected function getCurrentPage()
     {
         if (isset($_GET['page'])) {
-            $this->page = (int) $_GET['page'];
+            $this->page = (int)$_GET['page'];
         }
 
         return $this->page;
@@ -152,7 +154,7 @@ class Native implements Paginator {
     /**
      * Create a pagination link.
      *
-     * @param $page
+     * @param      $page
      * @param null $label
      * @return string
      */
@@ -176,5 +178,4 @@ class Native implements Paginator {
 
         return $path . '?page=' . $page;
     }
-
 }

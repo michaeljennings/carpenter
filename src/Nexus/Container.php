@@ -1,13 +1,15 @@
-<?php namespace Michaeljennings\Carpenter\Nexus;
+<?php
+
+namespace Michaeljennings\Carpenter\Nexus;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 
-class Container implements ArrayAccess, IteratorAggregate {
-
+class Container implements ArrayAccess, IteratorAggregate
+{
     /**
-     * @var mixed
+     * @var array
      */
     protected $items = [];
 
@@ -33,7 +35,7 @@ class Container implements ArrayAccess, IteratorAggregate {
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return bool
      */
     public function offsetExists($key)
@@ -44,7 +46,7 @@ class Container implements ArrayAccess, IteratorAggregate {
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return mixed
      */
     public function offsetGet($key)
@@ -55,8 +57,8 @@ class Container implements ArrayAccess, IteratorAggregate {
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed  $key
-     * @param  mixed  $value
+     * @param  mixed $key
+     * @param  mixed $value
      * @return void
      */
     public function offsetSet($key, $value)
@@ -71,12 +73,11 @@ class Container implements ArrayAccess, IteratorAggregate {
     /**
      * Unset the item at a given offset.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function offsetUnset($key)
     {
         unset($this->items[$key]);
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php
+
+namespace Michaeljennings\Carpenter;
 
 use Closure;
 use Michaeljennings\Carpenter\View\ViewManager;
@@ -9,14 +11,14 @@ use Michaeljennings\Carpenter\Exceptions\TableLocationNotFound;
 use Michaeljennings\Carpenter\Exceptions\CarpenterCollectionException;
 use Michaeljennings\Carpenter\Contracts\Carpenter as CarpenterInterface;
 
-class Carpenter implements CarpenterInterface {
-
+class Carpenter implements CarpenterInterface
+{
     /**
      * A collection of table closures
      *
      * @var array
      */
-    protected $collection = array();
+    protected $collection = [];
 
     public function __construct($config)
     {
@@ -26,7 +28,7 @@ class Carpenter implements CarpenterInterface {
     /**
      * Add a table closure into the table collection
      *
-     * @param string   $name
+     * @param string          $name
      * @param callable|string $table
      */
     public function add($name, $table)
@@ -71,7 +73,7 @@ class Carpenter implements CarpenterInterface {
     /**
      * Run the callback on the a table instance and then return the table.
      *
-     * @param string $name
+     * @param string  $name
      * @param Closure $callback
      * @return Table
      */
@@ -95,9 +97,8 @@ class Carpenter implements CarpenterInterface {
     {
         list($class, $method) = $this->parseClassCallback($callback);
 
-        return function() use ($class, $method)
-        {
-            $callable = array(new $class, $method);
+        return function () use ($class, $method) {
+            $callable = [new $class, $method];
 
             return call_user_func_array($callable, func_get_args());
         };
@@ -115,7 +116,7 @@ class Carpenter implements CarpenterInterface {
             return explode('@', $class);
         }
 
-        return array($class, 'build');
+        return [$class, 'build'];
     }
 
     /**

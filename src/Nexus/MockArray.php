@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Nexus;
+<?php
+
+namespace Michaeljennings\Carpenter\Nexus;
 
 use ArrayAccess;
 
-class MockArray implements ArrayAccess {
-
+class MockArray implements ArrayAccess
+{
     /**
      * All of the component attributes.
      *
@@ -11,10 +13,9 @@ class MockArray implements ArrayAccess {
      */
     protected $attributes = [];
 
-    public function __construct($attributes = array())
+    public function __construct($attributes = [])
     {
-        foreach ($attributes as $key => $value)
-        {
+        foreach ($attributes as $key => $value) {
             $this->attributes[$key] = $value;
         }
     }
@@ -22,14 +23,13 @@ class MockArray implements ArrayAccess {
     /**
      * Get an attribute.
      *
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        if (array_key_exists($key, $this->attributes))
-        {
+        if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
@@ -49,7 +49,7 @@ class MockArray implements ArrayAccess {
     /**
      * Determine if the given offset exists.
      *
-     * @param  string  $offset
+     * @param  string $offset
      * @return bool
      */
     public function offsetExists($offset)
@@ -60,7 +60,7 @@ class MockArray implements ArrayAccess {
     /**
      * Get the value for a given offset.
      *
-     * @param  string  $offset
+     * @param  string $offset
      * @return mixed
      */
     public function offsetGet($offset)
@@ -71,8 +71,8 @@ class MockArray implements ArrayAccess {
     /**
      * Set the value at the given offset.
      *
-     * @param  string  $offset
-     * @param  mixed   $value
+     * @param  string $offset
+     * @param  mixed  $value
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -83,7 +83,7 @@ class MockArray implements ArrayAccess {
     /**
      * Unset the value at the given offset.
      *
-     * @param  string  $offset
+     * @param  string $offset
      * @return void
      */
     public function offsetUnset($offset)
@@ -105,13 +105,14 @@ class MockArray implements ArrayAccess {
         } else {
             $this->attributes[$name] = $name;
         }
+
         return $this;
     }
 
     /**
      * Dynamically retrieve the value of an attribute.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return mixed
      */
     public function __get($key)
@@ -122,8 +123,8 @@ class MockArray implements ArrayAccess {
     /**
      * Dynamically set the value of an attribute.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed  $value
      * @return void
      */
     public function __set($key, $value)
@@ -134,7 +135,7 @@ class MockArray implements ArrayAccess {
     /**
      * Dynamically check if an attribute is set.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function __isset($key)
@@ -145,12 +146,11 @@ class MockArray implements ArrayAccess {
     /**
      * Dynamically unset an attribute.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function __unset($key)
     {
         unset($this->attributes[$key]);
     }
-
 }

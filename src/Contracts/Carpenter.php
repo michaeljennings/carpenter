@@ -1,13 +1,15 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
+
+namespace Michaeljennings\Carpenter\Contracts;
 
 use Closure;
 
-interface Carpenter {
-
+interface Carpenter
+{
     /**
      * Add a table closure into the table collection
      *
-     * @param string   $name
+     * @param string          $name
      * @param callable|string $table
      */
     public function add($name, $table);
@@ -29,5 +31,4 @@ interface Carpenter {
      * @return Table
      */
     public function make($name, Closure $callback);
-
 }

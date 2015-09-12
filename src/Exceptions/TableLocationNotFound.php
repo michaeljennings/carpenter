@@ -1,3 +1,7 @@
-<?php namespace Michaeljennings\Carpenter\Exceptions;
+<?php
 
-class TableLocationNotFound extends \Exception {}
+namespace Michaeljennings\Carpenter\Exceptions;
+
+class TableLocationNotFound extends \Exception
+{
+}

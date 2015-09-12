@@ -1,4 +1,6 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php
+
+namespace Michaeljennings\Carpenter;
 
 use Closure;
 use Michaeljennings\Carpenter\Components\Row;
@@ -12,8 +14,8 @@ use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Pagination\PaginationManager;
 use Michaeljennings\Carpenter\Contracts\Table as TableContract;
 
-class Table implements TableContract {
-
+class Table implements TableContract
+{
     /**
      * A unique key for the table, used to help keep column orders unique
      * to each table instance.
@@ -286,9 +288,9 @@ class Table implements TableContract {
             $this->template = $this->config['view']['views']['template'];
         }
 
-        return $this->view->make($this->template, array(
+        return $this->view->make($this->template, [
             'table' => $this
-        ));
+        ]);
     }
 
     /**
@@ -436,9 +438,9 @@ class Table implements TableContract {
      */
     protected function orderResults()
     {
-        if ($this->session->has($this->config['session']['key'] . '.'. $this->key.'.sort')) {
-            $this->sortBy = $this->session->get($this->config['session']['key'] . '.'.$this->key.'.sort');
-            if ($this->session->has($this->config['session']['key'] . '.'.$this->key.'.dir')) {
+        if ($this->session->has($this->config['session']['key'] . '.' . $this->key . '.sort')) {
+            $this->sortBy = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort');
+            if ($this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir')) {
                 $this->sortDir = 'desc';
             }
         }
@@ -738,12 +740,12 @@ class Table implements TableContract {
      */
     protected function getWrapper()
     {
-        return isset($this->wrapper) ? $this->wrapper: $this->config['store']['wrapper'];
+        return isset($this->wrapper) ? $this->wrapper : $this->config['store']['wrapper'];
     }
 
     /**
      * Get the total results being from the query.
-     * 
+     *
      * @return int
      */
     public function getTotal()
@@ -753,7 +755,7 @@ class Table implements TableContract {
 
     /**
      * Get the total amount being displayed per page.
-     * 
+     *
      * @return int|string|null
      */
     public function getTotalPerPage()
@@ -777,10 +779,10 @@ class Table implements TableContract {
     /**
      * Create a new column.
      *
-     * @param string $name
-     * @param string $key
+     * @param string         $name
+     * @param string         $key
      * @param SessionManager $session
-     * @param array $config
+     * @param array          $config
      * @return Column
      */
     protected function newColumn($name, $key, SessionManager $session, array $config)
@@ -791,8 +793,8 @@ class Table implements TableContract {
     /**
      * Return a new table cell.
      *
-     * @param mixed $value
-     * @param mixed $result
+     * @param mixed  $value
+     * @param mixed  $result
      * @param Column $column
      * @return Cell
      */
@@ -837,5 +839,4 @@ class Table implements TableContract {
     {
         return $this->render();
     }
-
 }

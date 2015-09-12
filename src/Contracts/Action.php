@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
+
+namespace Michaeljennings\Carpenter\Contracts;
 
 use Closure;
 
-interface Action {
-
+interface Action
+{
     /**
      * Set the column used by the action
      *
@@ -100,7 +102,7 @@ interface Action {
 
     /**
      * Set the HTML tag to wrap the action with.
-     * 
+     *
      * @param string $tag
      * @return $this
      */
@@ -108,7 +110,7 @@ interface Action {
 
     /**
      * Set the href for the anchor and set the action tag to an anchor.
-     * 
+     *
      * @param  string|\Closure $href
      * @return $this
      */
@@ -116,7 +118,7 @@ interface Action {
 
     /**
      * Alias for setHref method.
-     * 
+     *
      * @param  string|\Closure $href
      * @return $this
      */
@@ -132,11 +134,10 @@ interface Action {
 
     /**
      * Set the provided attribute for the action.
-     * 
-     * @param string         $attribute
+     *
+     * @param string          $attribute
      * @param string|\Closure $value
      * @return $this
      */
     public function setAttribute($attribute, $value);
-
 }

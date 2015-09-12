@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
+
+namespace Michaeljennings\Carpenter\Contracts;
 
 use Closure;
 
-interface Table {
-
+interface Table
+{
     /**
      * Add a new column to the table.
      *
@@ -224,14 +226,14 @@ interface Table {
 
     /**
      * Get the total results being from the query.
-     * 
+     *
      * @return int
      */
     public function getTotal();
 
     /**
      * Get the total amount being displayed per page.
-     * 
+     *
      * @return int|string|null
      */
     public function getTotalPerPage();
@@ -251,5 +253,4 @@ interface Table {
      * @return \Michaeljennings\Carpenter\Table
      */
     public function store($driver);
-
 }

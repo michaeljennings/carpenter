@@ -1,15 +1,17 @@
-<?php namespace Michaeljennings\Carpenter\Tests;
+<?php
+
+namespace Michaeljennings\Carpenter\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Michaeljennings\Carpenter\Carpenter;
 
-class CarpenterTest extends PHPUnit_Framework_TestCase {
-
+class CarpenterTest extends PHPUnit_Framework_TestCase
+{
     public function testAddMethodAcceptsClosure()
     {
         $carpenter = $this->makeCarpenter();
 
-        $this->assertNull($carpenter->add('test', function($table) {
+        $this->assertNull($carpenter->add('test', function ($table) {
             $table->setTitle('test');
         }));
     }
@@ -25,7 +27,7 @@ class CarpenterTest extends PHPUnit_Framework_TestCase {
     {
         $carpenter = $this->makeCarpenter();
 
-        $carpenter->add('test', function($table) {
+        $carpenter->add('test', function ($table) {
             $table->setTitle('test');
         });
 
@@ -36,8 +38,7 @@ class CarpenterTest extends PHPUnit_Framework_TestCase {
     {
         $carpenter = $this->makeCarpenter();
 
-        $table = $carpenter->make('test', function($table)
-        {
+        $table = $carpenter->make('test', function ($table) {
             $table->setTitle('test');
         });
 
@@ -55,5 +56,4 @@ class CarpenterTest extends PHPUnit_Framework_TestCase {
     {
         return require __DIR__ . '/../config/config.php';
     }
-
 }

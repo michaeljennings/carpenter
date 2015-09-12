@@ -1,11 +1,13 @@
-<?php namespace Michaeljennings\Carpenter\Components;
+<?php
+
+namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
 use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
-class Action extends MockArray implements ActionContract {
-
+class Action extends MockArray implements ActionContract
+{
     /**
      * The column used by the action.
      *
@@ -44,7 +46,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Set the HTML tag to wrap the action in.
-     * 
+     *
      * @var string
      */
     protected $tag = 'button';
@@ -108,7 +110,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Render the action element.
-     * 
+     *
      * @param  string $tag
      * @param  array  $attributes [description]
      * @return string
@@ -122,7 +124,8 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Render the element attributes to a string.
-     * @param  array  $attributes
+     *
+     * @param  array $attributes
      * @return string
      */
     protected function renderAttributes(array $attributes)
@@ -148,7 +151,9 @@ class Action extends MockArray implements ActionContract {
      */
     public function setColumn($column = false)
     {
-        if ( ! $column) return $this->column;
+        if ( ! $column) {
+            return $this->column;
+        }
 
         $this->column = $column;
 
@@ -184,7 +189,9 @@ class Action extends MockArray implements ActionContract {
      */
     public function setRow($row = false)
     {
-        if ( ! $row) return false;
+        if ( ! $row) {
+            return false;
+        }
 
         $this->row = $row;
 
@@ -251,7 +258,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Set the HTML tag to wrap the action with.
-     * 
+     *
      * @param string $tag
      * @return $this
      */
@@ -264,7 +271,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Set the href for the anchor and set the action tag to an anchor.
-     * 
+     *
      * @param  string|Closure $href
      * @return $this
      */
@@ -278,7 +285,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Alias for setHref method.
-     * 
+     *
      * @param  string|Closure $href
      * @return $this
      */
@@ -302,7 +309,7 @@ class Action extends MockArray implements ActionContract {
 
     /**
      * Set the provided attribute for the action.
-     * 
+     *
      * @param string         $attribute
      * @param string|Closure $value
      * @return $this
@@ -313,5 +320,5 @@ class Action extends MockArray implements ActionContract {
 
         return $this;
     }
-    
+
 }

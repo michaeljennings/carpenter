@@ -1,12 +1,14 @@
-<?php namespace Michaeljennings\Carpenter\Session;
+<?php
+
+namespace Michaeljennings\Carpenter\Session;
 
 use Michaeljennings\Carpenter\Nexus\Manager;
 
-class SessionManager extends Manager {
-
+class SessionManager extends Manager
+{
     /**
      * Return a new instance of the native php session driver.
-     * 
+     *
      * @return Michaeljennings\Carpenter\Session\NativeDriver
      */
     public function createNativeDriver()
@@ -26,7 +28,7 @@ class SessionManager extends Manager {
 
     /**
      * Return a new instance of the codeigniter driver.
-     * 
+     *
      * @return \Michaeljennings\Carpenter\Session\CodeigniterDriver
      */
     public function createCodeigniterDriver()
@@ -43,5 +45,4 @@ class SessionManager extends Manager {
     {
         return $this->config['session']['driver'];
     }
-
 } 

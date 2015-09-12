@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Session;
+<?php
+
+namespace Michaeljennings\Carpenter\Session;
 
 use Illuminate\Session\SessionManager as Store;
 use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
-class IlluminateDriver implements SessionInterface {
-
+class IlluminateDriver implements SessionInterface
+{
     /**
      * The illuminate session driver.
      *
@@ -32,7 +34,7 @@ class IlluminateDriver implements SessionInterface {
      * Store an item in the session
      *
      * @param  string $name
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return mixed
      */
     public function put($name, $value)
@@ -44,7 +46,7 @@ class IlluminateDriver implements SessionInterface {
      * Flash a value to the session
      *
      * @param  string $name
-     * @param  mixed $value
+     * @param  mixed  $value
      * @return mixed
      */
     public function flash($name, $value)
@@ -79,7 +81,7 @@ class IlluminateDriver implements SessionInterface {
      * driver.
      *
      * @param  string $method
-     * @param  array $args
+     * @param  array  $args
      * @return mixed
      */
     public function __call($method, $args)

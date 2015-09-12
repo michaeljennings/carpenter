@@ -1,3 +1,7 @@
-<?php namespace Michaeljennings\Carpenter\Exceptions;
+<?php
 
-class ModelNotSetException extends \Exception {}
+namespace Michaeljennings\Carpenter\Exceptions;
+
+class ModelNotSetException extends \Exception
+{
+}

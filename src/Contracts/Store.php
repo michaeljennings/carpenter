@@ -1,7 +1,9 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
 
-interface Store {
+namespace Michaeljennings\Carpenter\Contracts;
 
+interface Store
+{
     /**
      * Return all of the results.
      *
@@ -32,5 +34,4 @@ interface Store {
      * @return mixed
      */
     public function refreshOrderBy();
-
 }

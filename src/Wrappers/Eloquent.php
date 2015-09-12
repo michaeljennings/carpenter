@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Wrappers;
+<?php
+
+namespace Michaeljennings\Carpenter\Wrappers;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Eloquent {
-
+class Eloquent
+{
     /**
      * The item being wrapped.
      *
@@ -29,5 +31,4 @@ class Eloquent {
     {
         return $this->item->$key;
     }
-
 }

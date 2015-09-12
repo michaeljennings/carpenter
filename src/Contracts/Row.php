@@ -1,7 +1,9 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
 
-interface Row {
+namespace Michaeljennings\Carpenter\Contracts;
 
+interface Row
+{
     /**
      * Set the row id.
      *
@@ -29,7 +31,7 @@ interface Row {
      * Add a cell to the row.
      *
      * @param string $key
-     * @param Cell $cell
+     * @param Cell   $cell
      * @return \Michaeljennings\Carpenter\Components\Row
      */
     public function addCell($key, Cell $cell);
@@ -38,7 +40,7 @@ interface Row {
      * Alias for the addCell method.
      *
      * @param string $key
-     * @param Cell $cell
+     * @param Cell   $cell
      * @return \Michaeljennings\Carpenter\Components\Row
      */
     public function cell($key, Cell $cell);
@@ -100,5 +102,4 @@ interface Row {
      * @return bool
      */
     public function hasActions();
-
 }

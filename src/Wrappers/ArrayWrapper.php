@@ -1,7 +1,9 @@
-<?php namespace Michaeljennings\Carpenter\Wrappers;
+<?php
 
-class ArrayWrapper {
+namespace Michaeljennings\Carpenter\Wrappers;
 
+class ArrayWrapper
+{
     /**
      * The item being wrapped.
      *
@@ -27,5 +29,4 @@ class ArrayWrapper {
     {
         return $this->item[$key];
     }
-
 }

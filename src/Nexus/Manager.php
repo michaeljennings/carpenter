@@ -1,4 +1,6 @@
-<?php namespace Michaeljennings\Carpenter\Nexus;
+<?php
+
+namespace Michaeljennings\Carpenter\Nexus;
 
 use Michaeljennings\Carpenter\Exceptions\DriverNotFoundException;
 
@@ -10,15 +12,21 @@ use Michaeljennings\Carpenter\Exceptions\DriverNotFoundException;
  *
  * @package Michaeljennings\Carpenter
  */
-abstract class Manager {
+abstract class Manager
+{
 
     /**
      * The array of created "drivers".
      *
      * @var array
      */
-    protected $drivers = array();
+    protected $drivers = [];
 
+    /**
+     * The selected driver.
+     *
+     * @var mixed
+     */
     protected $driver;
 
     /**
@@ -26,7 +34,7 @@ abstract class Manager {
      *
      * @var array
      */
-    protected $config = array();
+    protected $config = [];
 
     public function __construct(array $config)
     {
@@ -43,7 +51,7 @@ abstract class Manager {
     /**
      * Get a driver instance.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      */
     public function driver($driver = null)
@@ -51,7 +59,7 @@ abstract class Manager {
         if ( ! isset($this->driver) || ! is_null($driver)) {
             $driver = $driver ?: $this->getDefaultDriver();
 
-            if (!isset($this->drivers[$driver])) {
+            if ( ! isset($this->drivers[$driver])) {
                 $this->drivers[$driver] = $this->constructDriver($driver);
             }
 
@@ -64,14 +72,14 @@ abstract class Manager {
     /**
      * Create a new driver instance.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      *
      * @throws \Michaeljennings\Carpenter\Exceptions\DriverNotFoundException
      */
     protected function constructDriver($driver)
     {
-        $method = 'create'.ucfirst($driver).'Driver';
+        $method = 'create' . ucfirst($driver) . 'Driver';
 
         if (method_exists($this, $method)) {
             return $this->$method();
@@ -80,21 +88,15 @@ abstract class Manager {
         throw new DriverNotFoundException("No driver found with the name '{$driver}'");
     }
 
-    public function getConfig()
-    {
-
-    }
-
     /**
      * Dynamically call the default driver instance.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array(array($this->driver(), $method), $parameters);
+        return call_user_func_array([$this->driver(), $method], $parameters);
     }
-
 }

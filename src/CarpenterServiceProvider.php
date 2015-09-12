@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php
+
+namespace Michaeljennings\Carpenter;
 
 use Illuminate\Support\ServiceProvider;
 
-class CarpenterServiceProvider extends ServiceProvider {
-
+class CarpenterServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -18,12 +20,12 @@ class CarpenterServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../views/', 'michaeljennings/carpenter');
+        $this->loadViewsFrom(__DIR__ . '/../views/', 'michaeljennings/carpenter');
         $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('carpenter.php'),
-            __DIR__.'/../public/' => public_path(),
+            __DIR__ . '/../config/config.php' => config_path('carpenter.php'),
+            __DIR__ . '/../public/' => public_path(),
         ]);
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'carpenter');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'carpenter');
     }
 
     /**
@@ -33,8 +35,7 @@ class CarpenterServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->singleton('michaeljennings.carpenter', function($app)
-        {
+        $this->app->singleton('michaeljennings.carpenter', function ($app) {
             return new Carpenter($this->app['config']['carpenter']);
         });
 
@@ -50,5 +51,4 @@ class CarpenterServiceProvider extends ServiceProvider {
     {
         return ['michaeljennings.carpenter', 'Michaeljennings\Carpenter\Contracts\Carpenter'];
     }
-
 }

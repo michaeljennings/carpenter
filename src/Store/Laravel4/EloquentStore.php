@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Store\Laravel4; 
+<?php
+
+namespace Michaeljennings\Carpenter\Store\Laravel4;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 use Michaeljennings\Carpenter\Store\EloquentStore as Laravel5Store;
 
-class EloquentStore extends Laravel5Store implements Store {
-
+class EloquentStore extends Laravel5Store implements Store
+{
     /**
      * Return the total results.
      *
@@ -14,5 +16,4 @@ class EloquentStore extends Laravel5Store implements Store {
     {
         return $this->model->paginate(1, $this->select)->getTotal();
     }
-
 }

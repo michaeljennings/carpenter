@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
+
+namespace Michaeljennings\Carpenter\Contracts;
 
 use Closure;
 
-interface Column {
-
+interface Column
+{
     /**
      * Set the presenter callback for the column cells
      *
@@ -22,6 +24,7 @@ interface Column {
 
     /**
      * Check if there is a presenter callback for the column
+     *
      * @return boolean
      */
     public function hasPresenter();
@@ -75,5 +78,4 @@ interface Column {
      * @return bool
      */
     public function isSortable();
-
 }

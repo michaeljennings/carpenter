@@ -1,12 +1,14 @@
-<?php namespace Michaeljennings\Carpenter\Components;
+<?php
+
+namespace Michaeljennings\Carpenter\Components;
 
 use Closure;
 use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
-class Column extends MockArray implements ColumnContract {
-
+class Column extends MockArray implements ColumnContract
+{
     /**
      * An instance of the carpenter session manager.
      *
@@ -98,8 +100,8 @@ class Column extends MockArray implements ColumnContract {
 
     /**
      * Render the query string from the query elements.
-     * 
-     * @param  array  $queries
+     *
+     * @param  array $queries
      * @return string
      */
     protected function renderQueryString(array $queries)
@@ -115,6 +117,7 @@ class Column extends MockArray implements ColumnContract {
 
     /**
      * Clear the sort keys from the session
+     *
      * @param  string $key
      * @return bool
      */
@@ -152,6 +155,7 @@ class Column extends MockArray implements ColumnContract {
 
     /**
      * Check if there is a presenter callback for the column
+     *
      * @return boolean
      */
     public function hasPresenter()
@@ -166,7 +170,9 @@ class Column extends MockArray implements ColumnContract {
      */
     public function getPresenter()
     {
-        if (is_null($this->presenter)) return false;
+        if (is_null($this->presenter)) {
+            return false;
+        }
 
         return $this->presenter;
     }

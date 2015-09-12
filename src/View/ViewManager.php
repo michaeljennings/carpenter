@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\View;
+<?php
+
+namespace Michaeljennings\Carpenter\View;
 
 use Michaeljennings\Carpenter\Nexus\Manager;
 
-class ViewManager extends Manager {
-
+class ViewManager extends Manager
+{
     /**
      * Create the illuminate view driver.
      *
@@ -16,7 +18,7 @@ class ViewManager extends Manager {
 
     /**
      * Create the codeigniter view driver.
-     * 
+     *
      * @return CodeigniterDriver
      */
     public function createCodeigniterDriver()
@@ -43,5 +45,4 @@ class ViewManager extends Manager {
     {
         return $this->config['view']['driver'];
     }
-
 }

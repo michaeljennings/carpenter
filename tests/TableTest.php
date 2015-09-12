@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Tests;
+<?php
+
+namespace Michaeljennings\Carpenter\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Michaeljennings\Carpenter\Carpenter;
 
-class TableTest extends PHPUnit_Framework_TestCase {
-
+class TableTest extends PHPUnit_Framework_TestCase
+{
     public function __construct()
     {
         // Fixes error with session_start() and phpunit
@@ -15,7 +17,7 @@ class TableTest extends PHPUnit_Framework_TestCase {
     {
         $carpenter = $this->makeCarpenter();
 
-        $carpenter->add('test', function($table) {
+        $carpenter->add('test', function ($table) {
             $table->setTitle('test');
         });
 
@@ -26,7 +28,7 @@ class TableTest extends PHPUnit_Framework_TestCase {
     {
         $carpenter = $this->makeCarpenter();
 
-        $carpenter->add('test', function($table) {
+        $carpenter->add('test', function ($table) {
             $table->action('create');
         });
 
@@ -44,5 +46,4 @@ class TableTest extends PHPUnit_Framework_TestCase {
     {
         return require __DIR__ . '/../config/config.php';
     }
-
 }

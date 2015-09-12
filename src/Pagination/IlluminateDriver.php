@@ -1,12 +1,14 @@
-<?php namespace Michaeljennings\Carpenter\Pagination;
+<?php
+
+namespace Michaeljennings\Carpenter\Pagination;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\BootstrapThreePresenter;
 use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
 
-class IlluminateDriver implements PaginatorContract {
-
+class IlluminateDriver implements PaginatorContract
+{
     /**
      * An instance of the IOC container.
      *
@@ -35,7 +37,7 @@ class IlluminateDriver implements PaginatorContract {
      */
     public function make($total, $perPage)
     {
-        $this->paginator = new LengthAwarePaginator(array(), $total, $perPage, $this->app['request']->input('page'), [
+        $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input('page'), [
             'path' => $this->app['request']->url(),
         ]);
 

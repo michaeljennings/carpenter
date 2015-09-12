@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter;
+<?php
+
+namespace Michaeljennings\Carpenter;
 
 use Illuminate\Support\ServiceProvider;
 
-class Laravel4ServiceProvider extends CarpenterServiceProvider {
-
-	/**
+class Laravel4ServiceProvider extends CarpenterServiceProvider
+{
+    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -13,5 +15,4 @@ class Laravel4ServiceProvider extends CarpenterServiceProvider {
     {
         $this->package('vendor/package', 'carpenter');
     }
-
 }

@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Store; 
+<?php
+
+namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Nexus\Manager;
 
-class StoreManager extends Manager {
-
+class StoreManager extends Manager
+{
     /**
      * Create the eloquent store driver.
      *
@@ -36,7 +38,7 @@ class StoreManager extends Manager {
 
     /**
      * Create the codeigniter store.
-     * 
+     *
      * @return CodeigniterStore
      */
     public function createCodeigniterDriver()
@@ -53,5 +55,4 @@ class StoreManager extends Manager {
     {
         return $this->config['store']['driver'];
     }
-
 }

@@ -1,5 +1,7 @@
-<?php namespace Michaeljennings\Carpenter\Exceptions;
+<?php
 
-use Exception;
+namespace Michaeljennings\Carpenter\Exceptions;
 
-class ViewNotFoundException extends Exception {}
+class ViewNotFoundException extends \Exception
+{
+}

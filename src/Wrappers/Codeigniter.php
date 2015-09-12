@@ -1,9 +1,9 @@
-<?php namespace Michaeljennings\Carpenter\Wrappers;
+<?php
 
-use Illuminate\Database\Eloquent\Model;
+namespace Michaeljennings\Carpenter\Wrappers;
 
-class Codeigniter {
-
+class Codeigniter
+{
     /**
      * The item being wrapped.
      *
@@ -18,7 +18,7 @@ class Codeigniter {
     {
         // Check if the item is an array, if not type cast it to an array.
         if ( ! is_array($item)) {
-            $item = (array) $item;
+            $item = (array)$item;
         }
 
         $this->item = $item;
@@ -34,5 +34,4 @@ class Codeigniter {
     {
         return $this->item[$key];
     }
-
 }

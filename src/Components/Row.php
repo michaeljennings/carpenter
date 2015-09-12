@@ -1,11 +1,13 @@
-<?php namespace Michaeljennings\Carpenter\Components;
+<?php
+
+namespace Michaeljennings\Carpenter\Components;
 
 use Michaeljennings\Carpenter\Contracts\Cell;
 use Michaeljennings\Carpenter\Contracts\Row as RowContract;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
-class Row implements RowContract {
-
+class Row implements RowContract
+{
     /**
      * The id of the row
      *
@@ -65,7 +67,7 @@ class Row implements RowContract {
      * Add a cell to the row.
      *
      * @param string $key
-     * @param Cell $cell
+     * @param Cell   $cell
      * @return $this
      */
     public function addCell($key, Cell $cell)
@@ -79,7 +81,7 @@ class Row implements RowContract {
      * Alias for the addCell method.
      *
      * @param string $key
-     * @param Cell $cell
+     * @param Cell   $cell
      * @return Row
      */
     public function cell($key, Cell $cell)
@@ -170,5 +172,4 @@ class Row implements RowContract {
     {
         return ! empty($this->actions);
     }
-
 }

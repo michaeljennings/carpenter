@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Components;
+<?php
+
+namespace Michaeljennings\Carpenter\Components;
 
 use Michaeljennings\Carpenter\Contracts\Cell as CellContract;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 
-class Cell implements CellContract {
-
+class Cell implements CellContract
+{
     /**
      * The cell value
      *
@@ -44,9 +46,9 @@ class Cell implements CellContract {
     /**
      * Run the column presenter on the cell value.
      *
-     * @param  string   $value
-     * @param  mixed  	$row
-     * @param  ColumnContract   $column
+     * @param  string         $value
+     * @param  mixed          $row
+     * @param  ColumnContract $column
      */
     protected function createCell($value, $row, ColumnContract $column)
     {
@@ -73,7 +75,7 @@ class Cell implements CellContract {
 
                 return $cell->render();
             }
-            
+
             return $this->value;
         }
     }

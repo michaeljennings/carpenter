@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Store; 
+<?php
+
+namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class EloquentStore implements Store {
-
+class EloquentStore implements Store
+{
     /**
      * The eloquent model to get results from.
      *
@@ -16,7 +18,7 @@ class EloquentStore implements Store {
      *
      * @var array
      */
-    protected $select = array('*');
+    protected $select = ['*'];
 
     /**
      * Set the model to be used for the table.
@@ -82,6 +84,7 @@ class EloquentStore implements Store {
         unset($query->orders);
 
         $this->model->setQuery($query);
+
         return $this;
     }
 
@@ -105,5 +108,4 @@ class EloquentStore implements Store {
 
         return $this->model;
     }
-
 }

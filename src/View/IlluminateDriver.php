@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\View;
+<?php
+
+namespace Michaeljennings\Carpenter\View;
 
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 
-class IlluminateDriver implements ViewInterface {
-
+class IlluminateDriver implements ViewInterface
+{
     /**
      * An instance of the illuminate view class
      *
@@ -19,13 +21,12 @@ class IlluminateDriver implements ViewInterface {
     /**
      * Return the required view
      *
-     * @param $view
+     * @param       $view
      * @param array $data
      * @return string
      */
-    public function make($view, $data = array())
+    public function make($view, $data = [])
     {
         return $this->view->make($view, $data)->render();
     }
-
 } 

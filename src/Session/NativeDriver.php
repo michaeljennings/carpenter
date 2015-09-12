@@ -1,9 +1,11 @@
-<?php namespace Michaeljennings\Carpenter\Session;
+<?php
+
+namespace Michaeljennings\Carpenter\Session;
 
 use Michaeljennings\Carpenter\Contracts\Session as SessionContract;
 
-class NativeDriver implements SessionContract{
-
+class NativeDriver implements SessionContract
+{
     /**
      * The notifier config.
      *
@@ -133,5 +135,4 @@ class NativeDriver implements SessionContract{
 
         return array_merge($data, $this->flash);
     }
-
 }

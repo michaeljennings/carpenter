@@ -1,7 +1,9 @@
-<?php namespace Michaeljennings\Carpenter\Contracts;
+<?php
 
-interface Paginator {
+namespace Michaeljennings\Carpenter\Contracts;
 
+interface Paginator
+{
     /**
      * Create a new paginator.
      *
@@ -24,5 +26,4 @@ interface Paginator {
      * @return integer|string
      */
     public function currentPage();
-
 }

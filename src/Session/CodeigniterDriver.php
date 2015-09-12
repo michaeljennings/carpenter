@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Session;
+<?php
+
+namespace Michaeljennings\Carpenter\Session;
 
 use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
-class CodeigniterDriver implements SessionInterface {
-
-	/**
+class CodeigniterDriver implements SessionInterface
+{
+    /**
      * Retrieve an item from the session
      *
      * @param  string $name
@@ -12,7 +14,7 @@ class CodeigniterDriver implements SessionInterface {
      */
     public function get($name)
     {
-    	return $this->session->userdata($name);
+        return $this->session->userdata($name);
     }
 
     /**
@@ -24,7 +26,7 @@ class CodeigniterDriver implements SessionInterface {
      */
     public function put($name, $value)
     {
-    	return $this->session->set_userdata([$name => $value]);
+        return $this->session->set_userdata([$name => $value]);
     }
 
     /**
@@ -36,7 +38,7 @@ class CodeigniterDriver implements SessionInterface {
      */
     public function flash($name, $value)
     {
-    	return $this->session->set_flashdata($name, $value);
+        return $this->session->set_flashdata($name, $value);
     }
 
     /**
@@ -60,22 +62,22 @@ class CodeigniterDriver implements SessionInterface {
      */
     public function forget($name)
     {
-    	return $this->session->unset_userdata([$name => '']);
+        return $this->session->unset_userdata([$name => '']);
     }
 
     /**
      * __get
-     * 
+     *
      * Enables the use of CI super-global without having to define an extra variable.
-     * 
+     *
      * I can't remember where I first saw this, so thank you if you are the original author. -Militis
      *
      * @access  public
      * @param   $var
      * @return  mixed
      */
-    public function __get($var) {
+    public function __get($var)
+    {
         return get_instance()->$var;
     }
-
 }

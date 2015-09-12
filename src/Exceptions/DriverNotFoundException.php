@@ -1,3 +1,7 @@
-<?php namespace Michaeljennings\Carpenter\Exceptions;
+<?php
 
-class DriverNotFoundException extends \Exception {}
+namespace Michaeljennings\Carpenter\Exceptions;
+
+class DriverNotFoundException extends \Exception
+{
+}

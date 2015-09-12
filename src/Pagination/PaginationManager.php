@@ -1,10 +1,12 @@
-<?php namespace Michaeljennings\Carpenter\Pagination;
+<?php
+
+namespace Michaeljennings\Carpenter\Pagination;
 
 use Michaeljennings\Carpenter\Nexus\Manager;
 use Michaeljennings\Carpenter\View\ViewManager;
 
-class PaginationManager extends Manager {
-
+class PaginationManager extends Manager
+{
     /**
      * An instance of the carpenter view manager.
      *
@@ -24,7 +26,7 @@ class PaginationManager extends Manager {
 
     /**
      * Create the laravel 4 pagination driver.
-     * 
+     *
      * @return Laravel4\IlluminateDriver
      */
     public function createLaravel4Driver()
@@ -51,5 +53,4 @@ class PaginationManager extends Manager {
     {
         return $this->config['paginator']['driver'];
     }
-
 } 

@@ -1,15 +1,17 @@
-<?php namespace Michaeljennings\Carpenter\Store;
+<?php
+
+namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class ArrayStore implements Store {
-
+class ArrayStore implements Store
+{
     /**
      * The store data.
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Set the data to be used by the array store.
@@ -73,7 +75,7 @@ class ArrayStore implements Store {
     public function orderBy($key, $direction = 'asc')
     {
         $direction = strtolower($direction) == 'asc' ? SORT_ASC : SORT_DESC;
-        $sort_col = array();
+        $sort_col = [];
 
         foreach ($this->data as $col => $row) {
             $sort_col[$col] = $row[$key];
@@ -91,5 +93,4 @@ class ArrayStore implements Store {
     {
         return $this;
     }
-
 }
