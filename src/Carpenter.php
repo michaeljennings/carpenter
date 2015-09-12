@@ -37,25 +37,35 @@ class Carpenter implements CarpenterInterface
     }
 
     /**
-     * Retrieve a table from the table collection and run the closure
+     * Retrieve a table from the table collection and then create the table.
+     * Optionally can pass a callback to be run on the table after it is
+     * created.
      *
-     * @param  string $name
+     * @param  string       $name
+     * @param bool|callable $callback
      * @return Table
      * @throws CarpenterCollectionException
      */
-    public function get($name)
+    public function get($name, $callback = false)
     {
         if ( ! array_key_exists($name, $this->collection)) {
             throw new CarpenterCollectionException("No table was found with the name '{$name}'");
         }
 
-        $callback = $this->collection[$name];
+        $tableCallback = $this->collection[$name];
 
-        if (is_string($callback)) {
-            $callback = $this->buildClassCallback($callback);
+        if (is_string($tableCallback)) {
+            $tableCallback = $this->buildClassCallback($tableCallback);
         }
 
-        return $this->buildTable($name, $callback);
+        if ($callback) {
+            return $this->buildTable($name, $tableCallback);
+        }
+
+        $table = $this->buildTable($name, $tableCallback);
+        $callback($table);
+
+        return $table;
     }
 
     /**
