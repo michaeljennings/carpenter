@@ -199,18 +199,20 @@ class Table implements TableContract {
      */
     public function column($name)
     {
-        $this->columns[$name] = $this->newColumn($name, $this->key, $this->session, $this->config);
+        if ( ! isset($this->columns[$name])) {
+            $this->columns[$name] = $this->newColumn($name, $this->key, $this->session, $this->config);
 
-        // Check if the user is trying to access a nested element, if they are set the
-        // label to the last element
-        if (strpos($name, '.') !== false) {
-            $parts = explode('.', $name);
-            $label = array_pop($parts);
-        } else {
-            $label = $name;
+            // Check if the user is trying to access a nested element, if they are set the
+            // label to the last element
+            if (strpos($name, '.') !== false) {
+                $parts = explode('.', $name);
+                $label = array_pop($parts);
+            } else {
+                $label = $name;
+            }
+
+            $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $label)));
         }
-
-        $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $label)));
 
         return $this->columns[$name];
     }
@@ -224,7 +226,9 @@ class Table implements TableContract {
      */
     public function action($name, $position = 'table')
     {
-        $this->actions[$position][$name] = $this->newAction($name);
+        if ( ! isset($this->actions[$position][$name])) {
+            $this->actions[$position][$name] = $this->newAction($name);
+        }
 
         return $this->actions[$position][$name];
     }
@@ -448,44 +452,6 @@ class Table implements TableContract {
                 $this->store->orderBy($this->sortBy, 'asc');
             }
         }
-    }
-
-    /**
-     * Create a new column.
-     *
-     * @param string $name
-     * @param string $key
-     * @param SessionManager $session
-     * @param array $config
-     * @return Column
-     */
-    protected function newColumn($name, $key, SessionManager $session, array $config)
-    {
-        return new Column($name, $key, $session, $config);
-    }
-
-    /**
-     * Return a new table cell.
-     *
-     * @param mixed $value
-     * @param mixed $result
-     * @param Column $column
-     * @return Cell
-     */
-    protected function newCell($value, $result, Column $column)
-    {
-        return new Cell($value, $result, $column);
-    }
-
-    /**
-     * Return a new table action.
-     *
-     * @param string $name
-     * @return Action
-     */
-    protected function newAction($name)
-    {
-        return new Action($name);
     }
 
     /**
@@ -806,6 +772,44 @@ class Table implements TableContract {
     protected function newContainer(array $data)
     {
         return new Container($data, $this->config, $this->getWrapper());
+    }
+
+    /**
+     * Create a new column.
+     *
+     * @param string $name
+     * @param string $key
+     * @param SessionManager $session
+     * @param array $config
+     * @return Column
+     */
+    protected function newColumn($name, $key, SessionManager $session, array $config)
+    {
+        return new Column($name, $key, $session, $config);
+    }
+
+    /**
+     * Return a new table cell.
+     *
+     * @param mixed $value
+     * @param mixed $result
+     * @param Column $column
+     * @return Cell
+     */
+    protected function newCell($value, $result, Column $column)
+    {
+        return new Cell($value, $result, $column);
+    }
+
+    /**
+     * Return a new table action.
+     *
+     * @param string $name
+     * @return Action
+     */
+    protected function newAction($name)
+    {
+        return new Action($name);
     }
 
     /**
