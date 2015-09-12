@@ -58,7 +58,7 @@ class Carpenter implements CarpenterInterface
             $tableCallback = $this->buildClassCallback($tableCallback);
         }
 
-        if ($callback) {
+        if ( ! $callback) {
             return $this->buildTable($name, $tableCallback);
         }
 
