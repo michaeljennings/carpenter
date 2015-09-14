@@ -49,11 +49,14 @@ interface Table
     public function filter(Closure $filter);
 
     /**
-     * Render the table to a string.
+     * Render the table to a string. Optionally pass a template to use, and data
+     * to be passed to the template.
      *
+     * @param string|null $template
+     * @param array $data
      * @return string
      */
-    public function render();
+    public function render($template = null, $data = []);
 
     /**
      * Return all of the table's rows.

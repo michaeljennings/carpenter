@@ -414,11 +414,24 @@ There are two ways to render tables; you can either use a template, or you can g
 
 ### Rendering With a Template
 
+To render a table using a template call the `render` method on the table instance.
+
+```php
+$table->render();
+```
+
 By default when you call the render method it will use the template set in the config file. If you want to use a 
-template for a specific table then use the `setTemplate` method.
+template for a specific table then use the `setTemplate` method, or you can pass through a template when you call the
+`render` method. You can also pass through any data to the template as an array when you call the `render` method. If
+you want to pass through data but you the default template then just pass through null instead of the path to the 
+template.
 
 ```php
 $table->setTemplate('path/to/template.php');
+
+$table->render('path/to/template.php');
+$table->render('path/to/template.php', ['foo' => 'bar']);
+$table->render(null, ['foo' => 'bar']);
 ```
 
 Currently Carpenter supports Laravel, CodeIgniter and a native PHP template renderer's. You can set which renderer to 

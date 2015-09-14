@@ -276,21 +276,26 @@ class Table implements TableContract
     }
 
     /**
-     * Render the table to a string.
+     * Render the table to a string. Optionally pass a template to use, and data
+     * to be passed to the template.
      *
+     * @param string|null $template
+     * @param array $data
      * @return string
      */
-    public function render()
+    public function render($template = null, $data = [])
     {
         $this->rows();
 
-        if ( ! isset($this->template)) {
+        if ($template) {
+            $this->template = $template;
+        } elseif ( ! isset($this->template)) {
             $this->template = $this->config['view']['views']['template'];
         }
 
-        return $this->view->make($this->template, [
-            'table' => $this
-        ]);
+        $data['table'] = $this;
+
+        return $this->view->make($this->template, $data);
     }
 
     /**
