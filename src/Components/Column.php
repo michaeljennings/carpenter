@@ -60,11 +60,25 @@ class Column extends MockArray implements ColumnContract
     protected $sortable = true;
 
     /**
+     * A custom sort for the column.
+     *
+     * @var Closure
+     */
+    protected $sort;
+
+    /**
      * Set if the column is currently being sorted.
      *
      * @var bool|null
      */
     protected $active;
+
+    /**
+     * Set if the column is being sorted in descending order.
+     *
+     * @var bool
+     */
+    protected $descending;
 
     public function __construct($column = false, $key, Table $table, SessionManager $session, array $config)
     {
@@ -77,25 +91,6 @@ class Column extends MockArray implements ColumnContract
         if ($column) {
             $this->href = $this->createHref($column, $key);
         }
-    }
-
-    /**
-     * Check if the column is being sorted.
-     *
-     * @return bool
-     */
-    protected function isActive()
-    {
-        if ( ! isset($this->active)) {
-            $this->active = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort') == $this->column;
-        }
-
-        return $this->active;
-    }
-
-    protected function isDescending()
-    {
-        return $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
     }
 
     /**
@@ -208,9 +203,37 @@ class Column extends MockArray implements ColumnContract
         return $this->presenter;
     }
 
+    /**
+     * Set a custom sort for the column.
+     *
+     * @param Closure $sort
+     * @return $this
+     */
     public function sort(Closure $sort)
     {
+        $this->sort = $sort;
 
+        return $this;
+    }
+
+    /**
+     * Check if the column has a custom sort.
+     *
+     * @return bool
+     */
+    public function hasSort()
+    {
+        return isset($this->sort);
+    }
+
+    /**
+     * Get the custom sort for the column.
+     *
+     * @return Closure
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 
     /**
@@ -278,6 +301,34 @@ class Column extends MockArray implements ColumnContract
     public function isSortable()
     {
         return $this->sortable;
+    }
+
+    /**
+     * Check if the column is being sorted.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        if ( ! isset($this->active)) {
+            $this->active = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort') == $this->column;
+        }
+
+        return $this->active;
+    }
+
+    /**
+     * Check if the column is being sorted in descending order.
+     *
+     * @return bool
+     */
+    public function isDescending()
+    {
+        if ( ! isset($this->descending)) {
+            $this->descending =  $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
+        }
+
+        return $this->descending;
     }
 
     /**
