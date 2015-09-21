@@ -6,9 +6,17 @@ use Closure;
 use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
+use Michaeljennings\Carpenter\Table;
 
 class Column extends MockArray implements ColumnContract
 {
+    /**
+     * The table the column belongs to.
+     *
+     * @var Table
+     */
+    protected $table;
+
     /**
      * An instance of the carpenter session manager.
      *
@@ -51,14 +59,43 @@ class Column extends MockArray implements ColumnContract
      */
     protected $sortable = true;
 
-    public function __construct($column = false, $key, SessionManager $session, array $config)
+    /**
+     * Set if the column is currently being sorted.
+     *
+     * @var bool|null
+     */
+    protected $active;
+
+    public function __construct($column = false, $key, Table $table, SessionManager $session, array $config)
     {
+        $this->column = $column;
+        $this->key = $key;
+        $this->table = $table;
         $this->session = $session;
         $this->config = $config;
 
         if ($column) {
             $this->href = $this->createHref($column, $key);
         }
+    }
+
+    /**
+     * Check if the column is being sorted.
+     *
+     * @return bool
+     */
+    protected function isActive()
+    {
+        if ( ! isset($this->active)) {
+            $this->active = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort') == $this->column;
+        }
+
+        return $this->active;
+    }
+
+    protected function isDescending()
+    {
+        return $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
     }
 
     /**
@@ -73,20 +110,14 @@ class Column extends MockArray implements ColumnContract
         if ($this->sortable) {
             $query = ['sort' => $column];
 
-            // Check if this column is being sorted
-            if ($this->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
-                // If it is check if it is being descending
-                if ($this->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
-                    $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
-
-                    // Check if there is a query string present
-                    if (count($splitUrl) < 2) {
-                        // If not then clear the sort
+            if ($this->isActive()) {
+                if ($this->isDescending()) {
+                    if (empty($_SERVER['QUERY_STRING'])) {
                         $this->clearSession($key);
                     } else {
                         $this->sort = 'up';
 
-                        return $splitUrl[0];
+                        return str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
                     }
                 } else {
                     $query['dir'] = 'desc';
@@ -175,6 +206,11 @@ class Column extends MockArray implements ColumnContract
         }
 
         return $this->presenter;
+    }
+
+    public function sort(Closure $sort)
+    {
+
     }
 
     /**
