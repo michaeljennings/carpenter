@@ -175,6 +175,20 @@ class Table implements TableContract
      */
     protected $total;
 
+    /**
+     * Check if the table is being sorted.
+     *
+     * @var bool|null
+     */
+    protected $sorted;
+
+    /**
+     * Check if the table is being sorted in descending order.
+     *
+     * @var bool
+     */
+    protected $descending;
+
     public function __construct(
         $key,
         StoreManager $store,
@@ -433,25 +447,46 @@ class Table implements TableContract
     }
 
     /**
-     * Check if any of the column links have been clicked and order the results
-     * by that column if needed.
+     * Check if any of the columns are being sorted. If so unset all of the current
+     * order by's and then sort by the selected column.
      */
     protected function orderResults()
     {
-        if ($this->session->has($this->config['session']['key'] . '.' . $this->key . '.sort')) {
-            $this->sortBy = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort');
-            if ($this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir')) {
-                $this->sortDir = 'desc';
-            }
+        if ( ! isset($this->sorted)) {
+            $this->setSortParameters();
         }
 
         if (isset($this->sortBy)) {
             // Remove any orders from the query and order by the selected column
             $this->store->refreshOrderBy();
-            if (isset($this->sortDir)) {
-                $this->store->orderBy($this->sortBy, $this->sortDir);
+
+            $column = $this->columns[$this->sortBy];
+
+            // Check if the column has a custom sort
+            if ($column->hasSort()) {
+                $callback = $column->getSort();
+
+                $callback($this->store, $column->isDescending());
             } else {
-                $this->store->orderBy($this->sortBy, 'asc');
+                if (isset($this->sortDir)) {
+                    $this->store->orderBy($this->sortBy, $this->sortDir);
+                } else {
+                    $this->store->orderBy($this->sortBy, 'asc');
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if a column is being sorted, if so then set the sort column in the session
+     * and check if the it is in descending order.
+     */
+    protected function setSortParameters()
+    {
+        if ($this->isSorted()) {
+            $this->sortBy = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort');
+            if ($this->isDescending()) {
+                $this->sortDir = 'desc';
             }
         }
     }
@@ -763,6 +798,34 @@ class Table implements TableContract
         if ($this->paginate) {
             return $this->paginate;
         }
+    }
+
+    /**
+     * Check if the table is sorted.
+     *
+     * @return bool
+     */
+    public function isSorted()
+    {
+        if ( ! isset($this->sorted)) {
+            $this->sorted = $this->session->has($this->config['session']['key'] . '.' . $this->key . '.sort');
+        }
+
+        return $this->sorted;
+    }
+
+    /**
+     * Check if the table is being sorted in descending order.
+     *
+     * @return bool
+     */
+    public function isDescending()
+    {
+        if ( ! isset($this->descending)) {
+            $this->descending = $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
+        }
+
+        return $this->descending;
     }
 
     /**
