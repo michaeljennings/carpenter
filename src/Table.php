@@ -202,16 +202,11 @@ class Table implements TableContract
     public function column($name)
     {
         if ( ! isset($this->columns[$name])) {
-            $this->columns[$name] = $this->newColumn($name, $this->key, $this->session, $this->config);
+            $this->columns[$name] = $this->newColumn($name, $this->key);
 
             // Check if the user is trying to access a nested element, if they are set the
             // label to the last element
-            if (strpos($name, '.') !== false) {
-                $parts = explode('.', $name);
-                $label = array_pop($parts);
-            } else {
-                $label = $name;
-            }
+            $label = strpos($name, '.') !== false ? array_pop(explode('.', $name)) : $name;
 
             $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $label)));
         }
@@ -280,7 +275,7 @@ class Table implements TableContract
      * to be passed to the template.
      *
      * @param string|null $template
-     * @param array $data
+     * @param array       $data
      * @return string
      */
     public function render($template = null, $data = [])
@@ -326,7 +321,7 @@ class Table implements TableContract
         }
 
         if ( ! empty($this->actions['row']) && ! isset($this->columns['option'])) {
-            $this->columns['option'] = new Column(false, $this->key, $this->session, $this->config);
+            $this->columns['option'] = $this->newColumn(false, $this->key);
         }
 
         $this->rowsInitialised = true;
@@ -784,15 +779,13 @@ class Table implements TableContract
     /**
      * Create a new column.
      *
-     * @param string         $name
-     * @param string         $key
-     * @param SessionManager $session
-     * @param array          $config
+     * @param string $name
+     * @param string $key
      * @return Column
      */
-    protected function newColumn($name, $key, SessionManager $session, array $config)
+    protected function newColumn($name, $key)
     {
-        return new Column($name, $key, $session, $config);
+        return new Column($name, $key, $this, $this->session, $this->config);
     }
 
     /**
