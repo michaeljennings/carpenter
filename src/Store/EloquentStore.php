@@ -57,7 +57,9 @@ class EloquentStore implements Store
      */
     public function count()
     {
-        return $this->model->paginate(1, $this->select)->total();
+        $model = clone $this->model;
+
+        return $model->paginate(1, $this->select)->total();
     }
 
     /**
