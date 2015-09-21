@@ -95,7 +95,7 @@ class EloquentStore implements Store
      * @param $direction
      * @return $this
      */
-    public function orderBy($key, $direction)
+    public function orderBy($key, $direction = 'asc')
     {
         $this->model = $this->model->orderBy($key, $direction);
 
