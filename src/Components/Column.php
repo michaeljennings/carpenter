@@ -11,6 +11,20 @@ use Michaeljennings\Carpenter\Table;
 class Column extends MockArray implements ColumnContract
 {
     /**
+     * The column key being used.
+     *
+     * @var string|bool
+     */
+    protected $column;
+
+    /**
+     * The unique table key.
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
      * The table the column belongs to.
      *
      * @var Table
@@ -64,7 +78,7 @@ class Column extends MockArray implements ColumnContract
      *
      * @var Closure
      */
-    protected $sort;
+    protected $customSort;
 
     /**
      * Set if the column is currently being sorted.
@@ -112,7 +126,7 @@ class Column extends MockArray implements ColumnContract
                     } else {
                         $this->sort = 'up';
 
-                        return str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
+                        return $this->getUrl();
                     }
                 } else {
                     $query['dir'] = 'desc';
@@ -211,7 +225,7 @@ class Column extends MockArray implements ColumnContract
      */
     public function sort(Closure $sort)
     {
-        $this->sort = $sort;
+        $this->customSort = $sort;
 
         return $this;
     }
@@ -223,7 +237,7 @@ class Column extends MockArray implements ColumnContract
      */
     public function hasSort()
     {
-        return isset($this->sort);
+        return isset($this->customSort);
     }
 
     /**
@@ -233,7 +247,7 @@ class Column extends MockArray implements ColumnContract
      */
     public function getSort()
     {
-        return $this->sort;
+        return $this->customSort;
     }
 
     /**
@@ -329,6 +343,14 @@ class Column extends MockArray implements ColumnContract
         }
 
         return $this->descending;
+    }
+
+    /**
+     * Get the current url without a query string.
+     */
+    protected function getUrl()
+    {
+        return str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
     }
 
     /**
