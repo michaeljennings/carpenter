@@ -236,9 +236,8 @@ $table->column('foo')->unsortable();
 When sorting the package will attempt to sort by the column key, however if you are accessing a column that doesn't 
 exist in your data store this can cause issues. An example of this would be if you were accessing a mutator in laravel.
 
-To help get around this you can set a custom closure on the column to be run when sorting, and to do this use the `sort` 
-method. This will be passed two parameters; the data store you are querying, and whether the sort is in descending 
-order.
+To help get around this you can use the `sort` method to set a custom closure to be used to sort the column. The
+closure will be passed two parameters; the data store you are querying, and whether the sort is in descending order.
 
 ```php
 $table->column('foo')->sort(function($query, $desc) {
