@@ -233,6 +233,23 @@ $table->column('foo')->sortable();
 $table->column('foo')->unsortable();
 ```
 
+When sorting the package will attempt to sort by the column key, however if you are accessing a column that doesn't 
+exist in your data store this can cause issues. An example of this would be if you were accessing a mutator in laravel.
+
+To help get around this you can set a custom closure on the column to be run when sorting, and to do this use the `sort` 
+method. This will be passed two parameters; the data store you are querying, and whether the sort is in descending 
+order.
+
+```php
+$table->column('foo')->sort(function($query, $desc) {
+	if ($desc) {
+	 	$query->orderBy('bar', 'desc');
+	} else {
+		$query->orderBy('bar', 'asc');
+	}
+});
+```
+
 ### Column Labels
 
 By default the column will work out the label to use for the column from the column name. If the column name has an 
@@ -355,18 +372,21 @@ $table->action('edit', 'row')->setAttribute('data-id', function($id, $row) {
 ### Confirm an Action
 
 For some actions, like deletes you may want the user to confirm that they want to run the action. To this you can use 
-the `confirmed` method. Again if you want to access attributes from the row you can pass a closure as the value.
+the `confirmed` method. This will leverage the default JavaScript confirm method.
+
+The `confirmed` method takes one parameter; either the text you want the confirm box to show, or if you are using a row 
+action then you can pass a closure to access properties from the table row.
 
 ```php
-$table->action('delete', 'row')->confirmed('Are you use you to delete that?');
-$table->action('delete', 'row')->confirmed(function($id, $product) {
-	return "Are you sure you want to delete {$product->name}?";
+$table->action('delete', 'table')->confirmed('Are you use you to delete that?');
+$table->action('delete', 'row')->confirmed(function($id, $row) {
+	return "Are you sure you want to delete {$row->name}?";
 });
 ```
 
 This will then add a confirmed attribute to the action.
 
-		<button confirmed="Are you use you to delete that?"></button>
+	<button confirmed="Are you use you to delete that?"></button>
 
 Carpenter comes with a jQuery plugin to handle the confirmed functionality or you can listen for the attribute. To use
 the plugin just include the carpenter.js file and then run the `carpenterJs()` method on the parent element around the
