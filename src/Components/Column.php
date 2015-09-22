@@ -6,9 +6,31 @@ use Closure;
 use Michaeljennings\Carpenter\Nexus\MockArray;
 use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
+use Michaeljennings\Carpenter\Table;
 
 class Column extends MockArray implements ColumnContract
 {
+    /**
+     * The column key being used.
+     *
+     * @var string|bool
+     */
+    protected $column;
+
+    /**
+     * The unique table key.
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * The table the column belongs to.
+     *
+     * @var Table
+     */
+    protected $table;
+
     /**
      * An instance of the carpenter session manager.
      *
@@ -51,8 +73,32 @@ class Column extends MockArray implements ColumnContract
      */
     protected $sortable = true;
 
-    public function __construct($column = false, $key, SessionManager $session, array $config)
+    /**
+     * A custom sort for the column.
+     *
+     * @var Closure
+     */
+    protected $customSort;
+
+    /**
+     * Set if the column is currently being sorted.
+     *
+     * @var bool|null
+     */
+    protected $active;
+
+    /**
+     * Set if the column is being sorted in descending order.
+     *
+     * @var bool
+     */
+    protected $descending;
+
+    public function __construct($column = false, $key, Table $table, SessionManager $session, array $config)
     {
+        $this->column = $column;
+        $this->key = $key;
+        $this->table = $table;
         $this->session = $session;
         $this->config = $config;
 
@@ -73,20 +119,14 @@ class Column extends MockArray implements ColumnContract
         if ($this->sortable) {
             $query = ['sort' => $column];
 
-            // Check if this column is being sorted
-            if ($this->session->get($this->config['session']['key'] . '.' . $key . '.sort') == $column) {
-                // If it is check if it is being descending
-                if ($this->session->has($this->config['session']['key'] . '.' . $key . '.dir')) {
-                    $splitUrl = explode('?', $_SERVER['REQUEST_URI']);
-
-                    // Check if there is a query string present
-                    if (count($splitUrl) < 2) {
-                        // If not then clear the sort
+            if ($this->isActive()) {
+                if ($this->isDescending()) {
+                    if (empty($_SERVER['QUERY_STRING'])) {
                         $this->clearSession($key);
                     } else {
                         $this->sort = 'up';
 
-                        return $splitUrl[0];
+                        return $this->getUrl();
                     }
                 } else {
                     $query['dir'] = 'desc';
@@ -178,6 +218,39 @@ class Column extends MockArray implements ColumnContract
     }
 
     /**
+     * Set a custom sort for the column.
+     *
+     * @param Closure $sort
+     * @return $this
+     */
+    public function sort(Closure $sort)
+    {
+        $this->customSort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Check if the column has a custom sort.
+     *
+     * @return bool
+     */
+    public function hasSort()
+    {
+        return isset($this->customSort);
+    }
+
+    /**
+     * Get the custom sort for the column.
+     *
+     * @return Closure
+     */
+    public function getSort()
+    {
+        return $this->customSort;
+    }
+
+    /**
      * Accessor for the columns href
      *
      * @return string
@@ -242,6 +315,42 @@ class Column extends MockArray implements ColumnContract
     public function isSortable()
     {
         return $this->sortable;
+    }
+
+    /**
+     * Check if the column is being sorted.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        if ( ! isset($this->active)) {
+            $this->active = $this->session->get($this->config['session']['key'] . '.' . $this->key . '.sort') == $this->column;
+        }
+
+        return $this->active;
+    }
+
+    /**
+     * Check if the column is being sorted in descending order.
+     *
+     * @return bool
+     */
+    public function isDescending()
+    {
+        if ( ! isset($this->descending)) {
+            $this->descending =  $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
+        }
+
+        return $this->descending;
+    }
+
+    /**
+     * Get the current url without a query string.
+     */
+    protected function getUrl()
+    {
+        return str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
     }
 
     /**

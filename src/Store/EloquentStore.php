@@ -57,7 +57,9 @@ class EloquentStore implements Store
      */
     public function count()
     {
-        return $this->model->paginate(1, $this->select)->total();
+        $model = clone $this->model;
+
+        return $model->paginate(1, $this->select)->total();
     }
 
     /**
@@ -95,7 +97,7 @@ class EloquentStore implements Store
      * @param $direction
      * @return $this
      */
-    public function orderBy($key, $direction)
+    public function orderBy($key, $direction = 'asc')
     {
         $this->model = $this->model->orderBy($key, $direction);
 

@@ -29,6 +29,15 @@ interface Store
     public function paginate($amount, $page, $perPage);
 
     /**
+     * Order the results by the given column in the given direction.
+     *
+     * @param string $key
+     * @param string $direction
+     * @return mixed
+     */
+    public function orderBy($key, $direction = 'asc');
+
+    /**
      * Unset any set order queries.
      *
      * @return mixed

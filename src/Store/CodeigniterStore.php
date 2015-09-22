@@ -86,7 +86,7 @@ class CodeigniterStore implements Store
      * @param  string $dir
      * @return $this
      */
-    public function orderBy($column, $dir)
+    public function orderBy($column, $dir = 'asc')
     {
         return $this->order_by($column, $dir);
     }
