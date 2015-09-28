@@ -72,7 +72,7 @@ class EloquentStore implements Store
      */
     public function paginate($amount, $page, $perPage)
     {
-        return $this->model->paginate($amount)->all();
+        return $this->model->paginate($amount, $this->select)->all();
     }
 
     /**
