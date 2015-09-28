@@ -220,7 +220,12 @@ class Table implements TableContract
 
             // Check if the user is trying to access a nested element, if they are set the
             // label to the last element
-            $label = strpos($name, '.') !== false ? array_pop(explode('.', $name)) : $name;
+            if (strpos($name, '.') !== false) {
+                $parts = explode('.', $name);
+                $label = array_pop($parts);
+            } else {
+                $label = $name;
+            }
 
             $this->columns[$name]->setLabel(ucwords(str_replace('_', ' ', $label)));
         }
