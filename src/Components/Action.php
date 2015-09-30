@@ -102,7 +102,7 @@ class Action extends MockArray implements ActionContract
     {
         if ($this->getPresenter()) {
             $callback = $this->getPresenter();
-            $callback($this);
+            $this->label = $callback($this);
         }
 
         return $this->renderAction($this->tag, $this->getAttributes());
