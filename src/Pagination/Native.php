@@ -59,13 +59,7 @@ class Native implements Paginator
     public function links()
     {
         if ($this->totalPages > 1) {
-            $links = [
-                '<ul class="pagination">',
-                sprintf('%s %s %s', $this->getPrevious(), $this->getLinks(), $this->getNext()),
-                '</ul>'
-            ];
-
-            return implode('', $links);
+            return sprintf('<ul class="pagination">%s %s %s</ul>', $this->getPrevious(), $this->getLinks(), $this->getNext());
         }
 
         return null;
