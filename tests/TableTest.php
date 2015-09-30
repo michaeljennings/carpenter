@@ -42,4 +42,41 @@ class TableTest extends TestCase
 
         $this->assertEquals(2, count($table->actions()));
     }
+
+    public function testColumnsCanBeAddedAndRetrieved()
+    {
+        $table = $this->makeTable();
+
+        $table->column('test');
+
+        $this->assertEquals(1, count($table->columns()));
+    }
+
+    public function testColumnsCanBeAddedAfterTheTableIsResolved()
+    {
+        $carpenter = $this->makeCarpenter();
+
+        $table = $carpenter->make('test', function ($table) {
+            $table->column('test');
+        });
+
+        $this->assertEquals(1, count($table->columns()));
+
+        $table->column('foo');
+
+        $this->assertEquals(2, count($table->columns()));
+    }
+
+    public function testColumnsCanBeEditedAfterTheTableIsResolved()
+    {
+        $table = $this->makeTable();
+
+        $column = $table->column('test')->setLabel('Foo');
+
+        $this->assertContains('Foo', $column->getLabel());
+
+        $column->setLabel('Bar');
+
+        $this->assertContains('Bar', $column->getLabel());
+    }
 }
