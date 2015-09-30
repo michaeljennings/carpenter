@@ -16,6 +16,12 @@
         </testsuite>
     </testsuites>
 
+    <php>
+        <includePath>.</includePath>
+        <server name="QUERY_STRING" value="page=1"/>
+        <server name="REQUEST_URI" value="http://localhost?page=1"/>
+    </php>
+
     <filter>
         <whitelist>
             <directory>./src/</directory>
