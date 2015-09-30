@@ -60,7 +60,7 @@ class ArrayStore implements Store
             $page = 1;
         }
 
-        $chunks = array_chunk($this->data, $amount);
+        $chunks = array_chunk($this->data, $perPage);
         $offset = $page - 1;
 
         return $chunks[$offset];

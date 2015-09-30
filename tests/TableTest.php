@@ -77,4 +77,12 @@ class TableTest extends TestCase
 
         $this->assertContains('Bar', $column->getLabel());
     }
+
+    public function testDataCanBeSetForTheTable()
+    {
+        $table = $this->makeTable();
+        $table = $table->data($this->getData());
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table);
+    }
 }
