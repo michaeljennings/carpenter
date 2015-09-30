@@ -38,18 +38,18 @@ class TestCase extends PHPUnit_Framework_TestCase
         return [
             [
                 'test' => 'Test',
-                'foo' => 'bar',
-                'baz' => 'qux',
+                'foo' => 'Test 1',
+                'baz' => 'Test 2',
             ],
             [
-                'test' => 'Test',
-                'foo' => 'bar',
-                'baz' => 'qux',
+                'test' => 'Test 3',
+                'foo' => 'Test 4',
+                'baz' => 'Test 5',
             ],
             [
-                'test' => 'Test',
-                'foo' => 'bar',
-                'baz' => 'qux',
+                'test' => 'Test 6',
+                'foo' => 'Test 7',
+                'baz' => 'Test 8',
             ],
         ];
     }
