@@ -94,11 +94,10 @@ class Column extends MockArray implements ColumnContract
      */
     protected $descending;
 
-    public function __construct($column = false, $key, Table $table, SessionManager $session, array $config)
+    public function __construct($column = false, $key, SessionManager $session, array $config)
     {
         $this->column = $column;
         $this->key = $key;
-        $this->table = $table;
         $this->session = $session;
         $this->config = $config;
 

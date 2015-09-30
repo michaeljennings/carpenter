@@ -853,7 +853,7 @@ class Table implements TableContract
      */
     protected function newColumn($name, $key)
     {
-        return new Column($name, $key, $this, $this->session, $this->config);
+        return new Column($name, $key, $this->session, $this->config);
     }
 
     /**
