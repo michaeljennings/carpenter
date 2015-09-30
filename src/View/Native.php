@@ -21,15 +21,14 @@ class Native implements View
             throw new ViewNotFoundException("The table template could not be found. No file found at '{$view}'");
         }
 
-        extract($data);
+        ob_start();
+
+        if ( ! empty($data)) {
+            extract($data);
+        }
+
         include($view);
 
-        // Get the content
-        $content = ob_get_contents();
-        // Clear the output buffer
-        ob_end_clean();
-
-        // Return the content
-        return $content;
+        return ob_get_clean();
     }
 }
