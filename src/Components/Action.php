@@ -112,7 +112,7 @@ class Action extends MockArray implements ActionContract
      * Render the action element.
      *
      * @param  string $tag
-     * @param  array  $attributes [description]
+     * @param  array  $attributes
      * @return string
      */
     protected function renderAction($tag, array $attributes)
@@ -121,7 +121,7 @@ class Action extends MockArray implements ActionContract
 
         if ($this->label instanceof Closure) {
             $callback = $this->label;
-            
+
             $this->label = $callback($this->value, $this->row);
         }
 
