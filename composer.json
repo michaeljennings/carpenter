@@ -13,11 +13,17 @@
         "php": ">=5.4.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "4.8.*",
         "mockery/mockery": "0.9.*"
     },
     "autoload": {
         "psr-4": {
             "Michaeljennings\\Carpenter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Michaeljennings\\Carpenter\\Tests\\": "tests/"
         }
     },
     "extra": {
