@@ -251,7 +251,11 @@ class Action extends MockArray implements ActionContract
      */
     public function setLabel($label)
     {
-        $this->label = $label;
+        if ($this->row && $label instanceof Closure) {
+            $this->label = $label($this->value, $this->row);
+        } else {
+            $this->label = $label;
+        }
 
         return $this;
     }
