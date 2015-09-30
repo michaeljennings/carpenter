@@ -65,7 +65,7 @@ then dependency inject it via its contract.
 ```php
 Carpenter::get('foo');
 
-public function __construct(Michaeljennings\Carpenter\Contracts\Table $carpenter)
+public function __construct(Michaeljennings\Carpenter\Contracts\Carpenter $carpenter)
 {
     $this->carpenter = $carpenter;
 }
@@ -98,7 +98,7 @@ then dependency inject it via its contract.
 ```php
 Carpenter::get('foo');
 
-public function __construct(Michaeljennings\Carpenter\Contracts\Table $carpenter)
+public function __construct(Michaeljennings\Carpenter\Contracts\Carpenter $carpenter)
 {
     $this->carpenter = $carpenter;
 }
