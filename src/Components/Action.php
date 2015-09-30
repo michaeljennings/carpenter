@@ -119,6 +119,12 @@ class Action extends MockArray implements ActionContract
     {
         $attributes = $this->renderAttributes($attributes);
 
+        if ($this->label instanceof Closure) {
+            $callback = $this->label;
+            
+            $this->label = $callback($this->value, $this->row);
+        }
+
         return sprintf('<%s %s>%s</%s>', $tag, $attributes, $this->label, $tag);
     }
 
@@ -251,11 +257,7 @@ class Action extends MockArray implements ActionContract
      */
     public function setLabel($label)
     {
-        if ($this->row && $label instanceof Closure) {
-            $this->label = $label($this->value, $this->row);
-        } else {
-            $this->label = $label;
-        }
+        $this->label = $label;
 
         return $this;
     }

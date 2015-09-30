@@ -95,7 +95,7 @@ interface Action
     /**
      * Set the label for an action
      *
-     * @param string $label
+     * @param string|Closure $label
      * @return \Michaeljennings\Carpenter\Components\Action
      */
     public function setLabel($label);
