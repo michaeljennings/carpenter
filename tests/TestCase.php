@@ -33,6 +33,27 @@ class TestCase extends PHPUnit_Framework_TestCase
         return $carpenter->make('test', function ($table) {});
     }
 
+    protected function getData()
+    {
+        return [
+            [
+                'test' => 'Test',
+                'foo' => 'bar',
+                'baz' => 'qux',
+            ],
+            [
+                'test' => 'Test',
+                'foo' => 'bar',
+                'baz' => 'qux',
+            ],
+            [
+                'test' => 'Test',
+                'foo' => 'bar',
+                'baz' => 'qux',
+            ],
+        ];
+    }
+
     protected function getConfig()
     {
         return require __DIR__ . '/../config/config.php';
