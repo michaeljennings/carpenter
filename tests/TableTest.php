@@ -2,8 +2,6 @@
 
 namespace Michaeljennings\Carpenter\Tests;
 
-use Michaeljennings\Carpenter\Carpenter;
-
 class TableTest extends TestCase
 {
     public function testCanAddAndGetTitle()

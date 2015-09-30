@@ -2,8 +2,6 @@
 
 namespace Michaeljennings\Carpenter\Tests;
 
-use Michaeljennings\Carpenter\Carpenter;
-
 class CarpenterTest extends TestCase
 {
     public function testAddMethodAcceptsClosure()

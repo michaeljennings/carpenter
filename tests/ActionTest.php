@@ -2,8 +2,6 @@
 
 namespace Michaeljennings\Carpenter\Tests;
 
-use Michaeljennings\Carpenter\Carpenter;
-
 class ActionTest extends TestCase
 {
     public function testActionCanBeRendered()
