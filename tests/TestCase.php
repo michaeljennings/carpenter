@@ -13,6 +13,12 @@ class TestCase extends PHPUnit_Framework_TestCase
         ob_start();
     }
 
+    public function setUp()
+    {
+        // Fixes issues with session_start and phpunit
+        @session_start();
+    }
+
 	protected function makeCarpenter()
     {
         $config = $this->getConfig();
