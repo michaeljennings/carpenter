@@ -2,17 +2,10 @@
 
 namespace Michaeljennings\Carpenter\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Michaeljennings\Carpenter\Carpenter;
 
-class TableTest extends PHPUnit_Framework_TestCase
+class TableTest extends TestCase
 {
-    public function __construct()
-    {
-        // Fixes error with session_start() and phpunit
-        ob_start();
-    }
-
     public function testCanAddAndGetTitle()
     {
         $carpenter = $this->makeCarpenter();
@@ -35,15 +28,18 @@ class TableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($carpenter->get('test')->actions()));
     }
 
-    protected function makeCarpenter()
+    public function testActionsCanBeAddedAfterTheTableHasBeResolved()
     {
-        $config = $this->getConfig();
+        $carpenter = $this->makeCarpenter();
 
-        return new Carpenter($config);
-    }
+        $table = $carpenter->make('test', function ($table) {
+            $table->action('create');
+        });
 
-    protected function getConfig()
-    {
-        return require __DIR__ . '/../config/config.php';
+        $this->assertEquals(1, count($table->actions()));
+
+        $table->action('edit');
+
+        $this->assertEquals(2, count($table->actions()));
     }
 }

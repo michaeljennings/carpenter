@@ -2,10 +2,9 @@
 
 namespace Michaeljennings\Carpenter\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Michaeljennings\Carpenter\Carpenter;
 
-class CarpenterTest extends PHPUnit_Framework_TestCase
+class CarpenterTest extends TestCase
 {
     public function testAddMethodAcceptsClosure()
     {
@@ -21,6 +20,16 @@ class CarpenterTest extends PHPUnit_Framework_TestCase
         $carpenter = $this->makeCarpenter();
 
         $this->assertNull($carpenter->add('test', 'TestClass'));
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\CarpenterCollectionException
+     */
+    public function testGetThrowsErrorIfTableDoesNotExist()
+    {
+        $carpenter = $this->makeCarpenter();
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $carpenter->get('test'));
     }
 
     public function testGetMethodReturnsTableInstance()
@@ -43,17 +52,5 @@ class CarpenterTest extends PHPUnit_Framework_TestCase
         });
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table);
-    }
-
-    protected function makeCarpenter()
-    {
-        $config = $this->getConfig();
-
-        return new Carpenter($config);
-    }
-
-    protected function getConfig()
-    {
-        return require __DIR__ . '/../config/config.php';
     }
 }
