@@ -15,6 +15,16 @@ class ContainerTest extends TestCase
         $this->assertInstanceOf('IteratorAggregate', $container);
     }
 
+    public function testIterationReturnsItems()
+    {
+        $container = $this->makeContainer();
+
+        foreach ($container as $item) {
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $item);
+            break;
+        }
+    }
+
     protected function makeContainer()
     {
         return new Container($this->getData(), $this->getConfig(), 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper');
