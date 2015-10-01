@@ -79,4 +79,14 @@ class Cell implements CellContract
             return $this->value;
         }
     }
+
+    /**
+     * When converted to a string, return the cell value.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->renderSpreadsheetCell();
+    }
 }
