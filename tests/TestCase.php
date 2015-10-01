@@ -33,6 +33,15 @@ class TestCase extends PHPUnit_Framework_TestCase
         return $carpenter->make('test', function ($table) {});
     }
 
+    protected function makeTableWithData()
+    {
+        $table = $this->makeTable();
+        $table->data($this->getData());
+        $table->column('foo');
+
+        return $table;
+    }
+
     protected function getData()
     {
         return [
