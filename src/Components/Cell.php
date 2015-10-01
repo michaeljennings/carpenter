@@ -87,6 +87,6 @@ class Cell implements CellContract
      */
     public function __toString()
     {
-        return $this->renderSpreadsheetCell();
+        return $this->value;
     }
 }
