@@ -2,34 +2,55 @@
 
 namespace Michaeljennings\Carpenter\Tests\Components;
 
+use Michaeljennings\Carpenter\Components\Column;
+use Michaeljennings\Carpenter\Session\SessionManager;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class ColumnTest extends TestCase
 {
-    public function testLabelCanBeSetAndRetrieved()
+    public function testColumnImplementsContract()
     {
-        $table = $this->makeTable();
-
-        $column = $table->column('test')->setLabel('Foo');
+        $column = $this->makeColumn();
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column);
-        $this->assertContains('Foo', $column->getLabel());
     }
 
-    public function testHrefIsCreatedAutomatically()
+    public function testHrefIsCreatedOnConstruct()
     {
-        $table = $this->makeTable();
+        $column = $this->makeColumn('foobar');
 
-        $column = $table->column('test')->setLabel('Foo');
-
-        $this->assertContains('test', $column->getHref());
+        $this->assertContains('foobar', $column->getHref());
     }
 
-    public function testCustomSortCanBeSetForColumns()
+    public function testPresentersCanBeAddedAndRendered()
     {
-        $table = $this->makeTable();
+        $table = $this->makeTableWithData();
 
-        $column = $table->column('test')->sort(function($q) {
+        $column = $table->column('foo');
+
+        $this->assertFalse($column->hasPresenter());
+
+        $column->setPresenter(function() {
+            return 'TEST VALUE';
+        });
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column);
+        $this->assertTrue($column->hasPresenter());
+
+        $rows = $table->rows();
+
+        $this->assertEquals('TEST VALUE', $rows[0]->cells()['foo']);
+    }
+
+    public function testCustomSortCanBeSetForAColumn()
+    {
+        $table = $this->makeTableWithData();
+
+        $column = $table->column('foo');
+
+        $this->assertFalse($column->hasSort());
+
+        $column->sort(function($q) {
             $q->orderBy('foo');
         });
 
@@ -37,16 +58,32 @@ class ColumnTest extends TestCase
         $this->assertInstanceOf('Closure', $column->getSort());
     }
 
+    public function testColumnLabelCanBeCustomised()
+    {
+        $table = $this->makeTableWithData();
+
+        $column = $table->column('foo');
+
+        $this->assertEquals('Foo', $column->getLabel());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->setLabel('TEST TITLE'));
+        $this->assertEquals('TEST TITLE', $column->getLabel());
+    }
+
     public function testColumnCanBeMadeSortable()
     {
-        $table = $this->makeTable();
+        $table = $this->makeTableWithData();
 
-        $column = $table->column('test')->unsortable();
-
-        $this->assertFalse($column->isSortable());
-
-        $column->sortable();
+        $column = $table->column('foo');
 
         $this->assertTrue($column->isSortable());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->unsortable());
+        $this->assertFalse($column->isSortable());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->sortable());
+        $this->assertTrue($column->isSortable());
+    }
+
+    protected function makeColumn($key = 'foo')
+    {
+        return new Column($key, 'foo_table', new SessionManager($this->getConfig()), $this->getConfig());
     }
 }
