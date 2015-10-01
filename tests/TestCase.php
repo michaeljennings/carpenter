@@ -63,6 +63,13 @@ class TestCase extends PHPUnit_Framework_TestCase
         ];
     }
 
+    protected function setPage($page = 1)
+    {
+        $_SERVER['QUERY_STRING'] = 'page=' . $page;
+        $_SERVER['REQUEST_URI'] = 'http://localhost?page=' . $page;
+        $_GET['page'] = $page;
+    }
+
     protected function getConfig()
     {
         return require __DIR__ . '/../config/config.php';

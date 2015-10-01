@@ -82,8 +82,8 @@ class TableTest extends TestCase
 
     public function testTableResultsCanBePaginated()
     {
-        $table = $this->makeTable();
-        $table->data($this->getData());
+        $this->setPage(1);
+        $table = $this->makeTableWithData();
 
         $this->assertCount(3, $this->getData());
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->paginate(2));

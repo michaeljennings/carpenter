@@ -44,9 +44,7 @@ class NativePaginatorTest extends TestCase
 
     public function testPrevIsShownIfNotOnFirstPage()
     {
-        $_SERVER['QUERY_STRING'] = 'page=2';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?page=2';
-        $_GET['page'] = 2;
+        $this->setPage(2);
 
         $paginator = $this->makeNativePaginator();
         $paginator->make(30, 10);
