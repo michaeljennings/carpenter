@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Session;
 
 use Michaeljennings\Carpenter\Session\NativeDriver;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class NativeSessionTest extends TestCase
 {

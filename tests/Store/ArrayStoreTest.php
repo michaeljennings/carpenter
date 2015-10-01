@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Store;
 
 use Michaeljennings\Carpenter\Store\ArrayStore;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class ArrayStoreTest extends TestCase
 {

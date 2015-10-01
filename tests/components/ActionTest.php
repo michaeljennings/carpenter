@@ -1,6 +1,8 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Components;
+
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class ActionTest extends TestCase
 {
@@ -98,7 +100,7 @@ class ActionTest extends TestCase
     	$table = $this->makeTable();
 
         $action = $table->action('create')->setAttribute('ng-click', 'custom');
-        $action = $table->action('create')->title('click this');
+        $action = $action->title('click this');
 
         $this->assertContains('ng-click="custom"', $action->render());
         $this->assertContains('title="click this"', $action->render());

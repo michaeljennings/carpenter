@@ -11,8 +11,8 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Standard Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="Component Test Suite">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
@@ -27,4 +27,8 @@
             <directory>./src/</directory>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="testdox-text" target="./logs/testdox.txt"/>
+    </logging>
 </phpunit>

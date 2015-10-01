@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Pagination;
 
 use Michaeljennings\Carpenter\Pagination\PaginationManager;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class PaginatorManagerTest extends TestCase
 {

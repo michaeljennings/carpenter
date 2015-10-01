@@ -1,6 +1,8 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Components;
+
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class ColumnTest extends TestCase
 {

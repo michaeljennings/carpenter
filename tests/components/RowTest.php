@@ -1,12 +1,13 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Components;
 
 use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Components\Cell;
 use Michaeljennings\Carpenter\Components\Column;
 use Michaeljennings\Carpenter\Components\Row;
 use Michaeljennings\Carpenter\Session\SessionManager;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class RowTest extends TestCase
 {

@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Pagination;
 
 use Michaeljennings\Carpenter\Pagination\Native;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class NativePaginatorTest extends TestCase
 {

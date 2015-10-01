@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Session;
 
 use Michaeljennings\Carpenter\Session\SessionManager;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class SessionManagerTest extends TestCase
 {

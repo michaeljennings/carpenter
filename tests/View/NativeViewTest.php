@@ -1,7 +1,8 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\View;
 
+use Michaeljennings\Carpenter\Tests\TestCase;
 use Michaeljennings\Carpenter\View\Native;
 
 class NativeViewTest extends TestCase

@@ -1,8 +1,9 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Nexus;
 
 use Michaeljennings\Carpenter\Nexus\MockArray;
+use Michaeljennings\Carpenter\Tests\TestCase;
 
 class MockArrayTest extends TestCase
 {

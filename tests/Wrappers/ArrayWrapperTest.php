@@ -1,7 +1,8 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Tests;
+namespace Michaeljennings\Carpenter\Tests\Wrappers;
 
+use Michaeljennings\Carpenter\Tests\TestCase;
 use Michaeljennings\Carpenter\Wrappers\ArrayWrapper;
 
 class ArrayWrapperTest extends TestCase
