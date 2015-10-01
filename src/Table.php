@@ -784,7 +784,7 @@ class Table implements TableContract
     }
 
     /**
-     * Get the total results being from the query.
+     * Get the total results from the query.
      *
      * @return int
      */
