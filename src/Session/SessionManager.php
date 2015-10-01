@@ -23,7 +23,7 @@ class SessionManager extends Manager
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver(app()['session']);
+        return new IlluminateDriver(app()['session']->driver());
     }
 
     /**
