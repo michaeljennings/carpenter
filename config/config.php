@@ -62,7 +62,7 @@ return array(
             /**
              * Set the path to the table template.
              */
-            'template' => 'michaeljennings/carpenter::bootstrap.table',
+            'template' => __DIR__ . '/../views/bootstrap/table.php',
 
         )
 
