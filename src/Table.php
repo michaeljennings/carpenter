@@ -361,7 +361,7 @@ class Table implements TableContract
         }
 
         foreach ($this->columns as $key => $column) {
-            $row->cell($key, $this->newCell($this->getCellValue($result, $key), $result, $column));
+            $row->cell($key, $this->newCell($column, $this->getCellValue($result, $key), $result));
         }
 
         if ( ! empty($this->actions['row'])) {
@@ -859,14 +859,14 @@ class Table implements TableContract
     /**
      * Return a new table cell.
      *
-     * @param mixed  $value
-     * @param mixed  $result
      * @param Column $column
+     * @param mixed  $result
+     * @param mixed  $value
      * @return Cell
      */
-    protected function newCell($value, $result, Column $column)
+    protected function newCell(Column $column, $value, $result)
     {
-        return new Cell($value, $result, $column);
+        return new Cell($column, $value, $result);
     }
 
     /**
