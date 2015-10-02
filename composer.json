@@ -17,7 +17,8 @@
         "mockery/mockery": "0.9.*",
         "illuminate/session": "5.0.*",
         "illuminate/view": "5.0.*",
-        "illuminate/events": "5.0.*"
+        "illuminate/events": "5.0.*",
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {
