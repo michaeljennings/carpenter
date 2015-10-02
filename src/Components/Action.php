@@ -16,6 +16,14 @@ class Action extends MockArray implements ActionContract
     protected $column = 'id';
 
     /**
+     * If this actions is of a row context, then this is the value of the
+     * column. i.e. by default this will be the row id.
+     *
+     * @var mixed
+     */
+    protected $value = false;
+
+    /**
      * If this actions is of a row context, then this is the current row being
      * looped through.
      *
@@ -158,7 +166,7 @@ class Action extends MockArray implements ActionContract
     public function setColumn($column = false)
     {
         if ( ! $column) {
-            return $this->column;
+            return false;
         }
 
         $this->column = $column;
@@ -185,6 +193,34 @@ class Action extends MockArray implements ActionContract
     public function getColumn()
     {
         return $this->column;
+    }
+
+    /**
+     * Set the value used by the action.
+     *
+     * @param string|bool $value
+     * @return $this
+     */
+    public function setValue($value = false)
+    {
+        if ( ! $value) {
+            return false;
+        }
+
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Alias for the setValue method.
+     *
+     * @param string|bool $value
+     * @return Action
+     */
+    public function value($value = false)
+    {
+        return $this->setValue($value);
     }
 
     /**
@@ -252,7 +288,7 @@ class Action extends MockArray implements ActionContract
     /**
      * Set the label for an action
      *
-     * @param string $label
+     * @param string|Closure $label
      * @return $this
      */
     public function setLabel($label)

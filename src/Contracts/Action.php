@@ -10,7 +10,7 @@ interface Action
      * Set the column used by the action
      *
      * @param  string|boolean $column
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function setColumn($column = false);
 
@@ -18,7 +18,7 @@ interface Action
      * Alias for the setColumn method.
      *
      * @param string|bool $column
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function column($column = false);
 
@@ -30,10 +30,26 @@ interface Action
     public function getColumn();
 
     /**
+     * Set the value used by the action.
+     *
+     * @param string|bool $value
+     * @return \Michaeljennings\Carpenter\Contracts\Action
+     */
+    public function setValue($value = false);
+
+    /**
+     * Alias for the setValue method.
+     *
+     * @param string|bool $value
+     * @return \Michaeljennings\Carpenter\Contracts\Action
+     */
+    public function value($value = false);
+
+    /**
      * Set the row used by the action.
      *
      * @param $row
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function setRow($row = false);
 
@@ -41,7 +57,7 @@ interface Action
      * Alias for the setRow method.
      *
      * @param string|bool $row
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function row($row = false);
 
@@ -50,7 +66,7 @@ interface Action
      * for the current row.
      *
      * @param callable $callback
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function when(Closure $callback);
 
@@ -66,7 +82,7 @@ interface Action
      * Set the presenter callback for the action.
      *
      * @param  Closure $callback
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function setPresenter(Closure $callback);
 
@@ -74,7 +90,7 @@ interface Action
      * Alias for the setPresenter method.
      *
      * @param callable $callback
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function presenter(Closure $callback);
 
@@ -96,7 +112,7 @@ interface Action
      * Set the label for an action
      *
      * @param string|Closure $label
-     * @return \Michaeljennings\Carpenter\Components\Action
+     * @return \Michaeljennings\Carpenter\Contracts\Action
      */
     public function setLabel($label);
 
