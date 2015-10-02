@@ -362,5 +362,4 @@ class Action extends MockArray implements ActionContract
 
         return $this;
     }
-
 }
