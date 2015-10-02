@@ -29,6 +29,7 @@
     </filter>
 
     <logging>
-        <log type="testdox-text" target="./logs/testdox.txt"/>
+        <log type="testdox-text" target="./logs/logs.txt"/>
+        <log type="coverage-clover" target="./build/logs/clover.xml"/>
     </logging>
 </phpunit>
