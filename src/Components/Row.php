@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Components;
 
-use Michaeljennings\Carpenter\Contracts\Cell;
+use Michaeljennings\Carpenter\Contracts\Cell as CellContract;
 use Michaeljennings\Carpenter\Contracts\Row as RowContract;
 use Michaeljennings\Carpenter\Contracts\Action as ActionContract;
 
@@ -66,11 +66,11 @@ class Row implements RowContract
     /**
      * Add a cell to the row.
      *
-     * @param string $key
-     * @param Cell   $cell
+     * @param string       $key
+     * @param CellContract $cell
      * @return $this
      */
-    public function addCell($key, Cell $cell)
+    public function addCell($key, CellContract $cell)
     {
         $this->cells[$key] = $cell;
 
@@ -80,11 +80,11 @@ class Row implements RowContract
     /**
      * Alias for the addCell method.
      *
-     * @param string $key
-     * @param Cell   $cell
+     * @param string       $key
+     * @param CellContract $cell
      * @return Row
      */
-    public function cell($key, Cell $cell)
+    public function cell($key, CellContract $cell)
     {
         return $this->addCell($key, $cell);
     }
