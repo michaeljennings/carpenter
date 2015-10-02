@@ -163,4 +163,40 @@ class ActionTest extends TestCase
 
         $this->assertContains('href="edit/Test 1"', $action->render());
     }
+
+    public function testClosureCanBePassedToAttribute()
+    {
+        $table = $this->makeTableWithData();
+        $action = $table->action('edit', 'row')->setColumn('foo')->setValue('Test')->setRow($this->getData()[0]);
+
+        $action->setAttribute('title', function($value) {
+            return $value;
+        });
+
+        $this->assertContains('title="Test"', $action->render());
+
+        $action->setAttribute('ng-click', function($value, $row) {
+            return 'edit(' . $row['foo'] . ')';
+        });
+
+        $this->assertContains('ng-click="edit(Test 1)"', $action->render());
+    }
+
+    public function testClosureCanBePassedToClass()
+    {
+        $table = $this->makeTableWithData();
+        $action = $table->action('edit', 'row')->setColumn('foo')->setValue('Test')->setRow($this->getData()[0]);
+
+        $action->setClass(function($value) {
+            return $value;
+        });
+
+        $this->assertContains('class="Test"', $action->render());
+
+        $action->setClass(function($value, $row) {
+            return $row['foo'];
+        });
+
+        $this->assertContains('class="Test 1"', $action->render());
+    }
 }
