@@ -413,7 +413,7 @@ class Table implements TableContract
             if ($action->valid($result)) {
                 $column = $action->getColumn();
 
-                $action->value = $result->$column;
+                $action->value($result->$column);
                 $action->row($result);
 
                 $actions[] = $action;
