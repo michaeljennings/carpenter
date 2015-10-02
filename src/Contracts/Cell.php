@@ -5,9 +5,23 @@ namespace Michaeljennings\Carpenter\Contracts;
 interface Cell
 {
     /**
-     * Check if this cell is a spreadsheet cell and then render it as necessary.
+     * Get the cell value.
      *
      * @return string
      */
-    public function renderSpreadsheetCell();
+    public function getValue();
+
+    /**
+     * Alias for the get value method.
+     *
+     * @return string
+     */
+    public function value();
+
+    /**
+     * When converted to a string, return the cell value.
+     *
+     * @return string
+     */
+    public function __toString();
 }

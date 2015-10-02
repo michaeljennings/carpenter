@@ -8,7 +8,7 @@ use Michaeljennings\Carpenter\Contracts\Column as ColumnContract;
 class Cell implements CellContract
 {
     /**
-     * The cell value
+     * The cell value.
      *
      * @var string
      */
@@ -35,23 +35,11 @@ class Cell implements CellContract
      */
     protected $column;
 
-    public function __construct($value, $row, ColumnContract $column)
+    public function __construct(ColumnContract $column, $value = null, $row = null)
     {
         $this->row = $row;
         $this->column = $column;
 
-        $this->createCell($value, $row, $column);
-    }
-
-    /**
-     * Run the column presenter on the cell value.
-     *
-     * @param  string         $value
-     * @param  mixed          $row
-     * @param  ColumnContract $column
-     */
-    protected function createCell($value, $row, ColumnContract $column)
-    {
         if ($column->hasPresenter()) {
             $callback = $column->getPresenter();
             $value = $callback($value, $row);
@@ -61,23 +49,23 @@ class Cell implements CellContract
     }
 
     /**
-     * Check if this cell is a spreadsheet cell and then render it as necessary.
+     * Get the cell value.
      *
      * @return string
      */
-    public function renderSpreadsheetCell()
+    public function getValue()
     {
-        if ($this->column) {
-            if ($this->column->hasSpreadsheetCell()) {
-                $cell = new SpreadsheetCell($this->value, $this->row->id);
-                $callback = $this->column->getSpreadsheetCell();
-                $callback($cell);
+        return $this->value;
+    }
 
-                return $cell->render();
-            }
-
-            return $this->value;
-        }
+    /**
+     * Alias for the get value method.
+     *
+     * @return string
+     */
+    public function value()
+    {
+        return $this->getValue();
     }
 
     /**
@@ -87,6 +75,6 @@ class Cell implements CellContract
      */
     public function __toString()
     {
-        return $this->value;
+        return $this->getValue();
     }
 }
