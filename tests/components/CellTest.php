@@ -3,7 +3,6 @@
 namespace Michaeljennings\Carpenter\Tests\Components;
 
 use Michaeljennings\Carpenter\Components\Cell as CellComponent;
-use Michaeljennings\Carpenter\Contracts\Cell as CellContract;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class CellTest extends TestCase
@@ -12,7 +11,7 @@ class CellTest extends TestCase
     {
         $cell = $this->makeCell();
 
-        $this->assertInstanceOf(CellContract::Class, $cell);
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Cell', $cell);
     }
 
     public function testValueCanBeRetrieved()
