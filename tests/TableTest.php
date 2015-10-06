@@ -50,13 +50,17 @@ class TableTest extends TestCase
         $this->assertCount(1, $table->actions());
     }
 
-    public function testRowActionsCanBeAdded()
+    public function testRowActionsCanBeAddedAndRendered()
     {
-        $table = $this->makeTable();
+        $table = $this->makeTableWithData();
 
-        $this->assertCount(0, $table->actions());
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $table->action('test', 'row'));
-        $this->assertCount(0, $table->actions());
+
+        $table->rows();
+        $row = $table->getRows()[0];
+
+        $this->assertCount(1, $row->getActions());
+        $this->assertContains('name="test"', $table->render());
     }
 
     public function testActionsCanBeEdited()
@@ -107,6 +111,8 @@ class TableTest extends TestCase
     public function testRenderReturnsString()
     {
         $table = $this->makeTableWithData();
+
+        $this->assertInternalType('string', $table->__toString());
 
         $table = $table->render();
 
@@ -221,6 +227,20 @@ class TableTest extends TestCase
         $table->render();
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ViewNotFoundException
+     */
+    public function testSetTemplateAlias()
+    {
+        $table = $this->makeTable();
+
+        $this->assertInternalType('string', $table->render());
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->template('non-existant-template.php'));
+
+        $table->render();
+    }
+
     public function testTableTitleCanBeSet()
     {
         $table = $this->makeTable();
@@ -290,6 +310,51 @@ class TableTest extends TestCase
 
         $this->assertEquals(3, $table->getTotal());
         $this->assertEquals(2, $table->getTotalPerPage());
+    }
+
+    public function testGetTotalPerPageReturnsNullIfNotPaginated()
+    {
+        $table = $this->makeTableWithData();
+        $table->rows();
+
+        $this->assertNull($table->getTotalPerPage());
+    }
+
+    public function testColumnsCanBeSorted()
+    {
+        $_SERVER['QUERY_STRING'] = 'sort=foo';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_GET['sort'] = 'foo';
+
+        $table = $this->makeTableWithData();
+
+        $this->assertTrue($table->isSorted());
+        $this->assertFalse($table->isDescending());
+
+        $rows = $table->rows();
+
+        $this->assertEquals('Test 1', $rows[0]->getCells()['foo']->value());
+
+        $this->setPage(1);
+    }
+
+    public function testColumnsCanBeSortedInDescendingOrder()
+    {
+        $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc';
+        $_GET['sort'] = 'foo';
+        $_GET['dir'] = 'desc';
+
+        $table = $this->makeTableWithData();
+
+        $this->assertTrue($table->isSorted());
+        $this->assertTrue($table->isDescending());
+
+        $rows = $table->rows();
+
+        $this->assertEquals('Test 7', $rows[0]->getCells()['foo']->value());
+
+        $this->setPage(1);
     }
 
 }

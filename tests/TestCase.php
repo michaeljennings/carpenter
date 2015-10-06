@@ -46,19 +46,31 @@ class TestCase extends PHPUnit_Framework_TestCase
     {
         return [
             [
+                'id' => 1,
                 'test' => 'Test',
                 'foo' => 'Test 1',
                 'baz' => 'Test 2',
+                'nested' => [
+                    'foo' => 'bar'
+                ]
             ],
             [
+                'id' => 2,
                 'test' => 'Test 3',
                 'foo' => 'Test 4',
                 'baz' => 'Test 5',
+                'nested' => [
+                    'foo' => 'bar'
+                ]
             ],
             [
+                'id' => 3,
                 'test' => 'Test 6',
                 'foo' => 'Test 7',
                 'baz' => 'Test 8',
+                'nested' => [
+                    'foo' => 'bar'
+                ]
             ],
         ];
     }
