@@ -27,6 +27,32 @@ class MockArrayTest extends TestCase
         $this->assertCount(2, $test->getAttributes());
     }
 
+    public function testMockArrayActsLikeArray()
+    {
+        $test = $this->makeMockArray();
+
+        $this->assertTrue(isset($test['foo']));
+        $this->assertFalse(isset($test['test']));
+
+        $test['test'] = 'hello world';
+
+        $this->assertEquals('hello world', $test['test']);
+
+        $this->assertTrue(isset($test['test']));
+
+        unset($test['test']);
+
+        $this->assertFalse(isset($test['test']));
+    }
+
+    public function testItemsCanBeAddedDynamically()
+    {
+        $array = $this->makeMockArray();
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Nexus\MockArray', $array->test('hello world'));
+        $this->assertEquals('hello world', $array->get('test'));
+    }
+
     protected function makeMockArray()
     {
         return new MockArray(['foo' => 'bar', 'baz' => 'qux']);
