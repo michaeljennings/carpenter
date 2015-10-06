@@ -2,6 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Components;
 
+use Michaeljennings\Carpenter\Components\Action;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class ActionTest extends TestCase
@@ -49,6 +50,21 @@ class ActionTest extends TestCase
     	$table = $this->makeTable();
 
         $action = $table->action('create')->setPresenter(function() {
+        	return 'foo';
+        });
+
+        $value = $action->render();
+
+        $this->assertNotNull($action->getPresenter());
+        $this->assertInternalType('string', $value);
+        $this->assertContains('foo', $value);
+    }
+
+    public function testSetPresenterAlias()
+    {
+    	$table = $this->makeTable();
+
+        $action = $table->action('create')->presenter(function() {
         	return 'foo';
         });
 
@@ -198,5 +214,78 @@ class ActionTest extends TestCase
         });
 
         $this->assertContains('class="Test 1"', $action->render());
+    }
+
+    public function testActionsCanBeDisplayedWhenAConditionIsMet()
+    {
+        $action = $this->makeAction();
+        $row = ['foo' => 'bar'];
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->when(function($row) {
+            return ($row['foo'] == 'bar');
+        }));
+
+        $this->assertTrue($action->valid($row));
+
+        $action->when(function($row) {
+            return ($row['foo'] == 'baz');
+        });
+
+        $this->assertFalse($action->valid($row));
+    }
+
+    public function testColumnCanBeSet()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->setColumn());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->setColumn('foo'));
+        $this->assertEquals('foo', $action->getColumn());
+    }
+
+    public function testSetColumnAlias()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->column());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->column('foo'));
+        $this->assertEquals('foo', $action->getColumn());
+    }
+
+    public function testValueCanBeSet()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->setValue());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->setValue('Test'));
+    }
+
+    public function testSetValueAlias()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->value());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->value('Test'));
+    }
+
+    public function testRowCanBeSet()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->setRow());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->setRow(['foo' => 'bar']));
+    }
+
+    public function testSetRowAlias()
+    {
+        $action = $this->makeAction();
+
+        $this->assertFalse($action->row());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Action', $action->row(['foo' => 'bar']));
+    }
+
+    public function makeAction()
+    {
+        return new Action('create');
     }
 }
