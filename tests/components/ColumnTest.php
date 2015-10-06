@@ -42,6 +42,26 @@ class ColumnTest extends TestCase
         $this->assertEquals('TEST VALUE', $rows[0]->cells()['foo']);
     }
 
+    public function testSetPresenterAlias()
+    {
+        $table = $this->makeTableWithData();
+
+        $column = $table->column('foo');
+
+        $this->assertFalse($column->hasPresenter());
+
+        $column->presenter(function() {
+            return 'TEST VALUE';
+        });
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column);
+        $this->assertTrue($column->hasPresenter());
+
+        $rows = $table->rows();
+
+        $this->assertEquals('TEST VALUE', $rows[0]->cells()['foo']);
+    }
+
     public function testCustomSortCanBeSetForAColumn()
     {
         $table = $this->makeTableWithData();
@@ -80,6 +100,16 @@ class ColumnTest extends TestCase
         $this->assertFalse($column->isSortable());
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->sortable());
         $this->assertTrue($column->isSortable());
+    }
+
+    public function testAttributesCanBeSetDynamically()
+    {
+        $table = $this->makeTableWithData();
+
+        $column = $table->column('foo');
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->title('test'));
+        $this->assertCount(1, $column->getAttributes());
     }
 
     protected function makeColumn($key = 'foo')
