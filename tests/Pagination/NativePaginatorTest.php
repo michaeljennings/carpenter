@@ -53,6 +53,17 @@ class NativePaginatorTest extends TestCase
         $this->assertContains('Prev', $links);
     }
 
+    public function testNextIsNotShownIfOnLastPage()
+    {
+        $this->setPage(3);
+
+        $paginator = $this->makeNativePaginator();
+        $paginator->make(30, 10);
+
+        $links = $paginator->links();
+        $this->assertNotContains('Next', $links);
+    }
+
     public function testCurrentPageReturnsTheCorrectPage()
     {
         $paginator = $this->makeNativePaginator();
