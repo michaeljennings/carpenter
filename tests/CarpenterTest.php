@@ -17,7 +17,16 @@ class CarpenterTest extends TestCase
     {
         $carpenter = $this->makeCarpenter();
 
-        $this->assertNull($carpenter->add('test', 'TestClass'));
+        $this->assertNull($carpenter->add('test', 'Michaeljennings\Carpenter\Tests\ExampleTable'));
+    }
+
+    public function testTableCanBeBuiltFromString()
+    {
+        $carpenter = $this->makeCarpenter();
+
+        $this->assertNull($carpenter->add('test', 'Michaeljennings\Carpenter\Tests\ExampleTable@build'));
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $carpenter->get('test'));
     }
 
     /**
