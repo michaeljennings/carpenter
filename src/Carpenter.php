@@ -152,6 +152,8 @@ class Carpenter implements CarpenterInterface
      *
      * @depreciated This function is required if you are storing tables in a file, not
      * in service providers.
+     *
+     * @codeCoverageIgnore
      */
     public function loadTables()
     {
