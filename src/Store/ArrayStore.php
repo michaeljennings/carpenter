@@ -56,10 +56,6 @@ class ArrayStore implements Store
      */
     public function paginate($amount, $page, $perPage)
     {
-        if (is_null($page)) {
-            $page = 1;
-        }
-
         $chunks = array_chunk($this->data, $perPage);
         $offset = $page - 1;
 
