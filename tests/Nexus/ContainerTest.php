@@ -25,6 +25,24 @@ class ContainerTest extends TestCase
         }
     }
 
+    public function testContainerActsLikeArray()
+    {
+        $container = $this->makeContainer();
+
+        $this->assertTrue(isset($container[0]));
+        $this->assertFalse(isset($container[5]));
+
+        $container['test'] = 'hello world';
+
+        $this->assertEquals('hello world', $container['test']);
+
+        $this->assertTrue(isset($container['test']));
+
+        unset($container['test']);
+
+        $this->assertFalse(isset($container['test']));
+    }
+
     protected function makeContainer()
     {
         return new Container($this->getData(), $this->getConfig(), 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper');
