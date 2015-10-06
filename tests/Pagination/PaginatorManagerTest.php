@@ -36,6 +36,16 @@ class PaginatorManagerTest extends TestCase
         $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Native', $manager->driver('native'));
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\DriverNotFoundException
+     */
+    public function testErrorIsThrownIfDriverDoesNotExist()
+    {
+        $manager = $this->makePaginatorManager();
+
+        $manager->driver('foo');
+    }
+
     protected function makePaginatorManager()
     {
         return new PaginationManager($this->getConfig());

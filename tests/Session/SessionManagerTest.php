@@ -36,6 +36,16 @@ class SessionManagerTest extends TestCase
         $this->assertInstanceOf('Michaeljennings\Carpenter\Session\NativeDriver', $manager->driver('native'));
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\DriverNotFoundException
+     */
+    public function testErrorIsThrownIfDriverDoesNotExist()
+    {
+        $manager = $this->makeSessionManager();
+
+        $manager->driver('foo');
+    }
+
     protected function makeSessionManager()
     {
         return new SessionManager($this->getConfig());
