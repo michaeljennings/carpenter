@@ -63,6 +63,17 @@ class NativeSessionTest extends TestCase
         $this->assertEquals('bar', $session->get('foo'));
     }
 
+    public function testFlashItemsCanBeRemoved()
+    {
+        $session = $this->makeNativeSession();
+
+        $this->assertNull($session->flash('foo', 'bar'));
+        $this->assertEquals('bar', $session->get('foo'));
+
+        $this->assertNull($session->forget('foo'));
+        $this->assertFalse($session->get('foo'));
+    }
+
     protected function makeNativeSession()
     {
         return new NativeDriver($this->getConfig());
