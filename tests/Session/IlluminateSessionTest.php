@@ -72,7 +72,7 @@ class IlluminateSessionTest extends TestCase
         $session->put('foo', 'bar');
 
         $this->assertEquals('bar', $session->get('foo'));
-        
+
         $session->flush();
 
         $this->assertNull($session->get('foo'));
