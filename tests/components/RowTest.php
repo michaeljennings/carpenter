@@ -45,6 +45,15 @@ class RowTest extends TestCase
         $this->assertEquals('1', $row->getId());
     }
 
+    public function testSetIdAliasWorks()
+    {
+        $row = $this->makeRow();
+
+        $row->id('1');
+
+        $this->assertEquals('1', $row->getId());
+    }
+
     public function testCellAliasesWork()
     {
         $row = $this->makeRow();
