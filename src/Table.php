@@ -457,9 +457,7 @@ class Table implements TableContract
      */
     protected function orderResults()
     {
-        if ( ! isset($this->sorted)) {
-            $this->setSortParameters();
-        }
+        $this->setSortParameters();
 
         if (isset($this->sortBy)) {
             // Remove any orders from the query and order by the selected column
