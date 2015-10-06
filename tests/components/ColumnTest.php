@@ -109,7 +109,7 @@ class ColumnTest extends TestCase
         $column = $table->column('foo');
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->title('test'));
-        $this->assertCount(1, $column->getAttributes());
+        $this->assertEquals('test', $column->get('title'));
     }
 
     protected function makeColumn($key = 'foo')
