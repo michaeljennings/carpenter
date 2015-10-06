@@ -65,6 +65,19 @@ class IlluminateSessionTest extends TestCase
         $this->assertEquals('bar', $session->get('foo'));
     }
 
+    public function testNonSpecifiedMethodsCanStillBeCalled()
+    {
+        $session = $this->makeSession();
+
+        $session->put('foo', 'bar');
+
+        $this->assertEquals('bar', $session->get('foo'));
+        
+        $session->flush();
+
+        $this->assertNull($session->get('foo'));
+    }
+
     protected function makeSession()
     {
         return new IlluminateDriver(new Store($this->getConfig()['session']['key'], new NullSessionHandler()));
