@@ -130,7 +130,7 @@ class ColumnTest extends TestCase
         unset($_GET['sort']);
     }
 
-    public function testHrefResetIfColumnIsSortedDesc()
+    public function testHrefReturnsRootIfSortingDesc()
     {
         $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc';
         $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc';
@@ -140,6 +140,23 @@ class ColumnTest extends TestCase
         $column = $this->makeTableWithData()->column('foo');
 
         $this->assertNotContains('sort=foo&dir=desc', $column->getHref());
+
+        $this->setPage();
+        unset($_GET['sort']);
+        unset($_GET['dir']);
+    }
+
+    public function testHrefGetsResetIfRemovingSort()
+    {
+        $_SERVER['QUERY_STRING'] = '';
+        $_SERVER['REQUEST_URI'] = 'http://localhost';
+        $_GET['sort'] = 'foo';
+        $_GET['dir'] = 'desc';
+
+        $column = $this->makeTableWithData()->column('foo');
+
+        $this->assertNotContains('dir=desc', $column->getHref());
+        $this->assertContains('sort=foo', $column->getHref());
 
         $this->setPage();
         unset($_GET['sort']);
