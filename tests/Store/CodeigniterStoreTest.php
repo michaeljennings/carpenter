@@ -7,6 +7,12 @@ namespace Michaeljennings\Carpenter\Tests\Store {
 
     class CodeigniterStoreTest extends TestCase
     {
+        public function testStoreImplementsContract()
+        {
+            $store = $this->makeStore();
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Store', $store);
+        }
+
         public function testThatModelCanBeSet()
         {
             $store = $this->makeStore();
