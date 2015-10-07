@@ -3,6 +3,7 @@
 namespace Michaeljennings\Carpenter\View;
 
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
+use Michaeljennings\Carpenter\Exceptions\ViewNotFoundException;
 
 class IlluminateDriver implements ViewInterface
 {
@@ -21,12 +22,17 @@ class IlluminateDriver implements ViewInterface
     /**
      * Return the required view
      *
-     * @param       $view
-     * @param array $data
+     * @param string $view
+     * @param array  $data
      * @return string
+     * @throws ViewNotFoundException
      */
     public function make($view, $data = [])
     {
-        return $this->view->make($view, $data)->render();
+        try {
+            return $this->view->make($view, $data)->render();
+        } catch (\InvalidArgumentException $e) {
+            throw new ViewNotFoundException("No file found at '{$view}'");
+        }
     }
 } 
