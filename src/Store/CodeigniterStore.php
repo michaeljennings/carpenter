@@ -51,9 +51,13 @@ class CodeigniterStore implements Store
      */
     public function count()
     {
-        $query = clone $this->query;
+        if ( ! is_null($this->query)) {
+            $query = clone $this->query;
 
-        return $query->count_all_results();
+            return $query->count_all_results();
+        }
+
+        return 0;
     }
 
     /**
@@ -131,8 +135,7 @@ class CodeigniterStore implements Store
      * Enables the use of CI super-global without having to define an extra
      * variable.
      *
-     * @access  public
-     * @param   $var
+     * @param string $var
      * @return  mixed
      */
     public function __get($var)
