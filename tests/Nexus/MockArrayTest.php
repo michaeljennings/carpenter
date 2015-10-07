@@ -53,6 +53,13 @@ class MockArrayTest extends TestCase
         $this->assertEquals('hello world', $array->get('test'));
     }
 
+    public function testDefaultReturnedIfValueNotSet()
+    {
+        $array = $this->makeMockArray();
+
+        $this->assertEquals('test', $array->get('key', 'test'));
+    }
+
     protected function makeMockArray()
     {
         return new MockArray(['foo' => 'bar', 'baz' => 'qux']);
