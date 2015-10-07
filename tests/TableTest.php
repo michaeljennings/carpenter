@@ -4,6 +4,15 @@ namespace Michaeljennings\Carpenter\Tests;
 
 class TableTest extends TestCase
 {
+    public function testModelCanBeSet()
+    {
+        $table = $this->makeTable();
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->store('codeigniter'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table',
+            $table->model('Michaeljennings\Carpenter\Tests\Store\ExampleEloquentModel'));
+    }
+
     public function testColumnCanBeAdded()
     {
         $table = $this->makeTable();
@@ -82,6 +91,28 @@ class TableTest extends TestCase
         $table->data($this->getData());
 
         $this->assertCount(3, $table->rows());
+    }
+
+    public function testTableDataCanBeArrayOfObjects()
+    {
+        $table = $this->makeTable();
+        $table->data($this->getDataAsObjects());
+        $table->wrapper('Michaeljennings\Carpenter\Wrappers\Codeigniter');
+
+        $this->assertCount(3, $table->rows());
+    }
+
+    public function testColumnCanAccessNestedData()
+    {
+        $table = $this->makeTable();
+        $table->data($this->getDataAsObjects());
+        $table->wrapper('Michaeljennings\Carpenter\Wrappers\Codeigniter');
+
+        $table->column('nested.foo');
+
+        $row = $table->rows()[0];
+
+        $this->assertEquals('bar', $row->getCells()['nested.foo']->value);
     }
 
     public function testTableResultsCanBePaginated()
