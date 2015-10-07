@@ -4,6 +4,9 @@ namespace Michaeljennings\Carpenter;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CarpenterServiceProvider extends ServiceProvider
 {
     /**
