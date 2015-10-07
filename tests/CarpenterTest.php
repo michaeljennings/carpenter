@@ -24,6 +24,15 @@ class CarpenterTest extends TestCase
     {
         $carpenter = $this->makeCarpenter();
 
+        $this->assertNull($carpenter->add('test', 'Michaeljennings\Carpenter\Tests\ExampleTable'));
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $carpenter->get('test'));
+    }
+
+    public function testTableCanBeBuiltFromStringWithCustomMethod()
+    {
+        $carpenter = $this->makeCarpenter();
+
         $this->assertNull($carpenter->add('test', 'Michaeljennings\Carpenter\Tests\ExampleTable@build'));
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $carpenter->get('test'));
@@ -48,6 +57,22 @@ class CarpenterTest extends TestCase
         });
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $carpenter->get('test'));
+    }
+
+    public function testGetMethodAcceptsAClosureToBeRunOnTheTable()
+    {
+        $carpenter = $this->makeCarpenter();
+
+        $this->assertNull($carpenter->add('test', function ($table) {
+            $table->setTitle('test');
+        }));
+
+        $table = $carpenter->get('test', function($table) {
+            $table->setTitle('foo');
+        });
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table);
+        $this->assertEquals('foo', $table->getTitle());
     }
 
     public function testMakeMethodReturnsTableInstance()
