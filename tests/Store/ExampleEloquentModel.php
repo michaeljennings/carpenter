@@ -17,6 +17,7 @@ class ExampleEloquentModel
     {
         return m::mock('Illuminate\Support\Collection', [
             'total' => 0,
+            'getTotal' => 0,
             'all' => []
         ]);
     }
