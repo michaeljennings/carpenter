@@ -25,6 +25,17 @@ class Codeigniter
     }
 
     /**
+     * Check if the provided key is set on the model.
+     *
+     * @param $key string
+     * @return bool
+     */
+    function __isset($key)
+    {
+        return isset($this->item[$key]);
+    }
+
+    /**
      * Return an value from the item.
      *
      * @param $key

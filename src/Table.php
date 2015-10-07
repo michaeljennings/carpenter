@@ -356,7 +356,7 @@ class Table implements TableContract
     {
         $row = new Row;
 
-        if ( ! empty($result->id)) {
+        if (isset($result->id)) {
             $row->id = $result->id;
         }
 

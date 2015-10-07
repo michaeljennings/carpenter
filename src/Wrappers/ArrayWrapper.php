@@ -20,6 +20,18 @@ class ArrayWrapper
     }
 
     /**
+     * Check if the provided key is set in the array.
+     *
+     * @param $key string
+     * @return bool
+     */
+    function __isset($key)
+    {
+        return isset($this->item[$key]);
+    }
+
+
+    /**
      * Get a value from the item.
      *
      * @param $key
