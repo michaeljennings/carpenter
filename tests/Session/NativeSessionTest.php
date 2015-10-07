@@ -74,6 +74,17 @@ class NativeSessionTest extends TestCase
         $this->assertFalse($session->get('foo'));
     }
 
+    public function testSessionIsStartedIfNotAlreadyRunning()
+    {
+        $_SESSION = [];
+        session_destroy();
+        unset($_SESSION);
+
+        $this->makeNativeSession();
+
+        $this->assertInternalType('array', $_SESSION);
+    }
+
     protected function makeNativeSession()
     {
         return new NativeDriver($this->getConfig());

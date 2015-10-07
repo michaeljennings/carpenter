@@ -32,7 +32,7 @@ class NativeDriver implements SessionContract
         $this->config = $config;
 
         if ( ! isset($_SESSION)) {
-            session_start();
+            @session_start();
         }
 
         if ($this->initialLoad) {
