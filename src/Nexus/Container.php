@@ -63,11 +63,7 @@ class Container implements ArrayAccess, IteratorAggregate
      */
     public function offsetSet($key, $value)
     {
-        if (is_null($key)) {
-            $this->items[] = $value;
-        } else {
-            $this->items[$key] = $value;
-        }
+        $this->items[$key] = $value;
     }
 
     /**
