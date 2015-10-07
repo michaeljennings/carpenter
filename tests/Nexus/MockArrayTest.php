@@ -53,6 +53,14 @@ class MockArrayTest extends TestCase
         $this->assertEquals('hello world', $array->get('test'));
     }
 
+    public function testItemsCanBeAddedDynamicallyWithoutSpecifyingAValue()
+    {
+        $array = $this->makeMockArray();
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Nexus\MockArray', $array->fooBar());
+        $this->assertEquals('fooBar', $array->get('fooBar'));
+    }
+
     public function testDefaultReturnedIfValueNotSet()
     {
         $array = $this->makeMockArray();
