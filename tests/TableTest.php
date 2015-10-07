@@ -336,6 +336,7 @@ class TableTest extends TestCase
         $this->assertEquals('Test 1', $rows[0]->getCells()['foo']->value());
 
         $this->setPage(1);
+        unset($_GET['sort']);
     }
 
     public function testColumnsCanBeSortedInDescendingOrder()
@@ -355,6 +356,31 @@ class TableTest extends TestCase
         $this->assertEquals('Test 7', $rows[0]->getCells()['foo']->value());
 
         $this->setPage(1);
+        unset($_GET['sort']);
+        unset($_GET['dir']);
+    }
+
+    public function testCustomSortCanBeSetForColumn()
+    {
+        $_SERVER['QUERY_STRING'] = 'sort=foo';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_GET['sort'] = 'foo';
+
+        $table = $this->makeTableWithData();
+
+        $table->column('foo')->sort(function($q) {
+            $q->orderBy('baz', 'desc');
+        });
+
+        $this->assertTrue($table->isSorted());
+        $this->assertFalse($table->isDescending());
+
+        $rows = $table->rows();
+
+        $this->assertEquals('Test 7', $rows[0]->getCells()['foo']->value());
+
+        $this->setPage(1);
+        unset($_GET['sort']);
     }
 
 }
