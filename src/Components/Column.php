@@ -115,26 +115,24 @@ class Column extends MockArray implements ColumnContract
      */
     protected function createHref($column, $key)
     {
-        if ($this->sortable) {
-            $query = ['sort' => $column];
+        $query = ['sort' => $column];
 
-            if ($this->isActive()) {
-                if ($this->isDescending()) {
-                    if (empty($_SERVER['QUERY_STRING'])) {
-                        $this->clearSession($key);
-                    } else {
-                        $this->sort = 'up';
-
-                        return $this->getUrl();
-                    }
+        if ($this->isActive()) {
+            if ($this->isDescending()) {
+                if (empty($_SERVER['QUERY_STRING'])) {
+                    $this->clearSession($key);
                 } else {
-                    $query['dir'] = 'desc';
-                    $this->sort = 'down';
-                }
-            }
+                    $this->sort = 'up';
 
-            return '?' . $this->renderQueryString($query);
+                    return $this->getUrl();
+                }
+            } else {
+                $query['dir'] = 'desc';
+                $this->sort = 'down';
+            }
         }
+
+        return '?' . $this->renderQueryString($query);
     }
 
     /**

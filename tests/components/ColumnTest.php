@@ -62,6 +62,13 @@ class ColumnTest extends TestCase
         $this->assertEquals('TEST VALUE', $rows[0]->cells()['foo']);
     }
 
+    public function testGetPresenterReturnsFalseIfNoPresenterIsSet()
+    {
+        $column = $this->makeColumn();
+
+        $this->assertFalse($column->getPresenter());
+    }
+
     public function testCustomSortCanBeSetForAColumn()
     {
         $table = $this->makeTableWithData();
@@ -100,6 +107,43 @@ class ColumnTest extends TestCase
         $this->assertFalse($column->isSortable());
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->sortable());
         $this->assertTrue($column->isSortable());
+    }
+
+    public function testHrefContainsWillSortByColumnIfNotBeingSorted()
+    {
+        $column = $this->makeTableWithData()->column('foo');
+
+        $this->assertContains('sort=foo', $column->getHref());
+    }
+
+    public function testHrefContainsDirectionIfColumnIsBeingSortedAsc()
+    {
+        $_SERVER['QUERY_STRING'] = 'sort=foo';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_GET['sort'] = 'foo';
+
+        $column = $this->makeTableWithData()->column('foo');
+
+        $this->assertContains('sort=foo&dir=desc', $column->getHref());
+
+        $this->setPage();
+        unset($_GET['sort']);
+    }
+
+    public function testHrefResetIfColumnIsSortedDesc()
+    {
+        $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc';
+        $_GET['sort'] = 'foo';
+        $_GET['dir'] = 'desc';
+
+        $column = $this->makeTableWithData()->column('foo');
+
+        $this->assertNotContains('sort=foo&dir=desc', $column->getHref());
+
+        $this->setPage();
+        unset($_GET['sort']);
+        unset($_GET['dir']);
     }
 
     public function testAttributesCanBeSetDynamically()
