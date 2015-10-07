@@ -108,6 +108,6 @@ class EloquentStore implements Store
     {
         $this->model = call_user_func_array([$this->model, $method], $args);
 
-        return $this->model;
+        return $this;
     }
 }
