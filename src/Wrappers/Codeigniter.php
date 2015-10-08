@@ -43,6 +43,10 @@ class Codeigniter
      */
     public function __get($key)
     {
-        return $this->item[$key];
+        if (isset($this->item[$key])) {
+            return $this->item[$key];
+        }
+
+        return null;
     }
 }
