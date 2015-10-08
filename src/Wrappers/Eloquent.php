@@ -29,7 +29,7 @@ class Eloquent
      */
     function __isset($key)
     {
-        return isset($this->item[$key]);
+        return isset($this->item->$key);
     }
 
     /**

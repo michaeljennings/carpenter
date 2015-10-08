@@ -12,6 +12,7 @@ class EloquentWrapperTest extends TestCase
     {
         $wrapper = $this->makeWrapper();
 
+        $this->assertTrue(! empty($wrapper->foo));
         $this->assertEquals('bar', $wrapper->foo);
     }
 
