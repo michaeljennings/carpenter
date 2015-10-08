@@ -13,6 +13,9 @@ class ArrayWrapperTest extends TestCase
 
         $this->assertEquals('Test', $wrapper->test);
         $this->assertEquals('Test 1', $wrapper->foo);
+        $this->assertTrue(isset($wrapper->foo));
+        $this->assertFalse(isset($wrapper->notSet));
+        $this->assertNull($wrapper->notSet);
     }
 
     protected function makeWrapper()

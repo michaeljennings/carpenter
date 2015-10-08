@@ -18,7 +18,7 @@ class EloquentWrapperTest extends TestCase
 
     public function makeWrapper()
     {
-        $model = m::mock('Illuminate\Database\Eloquent\Model', []);
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
 
         $model->foo = 'bar';
 

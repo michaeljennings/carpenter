@@ -11,7 +11,10 @@ class CodeigniterWrapperTest extends TestCase
     {
         $wrapper = new Codeigniter(['foo' => 'bar']);
 
+        $this->assertTrue(isset($wrapper->foo));
         $this->assertEquals('bar', $wrapper->foo);
+        $this->assertFalse(isset($wrapper->baz));
+        $this->assertNull($wrapper->baz);
     }
 
     public function testDataCanBeAddedAsObject()
@@ -21,6 +24,9 @@ class CodeigniterWrapperTest extends TestCase
 
         $wrapper = new Codeigniter($object);
 
+        $this->assertTrue(isset($wrapper->foo));
         $this->assertEquals('bar', $wrapper->foo);
+        $this->assertFalse(isset($wrapper->baz));
+        $this->assertNull($wrapper->baz);
     }
 }
