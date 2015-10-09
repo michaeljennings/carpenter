@@ -11,6 +11,6 @@ class Laravel4ServiceProvider extends CarpenterServiceProvider
      */
     public function boot()
     {
-        $this->package('vendor/package', 'carpenter');
+        $this->package('michaeljennings/carpenter', 'carpenter');
     }
 }
