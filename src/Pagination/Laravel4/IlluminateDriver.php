@@ -33,13 +33,13 @@ class IlluminateDriver implements PaginatorContract
      *
      * @param  string|integer $total
      * @param  string|integer $perPage
-     * @return mixed
+     * @return $this
      */
     public function make($total, $perPage)
     {
         $this->paginator = $this->app['paginator']->make([], $total, $perPage);
 
-        return $this->paginator;
+        return $this;
     }
 
     /**

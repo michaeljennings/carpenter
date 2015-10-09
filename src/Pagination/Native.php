@@ -39,7 +39,7 @@ class Native implements Paginator
      *
      * @param  string|integer $total
      * @param  string|integer $perPage
-     * @return mixed
+     * @return $this
      */
     public function make($total, $perPage)
     {

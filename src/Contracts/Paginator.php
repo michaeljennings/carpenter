@@ -9,7 +9,7 @@ interface Paginator
      *
      * @param  string|integer $total
      * @param  string|integer $perPage
-     * @return mixed
+     * @return Paginator
      */
     public function make($total, $perPage);
 
