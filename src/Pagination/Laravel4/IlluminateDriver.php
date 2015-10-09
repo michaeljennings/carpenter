@@ -2,9 +2,6 @@
 
 namespace Michaeljennings\Carpenter\Pagination\Laravel4;
 
-use Illuminate\Pagination\Paginator;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\BootstrapThreePresenter;
 use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
 
 class IlluminateDriver implements PaginatorContract
