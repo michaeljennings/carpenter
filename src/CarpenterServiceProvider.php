@@ -17,6 +17,7 @@ class CarpenterServiceProvider extends ServiceProvider
      * Bootstrap the application events.
      *
      * @return void
+     * @codeCoverageIgnore
      */
     public function boot()
     {
