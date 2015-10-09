@@ -26,7 +26,6 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 	- [Getting Data From a Table Instance](#getting-data-from-a-table-instance)
 
 ## Planned Features
-- Unit Tests & CI
 - PDO Store Driver
 
 ## Installation
