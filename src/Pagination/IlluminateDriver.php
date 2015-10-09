@@ -40,7 +40,7 @@ class IlluminateDriver implements PaginatorContract
             'path' => $this->app['request']->url(),
         ]);
 
-        return $this->paginator;
+        return $this;
     }
 
     /**
