@@ -2,11 +2,6 @@
 
 namespace Michaeljennings\Carpenter;
 
-use Illuminate\Support\ServiceProvider;
-
-/**
- * @codeCoverageIgnore
- */
 class Laravel4ServiceProvider extends CarpenterServiceProvider
 {
     /**
