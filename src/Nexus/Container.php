@@ -9,14 +9,16 @@ use IteratorAggregate;
 class Container implements ArrayAccess, IteratorAggregate
 {
     /**
+     * The items in the container.
+     *
      * @var array
      */
     protected $items = [];
 
-    public function __construct(array $items, array $config, $wrapper)
+    public function __construct(array $items, array $config)
     {
         foreach ($items as &$item) {
-            $item = (new \ReflectionClass($wrapper))->newInstanceArgs([$item]);
+            $item = new MockArray($item);
         }
 
         $this->items = $items;
