@@ -8,7 +8,7 @@ interface Store
      * Set the model to be used for the table.
      *
      * @param mixed $model
-     * @return $this
+     * @return Store
      */
     public function model($model);
 
@@ -41,7 +41,7 @@ interface Store
      *
      * @param string $key
      * @param string $direction
-     * @return mixed
+     * @return Store
      */
     public function orderBy($key, $direction = 'asc');
 
