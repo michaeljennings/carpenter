@@ -89,7 +89,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function buildTable($name, Closure $callback)
     {
-        list($store, $session, $view, $paginator) = $this->createDrivers();
+        list($store, $session, $view, $paginator) = $this->createManagers();
 
         $table = new Table($name, $store, $session, $view, $paginator, $this->config);
         $callback($table);
@@ -135,14 +135,54 @@ class Carpenter implements CarpenterInterface
      *
      * @return array
      */
-    protected function createDrivers()
+    protected function createManagers()
     {
-        $store = new StoreManager($this->config);
-        $session = new SessionManager($this->config);
-        $view = new ViewManager($this->config);
-        $paginator = new PaginationManager($this->config);
+        return [
+            $this->createStoreManager(),
+            $this->createSessionManager(),
+            $this->createViewManager(),
+            $this->createPaginationManager()
+        ];
+    }
 
-        return [$store, $session, $view, $paginator];
+    /**
+     * Create an instance of the store manager.
+     *
+     * @return StoreManager
+     */
+    protected function createStoreManager()
+    {
+        return new StoreManager($this->config);
+    }
+
+    /**
+     * Create an instance of the session manager.
+     *
+     * @return SessionManager
+     */
+    protected function createSessionManager()
+    {
+        return new SessionManager($this->config);
+    }
+
+    /**
+     * Create an instance of the view manager.
+     *
+     * @return ViewManager
+     */
+    protected function createViewManager()
+    {
+        return new ViewManager($this->config);
+    }
+
+    /**
+     * Create an instance of the pagination manager.
+     *
+     * @return PaginationManager
+     */
+    protected function createPaginationManager()
+    {
+        return new PaginationManager($this->config);
     }
 
     /**
