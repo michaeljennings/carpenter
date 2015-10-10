@@ -37,9 +37,13 @@ abstract class Manager
      */
     protected $config = [];
 
-    public function __construct(array $config)
+    public function __construct(array $config, array $extensions = [])
     {
         $this->config = $config;
+
+        foreach ($extensions as $name => $extension) {
+            $this->extend($name, $extension);
+        }
     }
 
     /**
