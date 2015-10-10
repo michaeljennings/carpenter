@@ -74,6 +74,13 @@ namespace Michaeljennings\Carpenter\Tests\Store {
             $this->assertEquals('bar', $store->foo());
         }
 
+        public function testTheStoreWrapperCanBeRetrieved()
+        {
+            $store = $this->makeStore();
+
+            $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $store->getWrapper());
+        }
+
         public function makeStore()
         {
             return new Codeigniter();

@@ -92,6 +92,13 @@ class ArrayStoreTest extends TestCase
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Store', $store->refreshOrderBy());
     }
 
+    public function testTheStoreWrapperCanBeRetrieved()
+    {
+        $store = $this->makeArrayStore();
+
+        $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $store->getWrapper());
+    }
+
     protected function makeArrayStore()
     {
         return new ArrayStore();

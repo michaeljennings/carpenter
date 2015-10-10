@@ -84,6 +84,13 @@ class EloquentStoreTest extends TestCase
         $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->foo());
     }
 
+    public function testTheStoreWrapperCanBeRetrieved()
+    {
+        $store = $this->makeStore();
+
+        $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ObjectWrapper', $store->getWrapper());
+    }
+
     public function makeStore()
     {
         return new Eloquent();
