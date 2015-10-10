@@ -21,7 +21,7 @@ class PaginationManager extends Manager
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver(app());
+        return new Illuminate(app());
     }
 
     /**
@@ -31,7 +31,7 @@ class PaginationManager extends Manager
      */
     public function createLaravel4Driver()
     {
-        return new Laravel4\IlluminateDriver(app());
+        return new Laravel4\Illuminate(app());
     }
 
     /**

@@ -1,10 +1,12 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Pagination\Laravel4;
+namespace Michaeljennings\Carpenter\Pagination;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\BootstrapThreePresenter;
 use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
 
-class IlluminateDriver implements PaginatorContract
+class Illuminate implements PaginatorContract
 {
     /**
      * An instance of the IOC container.
@@ -34,7 +36,9 @@ class IlluminateDriver implements PaginatorContract
      */
     public function make($total, $perPage)
     {
-        $this->paginator = $this->app['paginator']->make([], $total, $perPage);
+        $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input('page'), [
+            'path' => $this->app['request']->url(),
+        ]);
 
         return $this;
     }
@@ -46,7 +50,7 @@ class IlluminateDriver implements PaginatorContract
      */
     public function links()
     {
-        return $this->paginator->links();
+        return $this->paginator->render(new BootstrapThreePresenter($this->paginator));
     }
 
     /**
@@ -56,6 +60,6 @@ class IlluminateDriver implements PaginatorContract
      */
     public function currentPage()
     {
-        return $this->paginator->getCurrentPage();
+        return $this->paginator->currentPage();
     }
 } 
