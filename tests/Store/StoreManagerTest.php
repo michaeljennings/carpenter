@@ -11,14 +11,14 @@ class StoreManagerTest extends TestCase
     {
         $manager = $this->makeManager();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\EloquentStore', $manager->driver('eloquent'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $manager->driver('eloquent'));
     }
 
     public function testLaravel4DriverCanBeSet()
     {
         $manager = $this->makeManager();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Laravel4\EloquentStore', $manager->driver('laravel4'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Laravel4\Eloquent', $manager->driver('laravel4'));
     }
 
     public function testArrayDriverCanBeSet()
@@ -32,7 +32,7 @@ class StoreManagerTest extends TestCase
     {
         $manager = $this->makeManager();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $manager->driver('codeigniter'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $manager->driver('codeigniter'));
     }
 
     public function testDefaultDriverIsReturnedIfNoDriverIsSpecified()

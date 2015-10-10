@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Store;
 
-use Michaeljennings\Carpenter\Store\Laravel4\EloquentStore;
+use Michaeljennings\Carpenter\Store\Laravel4\Eloquent;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class Laravel4StoreTest extends TestCase
@@ -17,6 +17,6 @@ class Laravel4StoreTest extends TestCase
 
     public function makeStore()
     {
-        return new EloquentStore();
+        return new Eloquent();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Store;
 
-use Michaeljennings\Carpenter\Store\EloquentStore;
+use Michaeljennings\Carpenter\Store\Eloquent;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class EloquentStoreTest extends TestCase
@@ -57,7 +57,7 @@ class EloquentStoreTest extends TestCase
         $store = $this->makeStore();
 
         $store->model('Michaeljennings\Carpenter\Tests\Store\ExampleEloquentModel');
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\EloquentStore', $store->refreshOrderBy());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->refreshOrderBy());
     }
 
     public function testOrderByReturnsInstance()
@@ -65,7 +65,7 @@ class EloquentStoreTest extends TestCase
         $store = $this->makeStore();
 
         $store->model('Michaeljennings\Carpenter\Tests\Store\ExampleEloquentModel');
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\EloquentStore', $store->orderBy('foo', 'desc'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->orderBy('foo', 'desc'));
     }
 
     public function testModelMethodsCanBeRunOnTheQuery()
@@ -73,11 +73,11 @@ class EloquentStoreTest extends TestCase
         $store = $this->makeStore();
 
         $store->model('Michaeljennings\Carpenter\Tests\Store\ExampleEloquentModel');
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\EloquentStore', $store->foo());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->foo());
     }
 
     public function makeStore()
     {
-        return new EloquentStore();
+        return new Eloquent();
     }
 }
