@@ -763,29 +763,6 @@ class Table implements TableContract
     }
 
     /**
-     * Change the wrapper class to be used for each table row.
-     *
-     * @param $wrapper
-     * @return $this
-     */
-    public function wrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-
-        return $this;
-    }
-
-    /**
-     * Get the name of the wrapper class for each table row.
-     *
-     * @return string
-     */
-    protected function getWrapper()
-    {
-        return isset($this->wrapper) ? $this->wrapper : $this->config['store']['wrapper'];
-    }
-
-    /**
      * Get the total results from the query.
      *
      * @return int
@@ -843,7 +820,7 @@ class Table implements TableContract
      */
     protected function newContainer(array $data)
     {
-        return new Container($data, $this->config, $this->getWrapper());
+        return new Container($data, $this->config);
     }
 
     /**
