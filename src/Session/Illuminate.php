@@ -5,7 +5,7 @@ namespace Michaeljennings\Carpenter\Session;
 use Illuminate\Session\Store;
 use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
-class IlluminateDriver implements SessionInterface
+class Illuminate implements SessionInterface
 {
     /**
      * The illuminate session driver.

@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Session;
 
 use Michaeljennings\Carpenter\Contracts\Session as SessionContract;
 
-class NativeDriver implements SessionContract
+class Native implements SessionContract
 {
     /**
      * The notifier config.

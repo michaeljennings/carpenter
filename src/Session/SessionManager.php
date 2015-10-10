@@ -9,31 +9,31 @@ class SessionManager extends Manager
     /**
      * Return a new instance of the native php session driver.
      *
-     * @return Michaeljennings\Carpenter\Session\NativeDriver
+     * @return Native
      */
     public function createNativeDriver()
     {
-        return new NativeDriver($this->config);
+        return new Native($this->config);
     }
 
     /**
      * Return a new instance of the illuminate driver.
      *
-     * @return Michaeljennings\Carpenter\Session\IlluminateDriver
+     * @return Illuminate
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver(app()['session']->driver());
+        return new Illuminate(app('session')->driver());
     }
 
     /**
      * Return a new instance of the codeigniter driver.
      *
-     * @return \Michaeljennings\Carpenter\Session\CodeigniterDriver
+     * @return Codeigniter
      */
     public function createCodeigniterDriver()
     {
-        return new CodeigniterDriver();
+        return new Codeigniter();
     }
 
     /**
