@@ -37,11 +37,11 @@ class Native implements SessionContract
 
         if ($this->initialLoad) {
             if (
-                isset($_SESSION[$this->config['session']['key']]) &&
-                isset($_SESSION[$this->config['session']['key']]['flash'])
+                isset($_SESSION[$this->config['key']]) &&
+                isset($_SESSION[$this->config['key']]['flash'])
             ) {
-                $this->flash = $_SESSION[$this->config['session']['key']]['flash'];
-                unset($_SESSION[$this->config['session']['key']]['flash']);
+                $this->flash = $_SESSION[$this->config['key']]['flash'];
+                unset($_SESSION[$this->config['key']]['flash']);
             }
 
             $this->initialLoad = false;
@@ -116,7 +116,7 @@ class Native implements SessionContract
      */
     public function flash($key, $value)
     {
-        $_SESSION[$this->config['session']['key']]['flash'][$key] = $value;
+        $_SESSION[$this->config['key']]['flash'][$key] = $value;
         $this->flash[$key] = $value;
     }
 
