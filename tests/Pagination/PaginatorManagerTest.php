@@ -40,14 +40,14 @@ namespace Michaeljennings\Carpenter\Tests\Pagination {
         {
             $manager = $this->makePaginatorManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\IlluminateDriver', $manager->driver('illuminate'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Illuminate', $manager->driver('illuminate'));
         }
 
         public function testLaravel4DriverCanBeReturned()
         {
             $manager = $this->makePaginatorManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Laravel4\IlluminateDriver', $manager->driver('laravel4'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Laravel4\Illuminate', $manager->driver('laravel4'));
         }
 
         /**

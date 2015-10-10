@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Pagination;
 
-use Michaeljennings\Carpenter\Pagination\IlluminateDriver;
+use Michaeljennings\Carpenter\Pagination\Illuminate;
 use Michaeljennings\Carpenter\Tests\TestCase;
 use Mockery as m;
 
@@ -84,7 +84,7 @@ class IlluminatePaginatorTest extends TestCase
             ])
         ];
 
-        return new IlluminateDriver($app);
+        return new Illuminate($app);
     }
 
     protected function setPage($page = 1)
