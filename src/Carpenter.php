@@ -152,7 +152,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createStoreManager()
     {
-        return new StoreManager($this->config);
+        return new StoreManager($this->config['store']);
     }
 
     /**
@@ -162,7 +162,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createSessionManager()
     {
-        return new SessionManager($this->config);
+        return new SessionManager($this->config['session']);
     }
 
     /**
@@ -172,7 +172,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createViewManager()
     {
-        return new ViewManager($this->config);
+        return new ViewManager($this->config['view']);
     }
 
     /**
@@ -182,7 +182,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createPaginationManager()
     {
-        return new PaginationManager($this->config);
+        return new PaginationManager($this->config['paginator']);
     }
 
     /**

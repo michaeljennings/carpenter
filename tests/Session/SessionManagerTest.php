@@ -62,7 +62,7 @@ namespace Michaeljennings\Carpenter\Tests\Session {
 
         protected function makeSessionManager()
         {
-            return new SessionManager($this->getConfig());
+            return new SessionManager($this->getConfig()['session']);
         }
     }
 }

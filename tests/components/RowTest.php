@@ -83,7 +83,7 @@ class RowTest extends TestCase
     {
         $config = $this->getConfig();
 
-        return new Cell(new Column($key, 'test', new SessionManager($config), $config), $data, $value);
+        return new Cell(new Column($key, 'test', new SessionManager($config['session']), $config), $data, $value);
     }
 
     protected function makeAction()

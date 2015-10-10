@@ -43,6 +43,6 @@ class ViewManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config['view']['driver'];
+        return $this->config['driver'];
     }
 }

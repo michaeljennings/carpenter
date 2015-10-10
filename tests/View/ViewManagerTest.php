@@ -38,7 +38,7 @@ namespace Michaeljennings\Carpenter\Tests\View {
 
         protected function makeManager()
         {
-            return new ViewManager($this->getConfig());
+            return new ViewManager($this->getConfig()['view']);
         }
     }
 }

@@ -175,6 +175,6 @@ class ColumnTest extends TestCase
 
     protected function makeColumn($key = 'foo')
     {
-        return new Column($key, 'foo_table', new SessionManager($this->getConfig()), $this->getConfig());
+        return new Column($key, 'foo_table', new SessionManager($this->getConfig()['session']), $this->getConfig());
     }
 }

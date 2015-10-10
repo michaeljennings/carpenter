@@ -43,6 +43,6 @@ class SessionManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config['session']['driver'];
+        return $this->config['driver'];
     }
 } 

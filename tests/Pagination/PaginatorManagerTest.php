@@ -62,7 +62,7 @@ namespace Michaeljennings\Carpenter\Tests\Pagination {
 
         protected function makePaginatorManager()
         {
-            return new PaginationManager($this->getConfig());
+            return new PaginationManager($this->getConfig()['paginator']);
         }
     }
 }

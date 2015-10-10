@@ -51,6 +51,6 @@ class PaginationManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config['paginator']['driver'];
+        return $this->config['driver'];
     }
 } 

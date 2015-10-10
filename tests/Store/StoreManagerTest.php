@@ -44,6 +44,6 @@ class StoreManagerTest extends TestCase
 
     public function makeManager()
     {
-        return new StoreManager($this->getConfig());
+        return new StoreManager($this->getConfig()['store']);
     }
 }

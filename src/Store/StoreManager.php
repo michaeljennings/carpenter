@@ -53,6 +53,6 @@ class StoreManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config['store']['driver'];
+        return $this->config['driver'];
     }
 }
