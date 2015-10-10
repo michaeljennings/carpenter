@@ -80,7 +80,7 @@ class NativeSessionTest extends TestCase
         session_destroy();
         unset($_SESSION);
 
-        $this->makeNativeSession();g
+        $this->makeNativeSession();
 
         $this->assertInternalType('array', $_SESSION);
     }
