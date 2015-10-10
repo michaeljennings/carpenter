@@ -2,14 +2,16 @@
 
 namespace Michaeljennings\Carpenter\Store;
 
+use Illuminate\Database\Eloquent\Model;
 use Michaeljennings\Carpenter\Contracts\Store;
+use Michaeljennings\Carpenter\Exceptions\ModelNotSetException;
 
 class Eloquent implements Store
 {
     /**
      * The eloquent model to get results from.
      *
-     * @var mixed
+     * @var Model|null
      */
     protected $model;
 
@@ -23,21 +25,27 @@ class Eloquent implements Store
     /**
      * Set the model to be used for the table.
      *
-     * @param $model
+     * @param Model $model
+     * @return $this
      */
-    public function model($model)
+    public function model(Model $model)
     {
-        $this->model = new $model;
+        $this->model = $model;
+
+        return $this;
     }
 
     /**
      * Set the columns to select from the database.
      *
      * @param array $columns
+     * @return $this
      */
     public function select(array $columns)
     {
         $this->select = $columns;
+
+        return $this;
     }
 
     /**
@@ -93,8 +101,8 @@ class Eloquent implements Store
     /**
      * Order the results by the given column in the given direction.
      *
-     * @param $key
-     * @param $direction
+     * @param string      $key
+     * @param string|null $direction
      * @return $this
      */
     public function orderBy($key, $direction = 'asc')
@@ -104,8 +112,20 @@ class Eloquent implements Store
         return $this;
     }
 
+    /**
+     * Catch any unspecified methods and run them on the model.
+     *
+     * @param string $method
+     * @param array  $args
+     * @return $this
+     * @throws ModelNotSetException
+     */
     public function __call($method, $args)
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to run queries on.');
+        }
+
         $this->model = call_user_func_array([$this->model, $method], $args);
 
         return $this;

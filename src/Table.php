@@ -271,7 +271,11 @@ class Table implements TableContract
      */
     public function model($model)
     {
-        $this->store->model(new $model);
+        if (is_string($model)) {
+            $model = new $model;
+        }
+
+        $this->store->model($model);
 
         return $this;
     }
