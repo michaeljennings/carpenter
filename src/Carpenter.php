@@ -20,6 +20,18 @@ class Carpenter implements CarpenterInterface
      */
     protected $collection = [];
 
+    /**
+     * The manager extensions.
+     *
+     * @var array
+     */
+    protected $extensions = [
+        'store' => [],
+        'session' => [],
+        'view' => [],
+        'paginator' => [],
+    ];
+
     public function __construct($config)
     {
         $this->config = $config;
@@ -130,6 +142,21 @@ class Carpenter implements CarpenterInterface
     }
 
     /**
+     * Set a manager extension.
+     *
+     * @param string         $manager
+     * @param string         $key
+     * @param string|Closure $extension
+     * @return $this
+     */
+    public function extend($manager, $key, $extension)
+    {
+        $this->extensions[$manager][$key] = $extension;
+
+        return $this;
+    }
+
+    /**
      * Create the carpenter drivers and return them as an array to be used with
      * the php list method.
      *
@@ -152,7 +179,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createStoreManager()
     {
-        return new StoreManager($this->config['store']);
+        return new StoreManager($this->config['store'], $this->extensions['store']);
     }
 
     /**
@@ -162,7 +189,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createSessionManager()
     {
-        return new SessionManager($this->config['session']);
+        return new SessionManager($this->config['session'], $this->extensions['session']);
     }
 
     /**
@@ -172,7 +199,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createViewManager()
     {
-        return new ViewManager($this->config['view']);
+        return new ViewManager($this->config['view'], $this->extensions['view']);
     }
 
     /**
@@ -182,7 +209,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function createPaginationManager()
     {
-        return new PaginationManager($this->config['paginator']);
+        return new PaginationManager($this->config['paginator'], $this->extensions['paginator']);
     }
 
     /**
