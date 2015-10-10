@@ -31,4 +31,14 @@ interface Carpenter
      * @return Table
      */
     public function make($name, Closure $callback);
+
+    /**
+     * Set a manager extension.
+     *
+     * @param string         $manager
+     * @param string         $key
+     * @param string|Closure $extension
+     * @return $this
+     */
+    public function extend($manager, $key, $extension);
 }
