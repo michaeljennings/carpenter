@@ -25,7 +25,7 @@ class Codeigniter implements Store
      *
      * @var string
      */
-    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ObjectWrapper';
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper';
 
     public function model($model)
     {

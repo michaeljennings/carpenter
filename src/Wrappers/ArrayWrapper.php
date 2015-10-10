@@ -14,8 +14,12 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     protected $item;
 
-    public function __construct(array $item)
+    public function __construct($item)
     {
+        if ( ! is_array($item)) {
+            $item = (array) $item;
+        }
+
         $this->item = $item;
     }
 
