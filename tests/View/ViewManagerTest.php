@@ -18,7 +18,7 @@ namespace Michaeljennings\Carpenter\Tests\View {
         {
             $manager = $this->makeManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\View\CodeigniterDriver',
+            $this->assertInstanceOf('Michaeljennings\Carpenter\View\Codeigniter',
                 $manager->driver('codeigniter'));
         }
 
@@ -26,7 +26,7 @@ namespace Michaeljennings\Carpenter\Tests\View {
         {
             $manager = $this->makeManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\View\IlluminateDriver', $manager->driver('illuminate'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\View\Illuminate', $manager->driver('illuminate'));
         }
 
         public function testDefaultDriverIsReturnedIfNoneIsSpecified()
@@ -71,9 +71,7 @@ namespace Michaeljennings\Carpenter\View {
         $env->setContainer($app);
         $env->share('app', $app);
 
-        return [
-            'view' => $env
-        ];
+        return $env;
     }
 
 }

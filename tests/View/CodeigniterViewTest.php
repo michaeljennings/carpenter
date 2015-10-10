@@ -3,7 +3,7 @@
 namespace Michaeljennings\Carpenter\Tests\View {
 
     use Michaeljennings\Carpenter\Tests\TestCase;
-    use Michaeljennings\Carpenter\View\CodeigniterDriver;
+    use Michaeljennings\Carpenter\View\Codeigniter;
 
     class CodeigniterViewTest extends TestCase
     {
@@ -32,7 +32,7 @@ namespace Michaeljennings\Carpenter\Tests\View {
 
         public function makeView()
         {
-            return new CodeigniterDriver();
+            return new Codeigniter();
         }
     }
 }
