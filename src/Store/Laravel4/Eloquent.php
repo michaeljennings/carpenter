@@ -3,9 +3,9 @@
 namespace Michaeljennings\Carpenter\Store\Laravel4;
 
 use Michaeljennings\Carpenter\Contracts\Store;
-use Michaeljennings\Carpenter\Store\EloquentStore as Laravel5Store;
+use Michaeljennings\Carpenter\Store\Eloquent as Laravel5Store;
 
-class EloquentStore extends Laravel5Store implements Store
+class Eloquent extends Laravel5Store implements Store
 {
     /**
      * Return the total results.

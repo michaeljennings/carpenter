@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class CodeigniterStore implements Store
+class Codeigniter implements Store
 {
     /**
      * The name of the model we are accessing.

@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class EloquentStore implements Store
+class Eloquent implements Store
 {
     /**
      * The eloquent model to get results from.

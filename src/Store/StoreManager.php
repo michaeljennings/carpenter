@@ -9,21 +9,21 @@ class StoreManager extends Manager
     /**
      * Create the eloquent store driver.
      *
-     * @return EloquentDriver
+     * @return Eloquent
      */
     public function createEloquentDriver()
     {
-        return new EloquentStore();
+        return new Eloquent();
     }
 
     /**
      * Create the eloquent store driver.
      *
-     * @return Laravel4\EloquentStore
+     * @return Laravel4\Eloquent
      */
     public function createLaravel4Driver()
     {
-        return new Laravel4\EloquentStore();
+        return new Laravel4\Eloquent();
     }
 
     /**
@@ -39,11 +39,11 @@ class StoreManager extends Manager
     /**
      * Create the codeigniter store.
      *
-     * @return CodeigniterStore
+     * @return Codeigniter
      */
     public function createCodeigniterDriver()
     {
-        return new CodeigniterStore();
+        return new Codeigniter();
     }
 
     /**
