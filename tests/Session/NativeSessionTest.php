@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Session;
 
-use Michaeljennings\Carpenter\Session\NativeDriver;
+use Michaeljennings\Carpenter\Session\Native;
 use Michaeljennings\Carpenter\Tests\TestCase;
 
 class NativeSessionTest extends TestCase
@@ -87,6 +87,6 @@ class NativeSessionTest extends TestCase
 
     protected function makeNativeSession()
     {
-        return new NativeDriver($this->getConfig());
+        return new Native($this->getConfig());
     }
 }

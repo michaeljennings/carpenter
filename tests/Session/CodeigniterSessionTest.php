@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Session {
 
-    use Michaeljennings\Carpenter\Session\CodeigniterDriver;
+    use Michaeljennings\Carpenter\Session\Codeigniter;
     use Michaeljennings\Carpenter\Tests\TestCase;
 
     class CodeigniterSessionTest extends TestCase
@@ -59,7 +59,7 @@ namespace Michaeljennings\Carpenter\Tests\Session {
 
         protected function makeSession()
         {
-            return new CodeigniterDriver();
+            return new Codeigniter();
         }
     }
 }
