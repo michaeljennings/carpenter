@@ -15,6 +15,13 @@ class ArrayStore implements Store
     protected $data = [];
 
     /**
+     * The store data wrapper.
+     *
+     * @var string
+     */
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper';
+
+    /**
      * Set the model to be used for the table.
      *
      * @param mixed $model
@@ -104,5 +111,15 @@ class ArrayStore implements Store
     public function refreshOrderBy()
     {
         return $this;
+    }
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
     }
 }

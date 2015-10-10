@@ -23,6 +23,13 @@ class Eloquent implements Store
     protected $select = ['*'];
 
     /**
+     * The store data wrapper.
+     *
+     * @var string
+     */
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ObjectWrapper';
+
+    /**
      * Set the model to be used for the table.
      *
      * @param mixed $model
@@ -129,5 +136,15 @@ class Eloquent implements Store
         $this->model = call_user_func_array([$this->model, $method], $args);
 
         return $this;
+    }
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
     }
 }

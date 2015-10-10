@@ -162,13 +162,6 @@ class Table implements TableContract
     protected $formMethod = 'POST';
 
     /**
-     * The name of the wrapper for each table row.
-     *
-     * @var string
-     */
-    protected $wrapper;
-
-    /**
      * The total results from the query.
      *
      * @var int
@@ -820,7 +813,7 @@ class Table implements TableContract
      */
     protected function newContainer(array $data)
     {
-        return new Container($data, $this->config);
+        return new Container($data, $this->config, $this->store->getWrapper());
     }
 
     /**

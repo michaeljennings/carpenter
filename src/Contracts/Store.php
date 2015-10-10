@@ -51,4 +51,11 @@ interface Store
      * @return mixed
      */
     public function refreshOrderBy();
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper();
 }

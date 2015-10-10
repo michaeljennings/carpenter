@@ -20,6 +20,13 @@ class Codeigniter implements Store
      */
     protected $query;
 
+    /**
+     * The store data wrapper.
+     *
+     * @var string
+     */
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ObjectWrapper';
+
     public function model($model)
     {
         $this->model = $model;
@@ -127,6 +134,16 @@ class Codeigniter implements Store
         }
 
         return $this;
+    }
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
     }
 
     /**
