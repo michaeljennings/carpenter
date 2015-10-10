@@ -97,7 +97,6 @@ class TableTest extends TestCase
     {
         $table = $this->makeTable();
         $table->data($this->getDataAsObjects());
-        $table->wrapper('Michaeljennings\Carpenter\Wrappers\Codeigniter');
 
         $this->assertCount(3, $table->rows());
     }
@@ -106,7 +105,6 @@ class TableTest extends TestCase
     {
         $table = $this->makeTable();
         $table->data($this->getDataAsObjects());
-        $table->wrapper('Michaeljennings\Carpenter\Wrappers\Codeigniter');
 
         $table->column('nested.foo');
 
@@ -324,14 +322,6 @@ class TableTest extends TestCase
         $table->paginate(2)->rows();
 
         $this->assertTrue($table->hasLinks());
-    }
-
-    public function testWrapperCanBeChanged()
-    {
-        $table = $this->makeTableWithData();
-        $table->column('foo');
-
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->wrapper('Michaeljennings\Carpenter\Wrappers\Codeigniter'));
     }
 
     public function testGetTotalReturnsTotalCount()
