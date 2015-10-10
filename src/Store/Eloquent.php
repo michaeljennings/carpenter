@@ -25,10 +25,10 @@ class Eloquent implements Store
     /**
      * Set the model to be used for the table.
      *
-     * @param Model $model
+     * @param mixed $model
      * @return $this
      */
-    public function model(Model $model)
+    public function model($model)
     {
         $this->model = $model;
 
