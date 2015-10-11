@@ -58,4 +58,11 @@ interface Store
      * @return string
      */
     public function getWrapper();
+
+    /**
+     * Set the unique table key.
+     *
+     * @param string $key
+     */
+    public function setKey($key);
 }
