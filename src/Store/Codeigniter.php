@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class CodeigniterStore implements Store
+class Codeigniter implements Store
 {
     /**
      * The name of the model we are accessing.
@@ -19,6 +19,13 @@ class CodeigniterStore implements Store
      * @var mixed
      */
     protected $query;
+
+    /**
+     * The store data wrapper.
+     *
+     * @var string
+     */
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper';
 
     public function model($model)
     {
@@ -127,6 +134,16 @@ class CodeigniterStore implements Store
         }
 
         return $this;
+    }
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
     }
 
     /**

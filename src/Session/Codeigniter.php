@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Session;
 
 use Michaeljennings\Carpenter\Contracts\Session as SessionInterface;
 
-class CodeigniterDriver implements SessionInterface
+class Codeigniter implements SessionInterface
 {
     /**
      * Retrieve an item from the session

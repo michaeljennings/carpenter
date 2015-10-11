@@ -9,6 +9,8 @@ use IteratorAggregate;
 class Container implements ArrayAccess, IteratorAggregate
 {
     /**
+     * The items in the container.
+     *
      * @var array
      */
     protected $items = [];

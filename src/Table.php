@@ -162,13 +162,6 @@ class Table implements TableContract
     protected $formMethod = 'POST';
 
     /**
-     * The name of the wrapper for each table row.
-     *
-     * @var string
-     */
-    protected $wrapper;
-
-    /**
      * The total results from the query.
      *
      * @var int
@@ -271,7 +264,11 @@ class Table implements TableContract
      */
     public function model($model)
     {
-        $this->store->model(new $model);
+        if (is_string($model)) {
+            $model = new $model;
+        }
+
+        $this->store->model($model);
 
         return $this;
     }
@@ -759,29 +756,6 @@ class Table implements TableContract
     }
 
     /**
-     * Change the wrapper class to be used for each table row.
-     *
-     * @param $wrapper
-     * @return $this
-     */
-    public function wrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-
-        return $this;
-    }
-
-    /**
-     * Get the name of the wrapper class for each table row.
-     *
-     * @return string
-     */
-    protected function getWrapper()
-    {
-        return isset($this->wrapper) ? $this->wrapper : $this->config['store']['wrapper'];
-    }
-
-    /**
      * Get the total results from the query.
      *
      * @return int
@@ -839,7 +813,7 @@ class Table implements TableContract
      */
     protected function newContainer(array $data)
     {
-        return new Container($data, $this->config, $this->getWrapper());
+        return new Container($data, $this->config, $this->store->getWrapper());
     }
 
     /**
@@ -884,7 +858,7 @@ class Table implements TableContract
      */
     protected function setOrderValues()
     {
-        if (isset($_GET['sort'])) {
+        if (isset($_GET['sort']) && isset($_GET['table']) && $_GET['table'] == urlencode($this->key)) {
             $this->session->put($this->config['session']['key'] . '.' . $this->key . '.sort', $_GET['sort']);
             if (isset($_GET['dir'])) {
                 $this->session->put($this->config['session']['key'] . '.' . $this->key . '.dir', true);

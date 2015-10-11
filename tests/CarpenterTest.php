@@ -85,4 +85,22 @@ class CarpenterTest extends TestCase
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table);
     }
+
+    public function testManagerExtensionsCanBeSet()
+    {
+        $carpenter = $this->makeCarpenter();
+
+        $carpenter->extend('store', 'test', function() {
+            return new ExampleStore();
+        });
+
+        $carpenter->extend('store', 'testStore', 'Michaeljennings\Carpenter\Tests\ExampleStore');
+
+        $table = $carpenter->make('test', function ($table) {
+            $table->setTitle('test');
+        });
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->store('test'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Table', $table->store('testStore'));
+    }
 }

@@ -3,7 +3,7 @@
 namespace Michaeljennings\Carpenter\Tests\Session;
 
 use Illuminate\Session\Store;
-use Michaeljennings\Carpenter\Session\IlluminateDriver;
+use Michaeljennings\Carpenter\Session\Illuminate;
 use Michaeljennings\Carpenter\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 
@@ -80,6 +80,6 @@ class IlluminateSessionTest extends TestCase
 
     protected function makeSession()
     {
-        return new IlluminateDriver(new Store($this->getConfig()['session']['key'], new NullSessionHandler()));
+        return new Illuminate(new Store($this->getConfig()['session']['key'], new NullSessionHandler()));
     }
 }

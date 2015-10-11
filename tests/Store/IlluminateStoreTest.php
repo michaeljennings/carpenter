@@ -2,25 +2,26 @@
 
 namespace Michaeljennings\Carpenter\Tests\Store;
 
-use Michaeljennings\Carpenter\Store\Eloquent;
-use Michaeljennings\Carpenter\Tests\Store\ExampleEloquentModel;
+use Michaeljennings\Carpenter\Store\Illuminate;
 use Michaeljennings\Carpenter\Tests\TestCase;
+use Mockery as m;
 
-class EloquentStoreTest extends TestCase
+class IlluminateStoreTest extends TestCase
 {
-    public function testEloquentStoreImplementsContract()
+    public function testStoreImplementsContract()
     {
         $store = $this->makeStore();
 
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Store', $store);
     }
 
-    public function testModelCanBeSet()
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotAvailableException
+     */
+    public function testModelCannotBeSet()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
-
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Store', $store->model($model));
+        $store->model('FooModel');
     }
 
     public function testColumnsCanBeSet()
@@ -33,55 +34,49 @@ class EloquentStoreTest extends TestCase
     public function testResultsReturnsAnArray()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
         $this->assertInternalType('array', $store->results());
     }
 
     public function testCountReturnsTotalResults()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
         $this->assertEquals(0, $store->count());
     }
 
     public function testPaginateReturnsAnArray()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
         $this->assertInternalType('array', $store->paginate(10, 1, 5));
     }
 
     public function testRefreshOrderByReturnsInstance()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->refreshOrderBy());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Illuminate', $store->refreshOrderBy());
     }
 
     public function testOrderByReturnsInstance()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->orderBy('foo', 'desc'));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Illuminate', $store->orderBy('foo', 'desc'));
     }
 
     public function testModelMethodsCanBeRunOnTheQuery()
     {
         $store = $this->makeStore();
-        $model = new ExampleEloquentModel();
+        $store->table('products');
 
-        $store->model($model);
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Eloquent', $store->foo());
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Illuminate', $store->foo());
     }
 
     public function testTheStoreWrapperCanBeRetrieved()
@@ -92,7 +87,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfModelNotSetBeforeRunningQueries()
     {
@@ -102,7 +97,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfResultsIsCalledBeforeAModelIsSet()
     {
@@ -112,7 +107,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfCountIsCalledBeforeAModelIsSet()
     {
@@ -122,7 +117,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfPaginateIsCalledBeforeAModelIsSet()
     {
@@ -132,7 +127,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfOrderByIsCalledBeforeAModelIsSet()
     {
@@ -142,7 +137,7 @@ class EloquentStoreTest extends TestCase
     }
 
     /**
-     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\TableNotSetException
      */
     public function testExceptionIsThrownIfRefreshOrderByIsCalledBeforeAModelIsSet()
     {
@@ -151,8 +146,21 @@ class EloquentStoreTest extends TestCase
         $store->refreshOrderBy();
     }
 
-    public function makeStore()
+    protected function makeStore()
     {
-        return new Eloquent();
+        $db = m::mock('Illuminate\Database\DatabaseManager', [
+            'table' => m::mock('Illuminate\Database\Query\Builder', [
+                'get' => [],
+                'count' => 0,
+                'orderBy' => m::mock('Illuminate\Database\Query\Builder'),
+                'paginate' => m::mock('Illuminate\Database\Query\Builder', [
+                    'all' => [],
+                    'total' => 0
+                ]),
+                'foo' => m::mock('Illuminate\Database\Query\Builder'),
+            ]),
+        ]);
+
+        return new Illuminate($db);
     }
 }

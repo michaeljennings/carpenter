@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Pagination;
 
-use Michaeljennings\Carpenter\Pagination\Laravel4\IlluminateDriver;
+use Michaeljennings\Carpenter\Pagination\Laravel4\Illuminate;
 use Michaeljennings\Carpenter\Tests\TestCase;
 use Mockery as m;
 
@@ -49,6 +49,6 @@ class Laravel4PaginatorTest extends TestCase
             ]),
         ];
 
-        return new IlluminateDriver($app);
+        return new Illuminate($app);
     }
 }

@@ -20,7 +20,7 @@ class ContainerTest extends TestCase
         $container = $this->makeContainer();
 
         foreach ($container as $item) {
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $item);
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Wrapper', $item);
             break;
         }
     }

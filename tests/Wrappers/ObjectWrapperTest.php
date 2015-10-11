@@ -3,9 +3,9 @@
 namespace Michaeljennings\Carpenter\Tests\Wrappers;
 
 use Michaeljennings\Carpenter\Tests\TestCase;
-use Michaeljennings\Carpenter\Wrappers\ArrayWrapper;
+use Michaeljennings\Carpenter\Wrappers\ObjectWrapper;
 
-class ArrayWrapperTest extends TestCase
+class ObjectWrapperTest extends TestCase
 {
     public function testWrapperImplementsContracts()
     {
@@ -13,15 +13,6 @@ class ArrayWrapperTest extends TestCase
 
         $this->assertInstanceOf('ArrayAccess', $wrapper);
         $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Wrapper', $wrapper);
-    }
-
-    public function testWrapperCanBeMadeFromObject()
-    {
-        $wrapper = new ArrayWrapper($this->getDataAsObjects()[0]);
-
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Wrapper', $wrapper);
-        $this->assertTrue(isset($wrapper->foo));
-        $this->assertTrue(isset($wrapper['foo']));
     }
 
     public function testDataCanBeRetrieved()
@@ -69,6 +60,6 @@ class ArrayWrapperTest extends TestCase
 
     protected function makeWrapper()
     {
-        return new ArrayWrapper($this->getData()[0]);
+        return new ObjectWrapper($this->getDataAsObjects()[0]);
     }
 }

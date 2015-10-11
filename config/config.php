@@ -7,17 +7,9 @@ return array(
         /**
          * Set the store driver.
          *
-         * Supported: eloquent, laravel4, array.
+         * Supported: eloquent, laravel4, illuminate, codeigniter, array.
          */
         'driver' => 'array',
-
-        /**
-         * Set a class to wrap each row from the data store.
-         *
-         * Supported: Michaeljennings\Carpenter\Wrappers\Eloquent
-         *            Michaeljennings\Carpenter\Wrappers\ArrayWrapper
-         */
-        'wrapper' => 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper',
 
     ),
 
@@ -42,7 +34,7 @@ return array(
         'driver' => 'native',
 
         /**
-         * Set the session key.
+         * Set the key to store session variables under.
          */
         'key' => 'michaeljennings.carpenter'
 
@@ -60,7 +52,7 @@ return array(
         'views' => array(
 
             /**
-             * Set the path to the table template.
+             * Set the path to the default table template.
              */
             'template' => __DIR__ . '/../views/bootstrap/table.php',
 

@@ -26,29 +26,28 @@ namespace Michaeljennings\Carpenter\Tests\Session {
         {
             $manager = $this->makeSessionManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\NativeDriver', $manager->driver());
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\Native', $manager->driver());
         }
 
         public function testCodeigniterDriverCanBeReturned()
         {
             $manager = $this->makeSessionManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\CodeigniterDriver',
-                $manager->driver('codeigniter'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\Codeigniter', $manager->driver('codeigniter'));
         }
 
         public function testNativeDriverCanBeReturned()
         {
             $manager = $this->makeSessionManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\NativeDriver', $manager->driver('native'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\Native', $manager->driver('native'));
         }
 
         public function testIlluminateDriverCanBeReturned()
         {
             $manager = $this->makeSessionManager();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\IlluminateDriver', $manager->driver('illuminate'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Session\Illuminate', $manager->driver('illuminate'));
         }
 
         /**
@@ -63,7 +62,7 @@ namespace Michaeljennings\Carpenter\Tests\Session {
 
         protected function makeSessionManager()
         {
-            return new SessionManager($this->getConfig());
+            return new SessionManager($this->getConfig()['session']);
         }
     }
 }
@@ -75,11 +74,7 @@ namespace Michaeljennings\Carpenter\Session {
 
     function app()
     {
-        $manager = new IlluminateManager();
-
-        return [
-            'session' => $manager,
-        ];
+        return new IlluminateManager();
     }
 
     class IlluminateManager

@@ -10,7 +10,7 @@ use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Factory;
 use Illuminate\View\FileViewFinder;
 use Michaeljennings\Carpenter\Tests\TestCase;
-use Michaeljennings\Carpenter\View\IlluminateDriver;
+use Michaeljennings\Carpenter\View\Illuminate;
 
 class IlluminateView extends TestCase
 {
@@ -65,6 +65,6 @@ class IlluminateView extends TestCase
         $env->setContainer($app);
         $env->share('app', $app);
 
-        return new IlluminateDriver($env);
+        return new Illuminate($env);
     }
 }

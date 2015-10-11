@@ -2,10 +2,11 @@
 
 namespace Michaeljennings\Carpenter\View;
 
+use Illuminate\Contracts\View\Factory;
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 use Michaeljennings\Carpenter\Exceptions\ViewNotFoundException;
 
-class IlluminateDriver implements ViewInterface
+class Illuminate implements ViewInterface
 {
     /**
      * An instance of the illuminate view class
@@ -14,7 +15,7 @@ class IlluminateDriver implements ViewInterface
      */
     protected $view;
 
-    public function __construct($view)
+    public function __construct(Factory $view)
     {
         $this->view = $view;
     }

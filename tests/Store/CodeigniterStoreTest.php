@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Tests\Store {
 
-    use Michaeljennings\Carpenter\Store\CodeigniterStore;
+    use Michaeljennings\Carpenter\Store\Codeigniter;
     use Michaeljennings\Carpenter\Tests\TestCase;
 
     class CodeigniterStoreTest extends TestCase
@@ -16,7 +16,7 @@ namespace Michaeljennings\Carpenter\Tests\Store {
         public function testThatModelCanBeSet()
         {
             $store = $this->makeStore();
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->model('FooModel'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->model('FooModel'));
         }
 
         public function testResultsReturnsResultsWithoutAQuery()
@@ -30,8 +30,8 @@ namespace Michaeljennings\Carpenter\Tests\Store {
         {
             $store = $this->makeStore();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->order_by('foo'));
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->orderBy('baz'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->order_by('foo'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->orderBy('baz'));
             $this->assertInternalType('array', $store->results());
         }
 
@@ -55,7 +55,7 @@ namespace Michaeljennings\Carpenter\Tests\Store {
         {
             $store = $this->makeStore();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->order_by('foo'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->order_by('foo'));
             $this->assertInternalType('array', $store->paginate(10, 1, 5));
         }
 
@@ -63,20 +63,27 @@ namespace Michaeljennings\Carpenter\Tests\Store {
         {
             $store = $this->makeStore();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->refreshOrderBy());
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->refreshOrderBy());
         }
 
         public function testModelMethodsCanBeRunOnQuery()
         {
             $store = $this->makeStore();
 
-            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\CodeigniterStore', $store->model('FooModel'));
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Store\Codeigniter', $store->model('FooModel'));
             $this->assertEquals('bar', $store->foo());
+        }
+
+        public function testTheStoreWrapperCanBeRetrieved()
+        {
+            $store = $this->makeStore();
+
+            $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $store->getWrapper());
         }
 
         public function makeStore()
         {
-            return new CodeigniterStore();
+            return new Codeigniter();
         }
     }
 }

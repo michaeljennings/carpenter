@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\View;
 
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 
-class CodeigniterDriver implements ViewInterface
+class Codeigniter implements ViewInterface
 {
     /**
      * Return the required view

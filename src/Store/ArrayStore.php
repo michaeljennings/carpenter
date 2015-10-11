@@ -3,6 +3,7 @@
 namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
+use Michaeljennings\Carpenter\Exceptions\ModelNotAvailableException;
 
 class ArrayStore implements Store
 {
@@ -12,6 +13,25 @@ class ArrayStore implements Store
      * @var array
      */
     protected $data = [];
+
+    /**
+     * The store data wrapper.
+     *
+     * @var string
+     */
+    protected $wrapper = 'Michaeljennings\Carpenter\Wrappers\ArrayWrapper';
+
+    /**
+     * Set the model to be used for the table.
+     *
+     * @param mixed $model
+     * @return $this
+     * @throws ModelNotAvailableException
+     */
+    public function model($model)
+    {
+        throw new ModelNotAvailableException('You can not set a model when using the array store.');
+    }
 
     /**
      * Set the data to be used by the array store.
@@ -65,8 +85,9 @@ class ArrayStore implements Store
     /**
      * Order the results by the given column in the given direction.
      *
-     * @param $key
-     * @param $direction
+     * @param string $key
+     * @param string $direction
+     * @return $this
      */
     public function orderBy($key, $direction = 'asc')
     {
@@ -78,6 +99,8 @@ class ArrayStore implements Store
         }
 
         array_multisort($sort_col, $direction, $this->data);
+
+        return $this;
     }
 
     /**
@@ -88,5 +111,15 @@ class ArrayStore implements Store
     public function refreshOrderBy()
     {
         return $this;
+    }
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
     }
 }

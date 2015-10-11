@@ -20,6 +20,18 @@ class Carpenter implements CarpenterInterface
      */
     protected $collection = [];
 
+    /**
+     * The manager extensions.
+     *
+     * @var array
+     */
+    protected $extensions = [
+        'store' => [],
+        'session' => [],
+        'view' => [],
+        'paginator' => [],
+    ];
+
     public function __construct($config)
     {
         $this->config = $config;
@@ -89,7 +101,7 @@ class Carpenter implements CarpenterInterface
      */
     protected function buildTable($name, Closure $callback)
     {
-        list($store, $session, $view, $paginator) = $this->createDrivers();
+        list($store, $session, $view, $paginator) = $this->createManagers();
 
         $table = new Table($name, $store, $session, $view, $paginator, $this->config);
         $callback($table);
@@ -130,19 +142,74 @@ class Carpenter implements CarpenterInterface
     }
 
     /**
+     * Set a manager extension.
+     *
+     * @param string         $manager
+     * @param string         $key
+     * @param string|Closure $extension
+     * @return $this
+     */
+    public function extend($manager, $key, $extension)
+    {
+        $this->extensions[$manager][$key] = $extension;
+
+        return $this;
+    }
+
+    /**
      * Create the carpenter drivers and return them as an array to be used with
      * the php list method.
      *
      * @return array
      */
-    protected function createDrivers()
+    protected function createManagers()
     {
-        $store = new StoreManager($this->config);
-        $session = new SessionManager($this->config);
-        $view = new ViewManager($this->config);
-        $paginator = new PaginationManager($this->config);
+        return [
+            $this->createStoreManager(),
+            $this->createSessionManager(),
+            $this->createViewManager(),
+            $this->createPaginationManager()
+        ];
+    }
 
-        return [$store, $session, $view, $paginator];
+    /**
+     * Create an instance of the store manager.
+     *
+     * @return StoreManager
+     */
+    protected function createStoreManager()
+    {
+        return new StoreManager($this->config['store'], $this->extensions['store']);
+    }
+
+    /**
+     * Create an instance of the session manager.
+     *
+     * @return SessionManager
+     */
+    protected function createSessionManager()
+    {
+        return new SessionManager($this->config['session'], $this->extensions['session']);
+    }
+
+    /**
+     * Create an instance of the view manager.
+     *
+     * @return ViewManager
+     */
+    protected function createViewManager()
+    {
+        return new ViewManager($this->config['view'], $this->extensions['view']);
+    }
+
+    /**
+     * Create an instance of the pagination manager.
+     *
+     * @return PaginationManager
+     */
+    protected function createPaginationManager()
+    {
+        return new PaginationManager($this->config['paginator'], $this->extensions['paginator']);
     }
 
     /**

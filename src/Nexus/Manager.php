@@ -2,6 +2,7 @@
 
 namespace Michaeljennings\Carpenter\Nexus;
 
+use Closure;
 use Michaeljennings\Carpenter\Exceptions\DriverNotFoundException;
 
 /**
@@ -36,9 +37,13 @@ abstract class Manager
      */
     protected $config = [];
 
-    public function __construct(array $config)
+    public function __construct(array $config, array $extensions = [])
     {
         $this->config = $config;
+
+        foreach ($extensions as $name => $extension) {
+            $this->extend($name, $extension);
+        }
     }
 
     /**
@@ -67,6 +72,26 @@ abstract class Manager
         }
 
         return $this->driver;
+    }
+
+    /**
+     * Allows you to add a custom driver to the manager. Simply pass a key
+     * to retrieve the driver by and then either a class to use for the
+     * driver, or a closure to be run to create the driver.
+     *
+     * @param string         $name
+     * @param Closure|string $extension
+     * @return mixed
+     */
+    public function extend($name, $extension)
+    {
+        if ($extension instanceof Closure) {
+            $this->drivers[$name] = $extension();
+        } else {
+            $this->drivers[$name] = new $extension;
+        }
+
+        return $this->drivers[$name];
     }
 
     /**

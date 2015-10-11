@@ -9,21 +9,21 @@ class ViewManager extends Manager
     /**
      * Create the illuminate view driver.
      *
-     * @return IlluminateDriver
+     * @return Illuminate
      */
     public function createIlluminateDriver()
     {
-        return new IlluminateDriver(app()['view']);
+        return new Illuminate(app('view'));
     }
 
     /**
      * Create the codeigniter view driver.
      *
-     * @return CodeigniterDriver
+     * @return Codeigniter
      */
     public function createCodeigniterDriver()
     {
-        return new CodeigniterDriver();
+        return new Codeigniter();
     }
 
     /**
@@ -43,6 +43,6 @@ class ViewManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config['view']['driver'];
+        return $this->config['driver'];
     }
 }

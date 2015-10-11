@@ -5,6 +5,14 @@ namespace Michaeljennings\Carpenter\Contracts;
 interface Store
 {
     /**
+     * Set the model to be used for the table.
+     *
+     * @param mixed $model
+     * @return Store
+     */
+    public function model($model);
+
+    /**
      * Return all of the results.
      *
      * @return array
@@ -21,9 +29,9 @@ interface Store
     /**
      * Return a paginated list of results.
      *
-     * @param $amount
-     * @param $page
-     * @param $perPage
+     * @param int|string $amount
+     * @param int|string $page
+     * @param int|string $perPage
      * @return array
      */
     public function paginate($amount, $page, $perPage);
@@ -33,7 +41,7 @@ interface Store
      *
      * @param string $key
      * @param string $direction
-     * @return mixed
+     * @return Store
      */
     public function orderBy($key, $direction = 'asc');
 
@@ -43,4 +51,11 @@ interface Store
      * @return mixed
      */
     public function refreshOrderBy();
+
+    /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper();
 }

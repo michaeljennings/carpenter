@@ -115,7 +115,7 @@ class Column extends MockArray implements ColumnContract
      */
     protected function createHref($column, $key)
     {
-        $query = ['sort' => $column];
+        $query = ['sort' => $column, 'table' => urlencode($key)];
 
         if ($this->isActive()) {
             if ($this->isDescending()) {

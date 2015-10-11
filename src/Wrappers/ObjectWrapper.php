@@ -5,21 +5,17 @@ namespace Michaeljennings\Carpenter\Wrappers;
 use ArrayAccess;
 use Michaeljennings\Carpenter\Contracts\Wrapper;
 
-class ArrayWrapper implements ArrayAccess, Wrapper
+class ObjectWrapper implements ArrayAccess, Wrapper
 {
     /**
      * The item being wrapped.
      *
-     * @var array
+     * @var mixed
      */
     protected $item;
 
     public function __construct($item)
     {
-        if ( ! is_array($item)) {
-            $item = (array) $item;
-        }
-
         $this->item = $item;
     }
 
@@ -31,7 +27,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     public function offsetExists($offset)
     {
-        return isset($this->item[$offset]);
+        return isset($this->item->$offset);
     }
 
     /**
@@ -42,7 +38,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     public function offsetGet($offset)
     {
-        return $this->item[$offset];
+        return $this->item->$offset;
     }
 
     /**
@@ -54,7 +50,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     public function offsetSet($offset, $value)
     {
-        $this->item[$offset] = $value;
+        $this->item->$offset = $value;
     }
 
     /**
@@ -65,7 +61,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     public function offsetUnset($offset)
     {
-        unset($this->item[$offset]);
+        unset($this->item->$offset);
     }
 
     /**
@@ -76,7 +72,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     function __get($name)
     {
-        return $this->item[$name];
+        return $this->item->$name;
     }
 
     /**
@@ -88,7 +84,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     function __set($name, $value)
     {
-        $this->item[$name] = $value;
+        $this->item->$name = $value;
     }
 
     /**
@@ -99,7 +95,7 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     function __isset($name)
     {
-        return isset($this->item[$name]);
+        return isset($this->item->$name);
     }
 
     /**
@@ -110,6 +106,6 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     function __unset($name)
     {
-        unset($this->item[$name]);
+        unset($this->item->$name);
     }
 }

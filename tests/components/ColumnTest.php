@@ -118,32 +118,38 @@ class ColumnTest extends TestCase
 
     public function testHrefContainsDirectionIfColumnIsBeingSortedAsc()
     {
-        $_SERVER['QUERY_STRING'] = 'sort=foo';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_SERVER['QUERY_STRING'] = 'sort=foo&table=test';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&table=test';
         $_GET['sort'] = 'foo';
+        $_GET['table'] = 'test';
 
         $column = $this->makeTableWithData()->column('foo');
 
-        $this->assertContains('sort=foo&dir=desc', $column->getHref());
+        $this->assertContains('sort=foo', $column->getHref());
+        $this->assertContains('dir=desc', $column->getHref());
 
         $this->setPage();
         unset($_GET['sort']);
+        unset($_GET['table']);
     }
 
     public function testHrefReturnsRootIfSortingDesc()
     {
-        $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc';
+        $_SERVER['QUERY_STRING'] = 'sort=foo&table=test&dir=desc';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&table=test&dir=desc';
         $_GET['sort'] = 'foo';
         $_GET['dir'] = 'desc';
+        $_GET['table'] = 'test';
 
         $column = $this->makeTableWithData()->column('foo');
 
-        $this->assertNotContains('sort=foo&dir=desc', $column->getHref());
+        $this->assertNotContains('sort=foo', $column->getHref());
+        $this->assertNotContains('dir=desc', $column->getHref());
 
         $this->setPage();
         unset($_GET['sort']);
         unset($_GET['dir']);
+        unset($_GET['table']);
     }
 
     public function testHrefGetsResetIfRemovingSort()
@@ -161,6 +167,7 @@ class ColumnTest extends TestCase
         $this->setPage();
         unset($_GET['sort']);
         unset($_GET['dir']);
+        unset($_GET['table']);
     }
 
     public function testAttributesCanBeSetDynamically()
@@ -175,6 +182,6 @@ class ColumnTest extends TestCase
 
     protected function makeColumn($key = 'foo')
     {
-        return new Column($key, 'foo_table', new SessionManager($this->getConfig()), $this->getConfig());
+        return new Column($key, 'foo_table', new SessionManager($this->getConfig()['session']), $this->getConfig());
     }
 }
