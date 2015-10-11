@@ -108,10 +108,15 @@ class Eloquent implements Store
     /**
      * Remove any order by statements.
      *
-     * @return $this
+     * @return $thisc
+     * @throws ModelNotSetException
      */
     public function refreshOrderBy()
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
+        }
+
         $query = $this->model->getQuery();
         unset($query->orders);
 
