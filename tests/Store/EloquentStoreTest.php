@@ -91,6 +91,66 @@ class EloquentStoreTest extends TestCase
         $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ObjectWrapper', $store->getWrapper());
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfModelNotSetBeforeRunningQueries()
+    {
+        $store = $this->makeStore();
+
+        $store->where('foo', 'bar');
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfResultsIsCalledBeforeAModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->results();
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfCountIsCalledBeforeAModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->count();
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfPaginateIsCalledBeforeAModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->paginate(15, 1, 1);
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfOrderByIsCalledBeforeAModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->orderBy('foo');
+    }
+
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfRefreshOrderByIsCalledBeforeAModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->refreshOrderBy();
+    }
+
     public function makeStore()
     {
         return new Eloquent();
