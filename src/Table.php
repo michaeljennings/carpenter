@@ -858,7 +858,7 @@ class Table implements TableContract
      */
     protected function setOrderValues()
     {
-        if (isset($_GET['sort'])) {
+        if (isset($_GET['sort']) && isset($_GET['table']) && $_GET['table'] == urlencode($this->key)) {
             $this->session->put($this->config['session']['key'] . '.' . $this->key . '.sort', $_GET['sort']);
             if (isset($_GET['dir'])) {
                 $this->session->put($this->config['session']['key'] . '.' . $this->key . '.dir', true);
