@@ -88,7 +88,7 @@ class Eloquent implements Store
     }
 
     /**
-     * Get a paginate
+     * Return a paginated list of results.
      *
      * @param int|string $amount
      * @param int|string $page
@@ -108,7 +108,7 @@ class Eloquent implements Store
     /**
      * Remove any order by statements.
      *
-     * @return $thisc
+     * @return $this
      * @throws ModelNotSetException
      */
     public function refreshOrderBy()
