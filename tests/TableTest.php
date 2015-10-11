@@ -343,9 +343,10 @@ class TableTest extends TestCase
 
     public function testColumnsCanBeSorted()
     {
-        $_SERVER['QUERY_STRING'] = 'sort=foo';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_SERVER['QUERY_STRING'] = 'sort=foo&table=test';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&table=test';
         $_GET['sort'] = 'foo';
+        $_GET['table'] = 'test';
 
         $table = $this->makeTableWithData();
 
@@ -358,14 +359,16 @@ class TableTest extends TestCase
 
         $this->setPage(1);
         unset($_GET['sort']);
+        unset($_GET['table']);
     }
 
     public function testColumnsCanBeSortedInDescendingOrder()
     {
-        $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc';
+        $_SERVER['QUERY_STRING'] = 'sort=foo&dir=desc&table=test';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&dir=desc&table=test';
         $_GET['sort'] = 'foo';
         $_GET['dir'] = 'desc';
+        $_GET['table'] = 'test';
 
         $table = $this->makeTableWithData();
 
@@ -379,13 +382,15 @@ class TableTest extends TestCase
         $this->setPage(1);
         unset($_GET['sort']);
         unset($_GET['dir']);
+        unset($_GET['table']);
     }
 
     public function testCustomSortCanBeSetForColumn()
     {
-        $_SERVER['QUERY_STRING'] = 'sort=foo';
-        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo';
+        $_SERVER['QUERY_STRING'] = 'sort=foo&table=test';
+        $_SERVER['REQUEST_URI'] = 'http://localhost?sort=foo&table=test';
         $_GET['sort'] = 'foo';
+        $_GET['table'] = 'test';
 
         $table = $this->makeTableWithData();
 
@@ -402,6 +407,7 @@ class TableTest extends TestCase
 
         $this->setPage(1);
         unset($_GET['sort']);
+        unset($_GET['table']);
     }
 
 }
