@@ -18,13 +18,13 @@ class NativePaginatorTest extends TestCase
     {
         $paginator = $this->makeNativePaginator();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(1, 10));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(1, 10, 'page'));
     }
 
     public function testLinksReturnsNullIfThereAreNoLinks()
     {
         $paginator = $this->makeNativePaginator();
-        $paginator->make(1, 10);
+        $paginator->make(1, 10, 'page');
 
         $this->assertNull($paginator->links());
     }
@@ -32,7 +32,7 @@ class NativePaginatorTest extends TestCase
     public function testLinksAreRenderedToAList()
     {
         $paginator = $this->makeNativePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
 
@@ -47,7 +47,7 @@ class NativePaginatorTest extends TestCase
         $this->setPage(2);
 
         $paginator = $this->makeNativePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
         $this->assertContains('Prev', $links);
@@ -58,7 +58,7 @@ class NativePaginatorTest extends TestCase
         $this->setPage(3);
 
         $paginator = $this->makeNativePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
         $this->assertNotContains('Next', $links);

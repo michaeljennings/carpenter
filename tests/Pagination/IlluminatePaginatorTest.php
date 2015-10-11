@@ -21,13 +21,13 @@ class IlluminatePaginatorTest extends TestCase
     {
         $paginator = $this->makePaginator();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(1, 10));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(1, 10, 'page'));
     }
 
     public function testLinksReturnsEmptyIfThereAreNoLinks()
     {
         $paginator = $this->makePaginator();
-        $paginator->make(1, 10);
+        $paginator->make(1, 10, 'page');
 
         $this->assertEmpty($paginator->links());
     }
@@ -35,7 +35,7 @@ class IlluminatePaginatorTest extends TestCase
     public function testLinksAreRenderedToAList()
     {
         $paginator = $this->makePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
 
@@ -49,7 +49,7 @@ class IlluminatePaginatorTest extends TestCase
         $this->setPage(2);
 
         $paginator = $this->makePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
         $this->assertContains('prev', $links);
@@ -61,7 +61,7 @@ class IlluminatePaginatorTest extends TestCase
         $this->setPage(3);
 
         $paginator = $this->makePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $links = $paginator->links();
         $this->assertNotContains('next', $links);
@@ -71,7 +71,7 @@ class IlluminatePaginatorTest extends TestCase
     public function testCurrentPageReturnsTheCorrectPage()
     {
         $paginator = $this->makePaginator();
-        $paginator->make(30, 10);
+        $paginator->make(30, 10, 'page');
 
         $this->assertEquals(1, $paginator->currentPage());
     }

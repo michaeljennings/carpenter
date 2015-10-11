@@ -19,13 +19,13 @@ class Laravel4PaginatorTest extends TestCase
     {
         $paginator = $this->makePaginator();
 
-        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(10, 5));
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Paginator', $paginator->make(10, 5, 'page'));
     }
 
     public function testLinksMethodReturnsString()
     {
         $paginator = $this->makePaginator();
-        $paginator->make(10, 5);
+        $paginator->make(10, 5, 'page');
 
         $this->assertInternalType('string', $paginator->links());
     }
@@ -33,7 +33,7 @@ class Laravel4PaginatorTest extends TestCase
     public function testCurrentPageMethodReturnsInt()
     {
         $paginator = $this->makePaginator();
-        $paginator->make(10, 5);
+        $paginator->make(10, 5, 'page');
 
         $this->assertInternalType('integer', $paginator->currentPage());
     }
@@ -44,7 +44,8 @@ class Laravel4PaginatorTest extends TestCase
             'paginator' => m::mock('Paginator', [
                 'make' => m::mock('Paginator', [
                     'links' => '',
-                    'getCurrentPage' => 1
+                    'getCurrentPage' => 1,
+                    'setPageName' => true,
                 ]),
             ]),
         ];
