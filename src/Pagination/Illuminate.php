@@ -32,13 +32,16 @@ class Illuminate implements PaginatorContract
      *
      * @param  string|integer $total
      * @param  string|integer $perPage
+     * @param  string         $tableKey
      * @return $this
      */
-    public function make($total, $perPage)
+    public function make($total, $perPage, $tableKey)
     {
-        $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input('page'), [
+        $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input($tableKey), [
             'path' => $this->app['request']->url(),
         ]);
+
+        $this->paginator->setPageName($tableKey);
 
         return $this;
     }

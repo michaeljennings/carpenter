@@ -28,13 +28,15 @@ class Illuminate implements PaginatorContract
     /**
      * Create a new paginator.
      *
-     * @param  string|integer $total
-     * @param  string|integer $perPage
+     * @param string|integer $total
+     * @param string|integer $perPage
+     * @param string         $tableKey
      * @return $this
      */
-    public function make($total, $perPage)
+    public function make($total, $perPage, $tableKey)
     {
         $this->paginator = $this->app['paginator']->make([], $total, $perPage);
+        $this->paginator->setPageName($tableKey);
 
         return $this;
     }
