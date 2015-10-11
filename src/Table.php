@@ -433,6 +433,8 @@ class Table implements TableContract
         }
 
         $this->orderResults();
+
+        $this->store->setKey($this->key);
         $this->total = $this->store->count();
 
         // Check if the results need to be paginated or not
