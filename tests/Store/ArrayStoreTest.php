@@ -99,6 +99,16 @@ class ArrayStoreTest extends TestCase
         $this->assertEquals('Michaeljennings\Carpenter\Wrappers\ArrayWrapper', $store->getWrapper());
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotAvailableException
+     */
+    public function testExceptionThrownIfAModelIsSet()
+    {
+        $store = $this->makeArrayStore();
+
+        $store->model('FooModel');
+    }
+
     protected function makeArrayStore()
     {
         return new ArrayStore();
