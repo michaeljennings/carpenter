@@ -441,7 +441,7 @@ class Table implements TableContract
         if ( ! $this->paginate) {
             $this->results = $this->newContainer($this->store->results());
         } else {
-            $this->paginator->make($this->total, $this->paginate);
+            $this->paginator->make($this->total, $this->paginate, $this->key);
             $this->links = $this->paginator->links();
 
             $this->results = $this->newContainer(
