@@ -9,9 +9,10 @@ interface Paginator
      *
      * @param  string|integer $total
      * @param  string|integer $perPage
+     * @param  string         $tableKey
      * @return Paginator
      */
-    public function make($total, $perPage);
+    public function make($total, $perPage, $tableKey);
 
     /**
      * Get the pagination links.
