@@ -35,16 +35,25 @@ class Native implements Paginator
     protected $totalPages;
 
     /**
+     * The unique table key.
+     *
+     * @var string
+     */
+    protected $tableKey;
+
+    /**
      * Create a new paginator.
      *
-     * @param  string|integer $total
-     * @param  string|integer $perPage
+     * @param string|integer $total
+     * @param string|integer $perPage
+     * @param string         $tableKey
      * @return $this
      */
-    public function make($total, $perPage)
+    public function make($total, $perPage, $tableKey)
     {
         $this->total = $total;
         $this->perPage = $perPage;
+        $this->tableKey = $tableKey;
         $this->totalPages = $this->calculatePages($this->total, $this->perPage);
         $this->page = $this->getCurrentPage();
 
@@ -94,8 +103,8 @@ class Native implements Paginator
      */
     protected function getCurrentPage()
     {
-        if (isset($_GET['page'])) {
-            $this->page = (int)$_GET['page'];
+        if (isset($_GET[$this->tableKey])) {
+            $this->page = (int)$_GET[$this->tableKey];
         }
 
         return $this->page;
@@ -170,6 +179,6 @@ class Native implements Paginator
     {
         $path = str_replace('?' . $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
 
-        return $path . '?page=' . $page;
+        return sprintf('%s?%s=%s', $path, $this->tableKey, $page);
     }
 }
