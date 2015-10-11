@@ -7,7 +7,7 @@ return array(
         /**
          * Set the store driver.
          *
-         * Supported: eloquent, laravel4, codeigniter, array.
+         * Supported: eloquent, laravel4, illuminate, codeigniter, array.
          */
         'driver' => 'array',
 
