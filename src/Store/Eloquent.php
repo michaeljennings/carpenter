@@ -145,6 +145,16 @@ class Eloquent implements Store
     }
 
     /**
+     * Get the store data wrapper.
+     *
+     * @return string
+     */
+    public function getWrapper()
+    {
+        return $this->wrapper;
+    }
+
+    /**
      * Catch any unspecified methods and run them on the model.
      *
      * @param string $method
@@ -161,15 +171,5 @@ class Eloquent implements Store
         $this->model = call_user_func_array([$this->model, $method], $args);
 
         return $this;
-    }
-
-    /**
-     * Get the store data wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 }
