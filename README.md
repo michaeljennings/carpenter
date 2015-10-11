@@ -2,7 +2,7 @@
 
 Carpenter is a PHP package to make creating HTML tables from a collection of data a breeze. 
 
-It also handles paginating, sorting and makes tables reusable throughout your application.
+It also handles paginating, sorting, and makes tables reusable throughout your application.
 
 ## Documentation
 
