@@ -27,6 +27,16 @@ class StoreManager extends Manager
     }
 
     /**
+     * Create the illuminate store driver.
+     *
+     * @return Illuminate
+     */
+    public function createIlluminateDriver()
+    {
+        return new Illuminate(app('db'));
+    }
+
+    /**
      * Create the array store driver.
      *
      * @return ArrayStore
