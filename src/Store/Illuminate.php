@@ -76,6 +76,19 @@ class Illuminate implements Store
     }
 
     /**
+     * Set the columns to select from the database.
+     *
+     * @param array $columns
+     * @return $this
+     */
+    public function select(array $columns)
+    {
+        $this->select = $columns;
+
+        return $this;
+    }
+
+    /**
      * Return all of the results.
      *
      * @return array
