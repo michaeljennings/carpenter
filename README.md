@@ -1,8 +1,14 @@
 # Carpenter [![Build Status](https://travis-ci.org/michaeljennings/carpenter.svg?branch=master)](https://travis-ci.org/michaeljennings/carpenter) [![Latest Stable Version](https://poser.pugx.org/michaeljennings/carpenter/v/stable)](https://packagist.org/packages/michaeljennings/carpenter) [![Coverage Status](https://coveralls.io/repos/michaeljennings/carpenter/badge.svg?branch=master&service=github)](https://coveralls.io/github/michaeljennings/carpenter?branch=master) [![License](https://poser.pugx.org/michaeljennings/carpenter/license)](https://packagist.org/packages/michaeljennings/carpenter)
 
-A PHP package to create HTML tables from a data store that can be sorted and paginated.
+Carpenter is a PHP package to make creating HTML tables from a collection of data a breeze. It also handles paginating, sorting and
+makes tables reusable throughout your application.
 
-- [Planned Features](#planned-features)
+## Documentation
+
+For full documentation check out [carpenter.michaeljennings.im](http://carpenter.michaeljennings.im/).
+
+## Contents
+
 - [Installation](#installation)
 - [Laravel 5 Integration](#laravel-5-integration)
 - [Laravel 4 Integration](#laravel-4-integration)
@@ -25,15 +31,12 @@ A PHP package to create HTML tables from a data store that can be sorted and pag
 	- [Rendering With a Template](#rendering-with-a-template) 
 	- [Getting Data From a Table Instance](#getting-data-from-a-table-instance)
 
-## Planned Features
-- PDO Store Driver
-
 ## Installation
 This package requires PHP 5.4+, and includes a Laravel 5 Service Provider and Facade.
 
 To install through composer include the package in your `composer.json`.
 
-    "michaeljennings/carpenter": "~0.2"
+    "michaeljennings/carpenter": "1.0.*"
 
 Run `composer install` or `composer update` to download the dependencies or you can run `composer require michaeljennings/carpenter`.
 
