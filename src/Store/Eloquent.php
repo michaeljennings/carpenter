@@ -59,9 +59,14 @@ class Eloquent implements Store
      * Get the results for the model.
      *
      * @return array
+     * @throws ModelNotSetException
      */
     public function results()
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
+        }
+
         return $this->model->get($this->select)->all();
     }
 
@@ -69,9 +74,14 @@ class Eloquent implements Store
      * Return the total results.
      *
      * @return integer
+     * @throws ModelNotSetException
      */
     public function count()
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
+        }
+
         $model = clone $this->model;
 
         return $model->paginate(1, $this->select)->total();
@@ -80,13 +90,18 @@ class Eloquent implements Store
     /**
      * Get a paginate
      *
-     * @param $amount
-     * @param $page
-     * @param $perPage
+     * @param int|string $amount
+     * @param int|string $page
+     * @param int|string $perPage
      * @return array
+     * @throws ModelNotSetException
      */
     public function paginate($amount, $page, $perPage)
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
+        }
+
         return $this->model->paginate($amount, $this->select)->all();
     }
 
@@ -111,9 +126,14 @@ class Eloquent implements Store
      * @param string      $key
      * @param string|null $direction
      * @return $this
+     * @throws ModelNotSetException
      */
     public function orderBy($key, $direction = 'asc')
     {
+        if ( ! $this->model) {
+            throw new ModelNotSetException('You must set a model to run queries on.');
+        }
+
         $this->model = $this->model->orderBy($key, $direction);
 
         return $this;
