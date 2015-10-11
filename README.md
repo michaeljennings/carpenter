@@ -1,7 +1,8 @@
 # Carpenter [![Build Status](https://travis-ci.org/michaeljennings/carpenter.svg?branch=master)](https://travis-ci.org/michaeljennings/carpenter) [![Latest Stable Version](https://poser.pugx.org/michaeljennings/carpenter/v/stable)](https://packagist.org/packages/michaeljennings/carpenter) [![Coverage Status](https://coveralls.io/repos/michaeljennings/carpenter/badge.svg?branch=master&service=github)](https://coveralls.io/github/michaeljennings/carpenter?branch=master) [![License](https://poser.pugx.org/michaeljennings/carpenter/license)](https://packagist.org/packages/michaeljennings/carpenter)
 
-Carpenter is a PHP package to make creating HTML tables from a collection of data a breeze. It also handles paginating, sorting and
-makes tables reusable throughout your application.
+Carpenter is a PHP package to make creating HTML tables from a collection of data a breeze. 
+
+It also handles paginating, sorting and makes tables reusable throughout your application.
 
 ## Documentation
 
