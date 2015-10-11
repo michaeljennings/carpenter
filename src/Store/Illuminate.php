@@ -8,7 +8,7 @@ use Michaeljennings\Carpenter\Contracts\Store;
 use Michaeljennings\Carpenter\Exceptions\ModelNotAvailableException;
 use Michaeljennings\Carpenter\Exceptions\TableNotSetException;
 
-class Illuminate implements Store
+class Illuminate extends AbstractStore implements Store
 {
     /**
      * The database table to be used by the query.
@@ -135,7 +135,7 @@ class Illuminate implements Store
             throw new TableNotSetException("You must set a database table to get results from.");
         }
 
-        return $this->query->paginate($amount, $this->select)->all();
+        return $this->query->paginate($amount, $this->select, $this->key)->all();
     }
 
     /**
@@ -172,16 +172,6 @@ class Illuminate implements Store
         unset($this->query->orders);
 
         return $this;
-    }
-
-    /**
-     * Get the store data wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 
     /**

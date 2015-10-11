@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Michaeljennings\Carpenter\Contracts\Store;
 use Michaeljennings\Carpenter\Exceptions\ModelNotSetException;
 
-class Eloquent implements Store
+class Eloquent extends AbstractStore implements Store
 {
     /**
      * The eloquent model to get results from.
@@ -102,7 +102,7 @@ class Eloquent implements Store
             throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
         }
 
-        return $this->model->paginate($amount, $this->select)->all();
+        return $this->model->paginate($amount, $this->select, $this->key)->all();
     }
 
     /**
@@ -142,16 +142,6 @@ class Eloquent implements Store
         $this->model = $this->model->orderBy($key, $direction);
 
         return $this;
-    }
-
-    /**
-     * Get the store data wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 
     /**

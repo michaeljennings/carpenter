@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Store;
 
 use Michaeljennings\Carpenter\Contracts\Store;
 
-class Codeigniter implements Store
+class Codeigniter extends AbstractStore implements Store
 {
     /**
      * The name of the model we are accessing.
@@ -134,16 +134,6 @@ class Codeigniter implements Store
         }
 
         return $this;
-    }
-
-    /**
-     * Get the store data wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 
     /**

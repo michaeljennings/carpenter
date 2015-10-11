@@ -5,7 +5,7 @@ namespace Michaeljennings\Carpenter\Store;
 use Michaeljennings\Carpenter\Contracts\Store;
 use Michaeljennings\Carpenter\Exceptions\ModelNotAvailableException;
 
-class ArrayStore implements Store
+class ArrayStore extends AbstractStore implements Store
 {
     /**
      * The store data.
@@ -111,15 +111,5 @@ class ArrayStore implements Store
     public function refreshOrderBy()
     {
         return $this;
-    }
-
-    /**
-     * Get the store data wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 }
