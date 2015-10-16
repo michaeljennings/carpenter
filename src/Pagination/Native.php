@@ -53,7 +53,7 @@ class Native extends AbstractPaginator implements Paginator
     {
         $this->total = $total;
         $this->perPage = $perPage;
-        $this->tableKey = $this->cleanTableKey($tableKey);
+        $this->tableKey = $tableKey;
         $this->totalPages = $this->calculatePages($this->total, $this->perPage);
         $this->page = $this->getCurrentPage();
 

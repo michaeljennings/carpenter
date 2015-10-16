@@ -37,8 +37,6 @@ class Illuminate extends AbstractPaginator implements PaginatorContract
      */
     public function make($total, $perPage, $tableKey)
     {
-        $tableKey = $this->cleanTableKey($tableKey);
-
         $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input($tableKey), [
             'path' => $this->app['request']->url(),
         ]);
