@@ -434,14 +434,16 @@ class Table implements TableContract
 
         $this->orderResults();
 
-        $this->store->setKey($this->key);
+        $tableKey = $this->cleanString($this->key);
+
+        $this->store->setKey($tableKey);
         $this->total = $this->store->count();
 
         // Check if the results need to be paginated or not
         if ( ! $this->paginate) {
             $this->results = $this->newContainer($this->store->results());
         } else {
-            $this->paginator->make($this->total, $this->paginate, $this->key);
+            $this->paginator->make($this->total, $this->paginate, $tableKey);
             $this->links = $this->paginator->links();
 
             $this->results = $this->newContainer(
@@ -868,6 +870,17 @@ class Table implements TableContract
                 $this->session->forget($this->config['session']['key'] . '.' . $this->key . '.dir');
             }
         }
+    }
+
+    /**
+     * Remove any characters that are valid in a url.
+     *
+     * @param string $tableKey
+     * @return string
+     */
+    protected function cleanString($tableKey)
+    {
+        return trim(preg_replace('/[^a-z0-9]+/', '_', strtolower($tableKey)), '_');
     }
 
     /**
