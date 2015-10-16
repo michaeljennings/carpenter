@@ -6,7 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\BootstrapThreePresenter;
 use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
 
-class Illuminate implements PaginatorContract
+class Illuminate extends AbstractPaginator implements PaginatorContract
 {
     /**
      * An instance of the IOC container.
@@ -37,6 +37,8 @@ class Illuminate implements PaginatorContract
      */
     public function make($total, $perPage, $tableKey)
     {
+        $tableKey = $this->cleanTableKey($tableKey);
+
         $this->paginator = new LengthAwarePaginator([], $total, $perPage, $this->app['request']->input($tableKey), [
             'path' => $this->app['request']->url(),
         ]);

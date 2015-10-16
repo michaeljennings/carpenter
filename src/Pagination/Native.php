@@ -4,7 +4,7 @@ namespace Michaeljennings\Carpenter\Pagination;
 
 use Michaeljennings\Carpenter\Contracts\Paginator;
 
-class Native implements Paginator
+class Native extends AbstractPaginator implements Paginator
 {
     /**
      * The current page.
@@ -53,7 +53,7 @@ class Native implements Paginator
     {
         $this->total = $total;
         $this->perPage = $perPage;
-        $this->tableKey = $tableKey;
+        $this->tableKey = $this->cleanTableKey($tableKey);
         $this->totalPages = $this->calculatePages($this->total, $this->perPage);
         $this->page = $this->getCurrentPage();
 
