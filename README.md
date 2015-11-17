@@ -111,7 +111,7 @@ public function __construct(Michaeljennings\Carpenter\Contracts\Carpenter $carpe
 
 To get started creating tables firstly you want to make a table instance. There are two different ways to go about this.
 
-Firstly Carpenter allows you to bind a tabke to a key and then retrieve it when you need it.
+Firstly Carpenter allows you to bind a table to a key and then retrieve it when you need it.
 
 To bind an instance use the `add`.
 
