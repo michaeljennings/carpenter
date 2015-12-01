@@ -47,6 +47,7 @@ class Laravel4PaginatorTest extends TestCase
                     'getCurrentPage' => 1,
                     'setPageName' => true,
                 ]),
+                'setPageName' => null,
             ]),
         ];
 
