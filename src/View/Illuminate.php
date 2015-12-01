@@ -2,7 +2,7 @@
 
 namespace Michaeljennings\Carpenter\View;
 
-use Illuminate\Contracts\View\Factory;
+use Illuminate\View\Factory;
 use Michaeljennings\Carpenter\Contracts\View as ViewInterface;
 use Michaeljennings\Carpenter\Exceptions\ViewNotFoundException;
 
