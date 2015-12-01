@@ -16,6 +16,16 @@ class Laravel4StoreTest extends TestCase
         $this->assertEquals(0, $store->count());
     }
 
+    /**
+     * @expectedException \Michaeljennings\Carpenter\Exceptions\ModelNotSetException
+     */
+    public function testExceptionIsThrownIfCountIsCalledBeforeModelIsSet()
+    {
+        $store = $this->makeStore();
+
+        $store->count();
+    }
+
     public function makeStore()
     {
         return new Eloquent();
