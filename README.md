@@ -81,7 +81,7 @@ in `app/config/app.php`.
 
     'providers' => array(
 
-      'Michaeljennings\Carpenter\CarpenterServiceProvider'
+      'Michaeljennings\Carpenter\Laravel4ServiceProvider'
   
     );
     
@@ -93,7 +93,7 @@ Add the `Carpenter` facade to your aliases array.
       
     );
 
-Publish the config files using `php artisan config:publish michaeljennings/carpenter"`
+Publish the config files using `php artisan config:publish michaeljennings/carpenter`
 
 To access carpenter you can either use the Facade or the carpenter instance is bound to the IOC container and you can 
 then dependency inject it via its contract.
