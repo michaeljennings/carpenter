@@ -35,8 +35,8 @@ class Illuminate implements PaginatorContract
      */
     public function make($total, $perPage, $tableKey)
     {
+        $this->app['paginator']->setPageName($tableKey);
         $this->paginator = $this->app['paginator']->make([], $total, $perPage);
-        $this->paginator->setPageName($tableKey);
 
         return $this;
     }
