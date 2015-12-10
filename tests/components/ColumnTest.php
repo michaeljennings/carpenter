@@ -180,6 +180,16 @@ class ColumnTest extends TestCase
         $this->assertEquals('test', $column->get('title'));
     }
 
+    public function testAttributesCanBeSetUsingTheSetAttributeMethod()
+    {
+        $table = $this->makeTableWithData();
+
+        $column = $table->column('foo');
+
+        $this->assertInstanceOf('Michaeljennings\Carpenter\Contracts\Column', $column->setAttribute('title', 'test'));
+        $this->assertEquals('test', $column->get('title'));
+    }
+
     protected function makeColumn($key = 'foo')
     {
         return new Column($key, 'foo_table', new SessionManager($this->getConfig()['session']), $this->getConfig());

@@ -281,6 +281,20 @@ class Column extends MockArray implements ColumnContract
     }
 
     /**
+     * Set the provided attribute for the action.
+     *
+     * @param string $attribute
+     * @param string $value
+     * @return $this
+     */
+    public function setAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set this column as sortable.
      *
      * @return $this
@@ -336,7 +350,7 @@ class Column extends MockArray implements ColumnContract
     public function isDescending()
     {
         if ( ! isset($this->descending)) {
-            $this->descending =  $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
+            $this->descending = $this->session->has($this->config['session']['key'] . '.' . $this->key . '.dir');
         }
 
         return $this->descending;
