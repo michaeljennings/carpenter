@@ -23,7 +23,7 @@ class StoreManager extends Manager
      */
     public function createLaravel4Driver()
     {
-        return new Laravel4\Eloquent();
+        return new Laravel4\Eloquent(app());
     }
 
     /**
