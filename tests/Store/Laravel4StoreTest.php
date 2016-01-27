@@ -4,6 +4,7 @@ namespace Michaeljennings\Carpenter\Tests\Store;
 
 use Michaeljennings\Carpenter\Store\Laravel4\Eloquent;
 use Michaeljennings\Carpenter\Tests\TestCase;
+use Mockery as m;
 
 class Laravel4StoreTest extends TestCase
 {
@@ -28,6 +29,17 @@ class Laravel4StoreTest extends TestCase
 
     public function makeStore()
     {
-        return new Eloquent();
+        $app = [
+            'paginator' => m::mock('Paginator', [
+                'make' => m::mock('Paginator', [
+                    'links' => '',
+                    'getCurrentPage' => 1,
+                    'setPageName' => true,
+                ]),
+                'setPageName' => null,
+            ]),
+        ];
+
+        return new Eloquent($app);
     }
 }
