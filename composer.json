@@ -19,7 +19,7 @@
         "illuminate/view": "5.0.*",
         "illuminate/events": "5.0.*",
         "illuminate/pagination": "5.0.*",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "1.0.*"
     },
     "autoload": {
         "psr-4": {
