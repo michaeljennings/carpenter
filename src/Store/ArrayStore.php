@@ -79,7 +79,7 @@ class ArrayStore extends AbstractStore implements Store
         $chunks = array_chunk($this->data, $perPage);
         $offset = $page - 1;
 
-        return $chunks[$offset];
+        return isset($chunks[$offset]) ? $chunks[$offset] : [];
     }
 
     /**
