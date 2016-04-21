@@ -52,7 +52,9 @@ class Eloquent extends Laravel5Store implements Store
             throw new ModelNotSetException('You must set a model to be used by the eloquent driver.');
         }
 
+        // Override the query paginator so we can name the key
         $this->app['paginator']->setPageName($this->key);
+        $this->model->getQuery()->getConnection()->setPaginator($this->app['paginator']);
 
         return $this->model->paginate($amount, $this->select)->all();
     }
