@@ -17,6 +17,16 @@ class ViewManager extends Manager
     }
 
     /**
+     * Create the laravel 4 driver
+     *
+     * @return Laravel4
+     */
+    public function createLaravel4Driver()
+    {
+        return new Laravel4(app('view'));
+    }
+
+    /**
      * Create the codeigniter view driver.
      *
      * @return Codeigniter
