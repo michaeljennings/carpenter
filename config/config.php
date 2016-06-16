@@ -45,7 +45,7 @@ return array(
         /**
          * Set the view driver.
          *
-         * Supported: illuminate, codeigniter, native.
+         * Supported: illuminate, laravel4, codeigniter, native.
          */
         'driver' => 'native',
 
