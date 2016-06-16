@@ -76,7 +76,11 @@ class ArrayWrapper implements ArrayAccess, Wrapper
      */
     function __get($name)
     {
-        return $this->item[$name];
+        if($this->offsetExists($name)) {
+            return $this->item[$name];
+        }
+        
+        return null;
     }
 
     /**
