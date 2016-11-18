@@ -36,4 +36,11 @@ interface Wrapper
      * @return void
      */
     function __unset($name);
+
+    /**
+     * Get the original item
+     *
+     * @return mixed
+     */
+    public function getItem();
 }
