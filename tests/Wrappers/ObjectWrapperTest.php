@@ -58,6 +58,13 @@ class ObjectWrapperTest extends TestCase
         $this->assertFalse(isset($wrapper['test']));
     }
 
+    public function testItemCanBeRetrieved()
+    {
+        $wrapper = $this->makeWrapper();
+
+        $this->assertEquals($wrapper->getItem(), $this->getDataAsObjects()[0]);
+    }
+
     protected function makeWrapper()
     {
         return new ObjectWrapper($this->getDataAsObjects()[0]);
