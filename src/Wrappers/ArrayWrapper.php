@@ -116,4 +116,14 @@ class ArrayWrapper implements ArrayAccess, Wrapper
     {
         unset($this->item[$name]);
     }
+
+    /**
+     * Get the original item
+     *
+     * @return mixed
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
 }
