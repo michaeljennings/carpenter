@@ -48,7 +48,7 @@ in `app/config/app.php`.
 
     'providers' => array(
 
-      'Michaeljennings\Carpenter\CarpenterServiceProvider'
+      Michaeljennings\Carpenter\CarpenterServiceProvider::class
   
     );
     
@@ -56,7 +56,7 @@ Add the `Carpenter` facade to your aliases array.
 
     'aliases' => array(
 
-      'Carpenter' => 'Michaeljennings\Carpenter\Facades\Carpenter',
+      'Carpenter' => Michaeljennings\Carpenter\Facades\Carpenter::class,
       
     );
 
