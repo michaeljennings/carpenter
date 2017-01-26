@@ -11,6 +11,10 @@
         {
             "name": "George Hanson",
             "email": "george.w.hanson96@gmail.com"
+        },
+        {
+            "name": "Simon Rogers",
+            "email": "webdev@centralblue.co.uk"
         }
     ],
     "require": {
