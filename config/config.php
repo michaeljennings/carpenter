@@ -18,7 +18,7 @@ return array(
         /**
          * Set the pagination driver.
          *
-         * Supported: illuminate, laravel4, native.
+         * Supported: illuminate, laravel53, laravel4, native.
          */
         'driver' => 'native',
 

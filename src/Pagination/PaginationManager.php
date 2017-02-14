@@ -25,6 +25,16 @@ class PaginationManager extends Manager
     }
 
     /**
+     * Create the laravel 5 pagination driver.
+     *
+     * @return Laravel5\IlluminateDriver
+     */
+    public function createLaravel53Driver()
+    {
+        return new Laravel53\Illuminate(app());
+    }
+
+    /**
      * Create the laravel 4 pagination driver.
      *
      * @return Laravel4\IlluminateDriver
