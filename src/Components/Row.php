@@ -30,6 +30,13 @@ class Row implements RowContract
     protected $actions = [];
 
     /**
+     * The result
+     *
+     * @var mixed
+     */
+    protected $result;
+
+    /**
      * Set the row id.
      *
      * @param $id
@@ -171,5 +178,25 @@ class Row implements RowContract
     public function hasActions()
     {
         return ! empty($this->actions);
+    }
+
+    /**
+     * Get the result for the row
+     *
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    /**
+     * Set the result for the row
+     *
+     * @param mixed $result
+     */
+    public function setResult($result)
+    {
+        $this->result = $result;
     }
 }

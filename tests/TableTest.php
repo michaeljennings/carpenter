@@ -72,6 +72,16 @@ class TableTest extends TestCase
         $this->assertContains('name="test"', $table->render());
     }
 
+    public function testTheItemCanBeObtainedFromTheRow()
+    {
+        $table = $this->makeTableWithData();
+
+        $table->rows();
+        $row = $table->getRows()[0];
+
+        $this->assertArrayHasKey('id', $row->getResult());
+    }
+
     public function testActionsCanBeEdited()
     {
         $table = $this->makeTable();
