@@ -357,6 +357,8 @@ class Table implements TableContract
             $row->id = $result->id;
         }
 
+        $row->setResult($result->getItem());
+
         foreach ($this->columns as $key => $column) {
             $row->cell($key, $this->newCell($column, $this->getCellValue($result, $key), $result));
         }
