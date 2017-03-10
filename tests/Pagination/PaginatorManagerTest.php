@@ -43,6 +43,13 @@ namespace Michaeljennings\Carpenter\Tests\Pagination {
             $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Illuminate', $manager->driver('illuminate'));
         }
 
+        public function testLaravel54DriverCanBeReturned()
+        {
+            $manager = $this->makePaginatorManager();
+
+            $this->assertInstanceOf('Michaeljennings\Carpenter\Pagination\Laravel54\Illuminate', $manager->driver('laravel54'));
+        }
+
         public function testLaravel4DriverCanBeReturned()
         {
             $manager = $this->makePaginatorManager();
