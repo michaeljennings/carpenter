@@ -1,11 +1,12 @@
 <?php
 
-namespace Michaeljennings\Carpenter\Pagination;
+namespace Michaeljennings\Carpenter\Pagination\Laravel54;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Michaeljennings\Carpenter\Contracts\Paginator as PaginatorContract;
+use Michaeljennings\Carpenter\Pagination\AbstractPaginator;
 
-class Laravel54 extends AbstractPaginator implements PaginatorContract
+class Illuminate extends AbstractPaginator implements PaginatorContract
 {
     /**
      * An instance of the IOC container.

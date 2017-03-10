@@ -2,11 +2,11 @@
 
 namespace Michaeljennings\Carpenter\Tests\Pagination;
 
-use Michaeljennings\Carpenter\Pagination\Illuminate;
+use Michaeljennings\Carpenter\Pagination\Laravel54\Illuminate;
 use Michaeljennings\Carpenter\Tests\TestCase;
 use Mockery as m;
 
-class IlluminatePaginatorTest extends TestCase
+class Laravel54PaginatorTest extends TestCase
 {
     protected $page = 1;
 
