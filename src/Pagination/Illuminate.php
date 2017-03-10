@@ -53,7 +53,7 @@ class Illuminate extends AbstractPaginator implements PaginatorContract
      */
     public function links()
     {
-        return $this->paginator->render(new BootstrapThreePresenter($this->paginator));
+        return $this->paginator->render();
     }
 
     /**
