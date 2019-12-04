@@ -102,4 +102,38 @@ interface Row
      * @return bool
      */
     public function hasActions();
+
+
+    /**
+     * Get all of the component attributes.
+     *
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * Set the provided attribute for the row.
+     *
+     * @param string         $attribute
+     * @param string|Closure $value
+     * @return \Michaeljennings\Carpenter\Components\Row
+     */
+    public function setAttribute($attribute, $value);
+
+    /**
+     * Render the element attributes to a string.
+     *
+     * @param  array $attributes
+     * @return string
+     */
+    public function renderAttributes();
+
+
+    /**
+     * Add a class to the current row
+     *
+     * @param string $class
+     * @return $this
+     */
+    public function addClass($class);
 }

@@ -30,6 +30,13 @@ class Row implements RowContract
     protected $actions = [];
 
     /**
+     * Any row attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The result
      *
      * @var mixed
@@ -198,5 +205,71 @@ class Row implements RowContract
     public function setResult($result)
     {
         $this->result = $result;
+    }
+
+    /**
+     * Get all of the component attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the provided attribute for the row.
+     *
+     * @param string         $attribute
+     * @param string|Closure $value
+     * @return $this
+     */
+    public function setAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Render the element attributes to a string.
+     *
+     * @param  array $attributes
+     * @return string
+     */
+    public function renderAttributes()
+    {
+        $renderedAttributes = [];
+
+        foreach ($this->attributes as $attribute => $value) {
+            if ($value instanceof Closure) {
+                $renderedAttributes[] = $attribute . '="' . $value($this->getId(), $this->getResult()) . '"';
+            } else {
+                $renderedAttributes[] = $attribute . '="' . $value . '"';
+            }
+        }
+
+        return implode(' ', $renderedAttributes);
+    }
+
+
+    /**
+     * Add a class to the current row
+     *
+     * @param string $class
+     * @return $this
+     */
+    public function addClass($class)
+    {
+        if (empty($this->attributes['class'])) {
+            $this->attributes['class'] = $class;
+
+            return $this;
+        }
+
+        // Append the new class(es) on the end of the current ones
+        $this->attributes['class'] = $this->attributes['class'] . ' ' . $class;
+
+        return $this;
     }
 }

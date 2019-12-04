@@ -36,7 +36,7 @@
 			<tbody>
 				@if($table->hasRows())
 					@foreach ($table->getRows() as $row)
-						<tr data-id="{{ $row->getId() }}">
+						<tr {!! $row->renderAttributes() !!} data-id="{{ $row->getId() }}">
 							@foreach ($row->cells() as $cell)
 								<td>{!! $cell->value !!}</td>
 							@endforeach

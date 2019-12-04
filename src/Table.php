@@ -81,6 +81,13 @@ class Table implements TableContract
     protected $rows = [];
 
     /**
+     * The table formatted rows.
+     *
+     * @var array
+     */
+    protected $formattedRows = [];
+
+    /**
      * A flag indicating if the rows have been set up yet.
      *
      * @var bool
@@ -324,6 +331,14 @@ class Table implements TableContract
     }
 
     /**
+     * Format row
+     */
+    public function formatRows(Closure $callback)
+    {
+        $this->formattedRows[] = $callback;
+    }
+
+    /**
      * Loop through all of the table results and prepare them to be displayed.
      */
     protected function prepareRows()
@@ -366,6 +381,12 @@ class Table implements TableContract
         if ( ! empty($this->actions['row'])) {
             foreach ($this->prepareRowActions($this->actions['row'], $result) as $action) {
                 $row->action($action);
+            }
+        }
+
+        if ( ! empty($this->formattedRows)) {
+            foreach ($this->formattedRows as $formatter) {
+                $formatter($row, $row->getResult());
             }
         }
 
