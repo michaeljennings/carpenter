@@ -43,7 +43,7 @@
             <tbody>
                 <?php if($table->hasRows()): ?>
                     <?php foreach ($table->getRows() as $row): ?>
-                        <tr data-id="<?php echo $row->getId(); ?>">
+                        <tr <?php echo $row->renderAttributes() ?> data-id="<?php echo $row->getId(); ?>">
                             <?php foreach ($row->cells() as $cell): ?>
                                 <td><?php echo $cell->value; ?></td>
                             <?php endforeach; ?>

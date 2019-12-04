@@ -394,7 +394,45 @@ table.
     <script type="text/javascript">
         $('.table-parent').carpenterJs();
     </script>
-    
+
+## Formatting Rows
+You can format each row on the table using the `formatRows` function.
+```php
+$table->formatRows(function($row, $data) {
+    ...
+});
+```
+
+### Setting Row Attributes
+
+To add a class to the row use the `addClass` method.
+
+```php
+$table->formatRows(function($row, $data) {
+    if ($data->user_is_disabled) {
+        $row->addClass('disabled')
+            ->addClass('background-red');
+    }
+});
+```
+
+You can set other attributes on the row by using the `setAttribute` method.
+
+```php
+$table->formatRows(function($row, $data) {
+    $row->setAttribute('id', 'edit-item');
+});
+```
+
+Again like with the `setHref` method you can pass a closure as the value to get attributes from the row.
+```php
+$table->formatRows(function($row, $data) {
+    $row->setAttribute('data-id', function($id, $data) {
+        return $id;
+    });
+});
+```
+
 ## Other Table Methods
 
 ### Set a Table Title
