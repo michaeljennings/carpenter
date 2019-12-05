@@ -252,6 +252,16 @@ class Action extends MockArray implements ActionContract
     }
 
     /**
+     * Returns the current row set on the action
+     *
+     * @return mixed
+     */
+    public function getRow()
+    {
+        return $this->row;
+    }
+
+    /**
      * Set the presenter callback for the action.
      *
      * @param  Closure $callback
