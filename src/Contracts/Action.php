@@ -62,6 +62,13 @@ interface Action
     public function row($row = false);
 
     /**
+     * Returns the current row set on the action
+     *
+     * @return mixed
+     */
+    public function getRow();
+
+    /**
      * Add a callback to be run to validate that this action is to be used
      * for the current row.
      *
